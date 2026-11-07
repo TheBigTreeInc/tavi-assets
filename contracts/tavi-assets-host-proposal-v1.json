@@ -1,0 +1,12 @@
+{
+  "schema": "tavi.assets.host-proposal/v1",
+  "status": "proposed-not-implemented-by-tavi",
+  "feature": "tavi.assets/v1",
+  "methods": [
+    {"name":"assets.describe","audience":"authorized-extension-session","request":{},"response":"capability metadata only; no storage paths"},
+    {"name":"assets.resolve","audience":"authorized-extension-session","request":{"packId":"string","capability":"string"},"response":"read-only resource bytes plus media type; host-authorized only"}
+  ],
+  "callerIdentity": "host-derived-authenticated-session-only",
+  "forbidden": ["extension-provided-caller-id", "file-path-resolution", "raw-storage-enumeration", "local-entitlement-grants", "local-purchases"],
+  "sources": ["docs/integrations.adoc", "https://github.com/TheBigTreeInc/tavix/blob/main/docs/TAVIX_CONTRACT.adoc"]
+}

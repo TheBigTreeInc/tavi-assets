@@ -1,0 +1,14 @@
+{
+  "schema": "tavi.assets.catalog/v1",
+  "items": [{
+    "id": "org.tavi.cards.standard",
+    "title": "Classic Playing Cards",
+    "summary": "A shared deck with configurable green and blue card backs, ready for compatible games.",
+    "category": "Playing cards",
+    "priceGold": 0,
+    "versions": [
+      {"version": "0.1.1", "source": "cards-v1"},
+      {"version": "0.1.2", "source": "cards-v2"}
+    ]
+  }]
+}

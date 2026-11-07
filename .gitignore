@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.tavi-assets/
+*.egg-info/
+dist/
+build/
+.venv/
+.env
+.env.*
+ziprunner.config.json
+ziprunner.project-state.json

@@ -1,0 +1,24 @@
+= Tavi Assets Workboard notes — 0.1.3 producer view
+
+The canonical operator Workboard on 7 November 2026 reported 12 IDs (snapshot digest `f985365219caa947201cacb0d8188ded227816a8dc99fe668d2d2e260ab4ca74`). Its full text, history, and acceptance criteria were not exported. The mandatory Workboard delta is **not** an operator-state replacement. `Done` requires independently trusted verification and explicit acceptance.
+
+== Producer implementation awaiting independent review
+
+* `TA-010` [operator previously planned/high] — crash recovery + platform-held lock tests implemented in source. Windows lock behavior, exact ZIP import and operator acceptance are still unverified. The `implemented` report is not a Done decision.
+
+== Operator-owned review / suggested items retained
+
+* `define-next-pass` [high/review] — original bounded-scope review; no new ticket created to replace it.
+* `TA-016` [review] — 0.1.2 source intake remains to be operator accepted. No source re-report may silently close it.
+* `engineering-review-preview-a88be80a` [medium/suggested] — exact original full description and criteria not supplied, retain ID and let operator decide.
+
+== Other remaining IDs from the compact QA index
+
+* `TA-007` [high/planned] trusted Tavi host access.
+* `TA-008` [high/planned] approved data-only TaviX distribution.
+* `TA-009` [high/planned] LoopRD/Wallet ownership authority.
+* `TA-011` [high/planned] remote catalog and safe update schedule.
+* `TA-012` [high/planned] Windows ZipRunner and post-update acceptance, explicit operator decision.
+* `TA-013`, `TA-014`, `TA-015` [medium/planned] customization, resource robustness, real app consumption.
+
+No ticket is moved to Done by the producer; no push, tag or release is authorized.

@@ -1,0 +1,166 @@
+{
+  "schema": "ziprunner.verification-plan/v1",
+  "project": "tavi-assets",
+  "version": "0.1.3",
+  "tasks": [
+    {
+      "id": "TA-010",
+      "criteria": [
+        {
+          "id": "TA-010-AC-1",
+          "description": "Source handles interrupted staging and final registry swap without activating unregistered packs.",
+          "mode": "automated",
+          "checks": [
+            "TA-010-T1"
+          ]
+        },
+        {
+          "id": "TA-010-AC-2",
+          "description": "Windows native locking and interrupted staging validated by independent operator.",
+          "mode": "manual",
+          "checks": [
+            "TA-010-M1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TA-012",
+      "criteria": [
+        {
+          "id": "TA-012-AC-1",
+          "description": "Recorded post-update check and native Windows build receipt.",
+          "mode": "manual",
+          "checks": [
+            "TA-012-T1",
+            "TA-012-M1"
+          ]
+        },
+        {
+          "id": "TA-012-AC-2",
+          "description": "UI walkthrough completed on Windows.",
+          "mode": "manual",
+          "checks": [
+            "TA-012-M2"
+          ]
+        },
+        {
+          "id": "TA-012-AC-3",
+          "description": "Operator explicitly accepts the exact candidate.",
+          "mode": "manual",
+          "checks": [
+            "TA-012-M3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TA-016",
+      "criteria": [
+        {
+          "id": "TA-016-AC-1",
+          "description": "Exact package source formats are valid and C4 model reviewed.",
+          "mode": "manual",
+          "checks": [
+            "TA-016-T1",
+            "TA-016-M1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "define-next-pass",
+      "criteria": [
+        {
+          "id": "DNP-AC-1",
+          "description": "Original acceptance criteria and reviewed bounded next pass are preserved.",
+          "mode": "manual",
+          "checks": [
+            "DNP-M1"
+          ]
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "TA-010-T1",
+      "kind": "automated",
+      "stage": "functional",
+      "description": "Crash-stage and registry recovery, orphan activation failure, symlink and separate-process contention",
+      "runner_ref": "python tools/check.py",
+      "test_ref": "tests/test_recovery.py",
+      "assertions": [
+        "Abandoned scratch is removed under OS-held lock",
+        "Finalized unregistered releases remain inactive",
+        "Corrupt registry and cache symlinks reject unsafe cleanup",
+        "Second process lock contention rejects while first process holds the lock"
+      ]
+    },
+    {
+      "id": "TA-010-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Native Windows lock and interrupted-install exercise",
+      "instructions": "Capture the exact Windows ZipRunner build log (python 3.13.14), confirm test_recovery.py and test_core.py pass, manually restart after staging interruption in a disposable root, record screenshot/log and confirm unchanged selected card back."
+    },
+    {
+      "id": "TA-012-T1",
+      "kind": "automated",
+      "stage": "post_update",
+      "description": "Repeat source verification after ZipRunner update readiness",
+      "runner_ref": "ziprunner-post-update-tavi-assets-source-check",
+      "test_ref": "tools/check.py",
+      "assertions": [
+        "The post-update command exits 0 and reports all source tests"
+      ]
+    },
+    {
+      "id": "TA-012-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Review post-update verification on canonical project",
+      "instructions": "Confirm ZipRunner loads .ziprunner-post-update-tests.json and records an actual executed result; if unsupported, run the command manually and attach log without inferring consumer support."
+    },
+    {
+      "id": "TA-012-M2",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Offline storefront UI smoke",
+      "instructions": "Launch python tools/asset.py --root .tavi-assets preview --open, install cards, choose blue, restart, update and uninstall; capture actual UI evidence."
+    },
+    {
+      "id": "TA-012-M3",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Explicit operator gate",
+      "instructions": "Reconcile original Workboard tasks, approve or reject the exact ZIP separately. Do not auto-push, tag or publish."
+    },
+    {
+      "id": "TA-016-T1",
+      "kind": "automated",
+      "stage": "functional",
+      "description": "Source ZIP identity, workboard, verification plan and post-update descriptor",
+      "runner_ref": "python tools/check.py",
+      "test_ref": "tests/test_ziprunner_contract.py",
+      "assertions": [
+        "Canonical project identity and task IDs preserved",
+        "Root Workboard and post-update plan pass source-side checks"
+      ]
+    },
+    {
+      "id": "TA-016-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Pending 0.1.2 Workboard and Structurizr review",
+      "instructions": "Verify original operator Review for TA-016 is preserved. Parse docs/architecture/workspace.dsl using Structurizr CLI if available and record exact result."
+    },
+    {
+      "id": "DNP-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Original define-next-pass review",
+      "instructions": "Review docs/QA_0.1.3.adoc for bounded scope and verify no original acceptance criterion was replaced; keep this ticket operator-owned."
+    }
+  ]
+}

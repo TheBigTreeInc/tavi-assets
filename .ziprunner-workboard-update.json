@@ -1,0 +1,85 @@
+{
+  "schema": "ziprunner.workboard-update.v1",
+  "project": "tavi-assets",
+  "version": "0.1.3",
+  "summary": "Reliability pass TA-010: recover interrupted scratch stages under OS-held registry lock; add subprocess lock and crash-boundary tests, post-update test descriptor, source acceptance and C4 Stage Recovery. Windows/QA and publication remain gated.",
+  "implemented": [
+    {
+      "id": "TA-010",
+      "title": "Interrupted staging recovery and native Windows locking",
+      "summary": "Implemented lock-serialized recovery of abandoned eight-character temporary stage/registry files, retained finalized inactive versions without activating ownership, fail-closed unsafe path handling, repeatable crash simulation and separate-process lock-contention tests; Windows execution remains unverified.",
+      "operator_checks": [
+        "On native Windows, import the exact source ZIP and capture the executed python tools/check.py build log; confirm subprocess lock-contention and crash-recovery tests pass.",
+        "Use python tools/asset.py --root <disposable-path> doctor on a disposable cache after intentionally interrupting a sample stage; confirm scratch cleanup never promotes an unregistered version.",
+        "Confirm existing installed card selection remains across restart and update; review the C4 Stage Recovery component and record operator acceptance separately."
+      ]
+    }
+  ],
+  "remaining": [
+    {
+      "id": "define-next-pass",
+      "title": "Define the next bounded implementation pass",
+      "summary": "Existing high-priority ticket remains in operator Review; author documented bounded 0.1.3 recovery/post-update scope. Do not overwrite original acceptance decisions.",
+      "priority": "high"
+    },
+    {
+      "id": "TA-007",
+      "title": "Verified Tavi host asset access",
+      "summary": "Trusted Tavi host bridge and end-to-end session authorization require reviewed Tavi contract.",
+      "priority": "high"
+    },
+    {
+      "id": "TA-008",
+      "title": "Approved TaviX data-only distribution contract",
+      "summary": "Agree publisher trust, signed distribution, and asset-only package semantics with TaviX; current .tavix extension format is not equivalent.",
+      "priority": "high"
+    },
+    {
+      "id": "TA-009",
+      "title": "Authoritative LoopRD ownership and Wallet purchases",
+      "summary": "Server entitlements, gold floor, child purchasing permissions and atomic wallet flow require authoritative contracts.",
+      "priority": "high"
+    },
+    {
+      "id": "TA-011",
+      "title": "Approved remote catalog and safe update schedule",
+      "summary": "Verified sources, revisions, download scheduling and notifications still pending.",
+      "priority": "high"
+    },
+    {
+      "id": "TA-012",
+      "title": "Windows ZipRunner acceptance and operator approval",
+      "summary": "0.1.2 build_passed_operator_unverified; no post-update checks or human approvals observed. Evaluate the new 0.1.3 post-update plan, Windows locking and UI separately.",
+      "priority": "high"
+    },
+    {
+      "id": "TA-013",
+      "title": "Cross-application preferences",
+      "summary": "Application-specific overrides and cross-device sync are not yet implemented.",
+      "priority": "medium"
+    },
+    {
+      "id": "TA-014",
+      "title": "Resource quotas and fuzzing",
+      "summary": "Additional cache quota and adversarial filesystem testing remain.",
+      "priority": "medium"
+    },
+    {
+      "id": "TA-015",
+      "title": "Companion, Atrium and Klondike resource use",
+      "summary": "Real host-approved asset consumption tests remain.",
+      "priority": "medium"
+    },
+    {
+      "id": "TA-016",
+      "title": "Make source ZIP verifiable by ZipRunner interchange intake",
+      "summary": "Operator Review from 0.1.2 remains pending; no acceptance can be inferred from 0.1.2 source checks or 0.1.3 packaging."
+    },
+    {
+      "id": "engineering-review-preview-a88be80a",
+      "title": "Preview engineering review (operator suggested)",
+      "summary": "Suggestion appears in 0.1.2 QA index; original description and operator-owned acceptance criteria were not exported. Do not infer its scope or change its status.",
+      "priority": "medium"
+    }
+  ]
+}

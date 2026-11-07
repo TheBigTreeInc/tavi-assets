@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Tavi Assets | Local preview</title>
+  <link href="/style.css" rel="stylesheet">
+  <script defer src="/main.js"></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="rail">
+    <div class="brand"><div class="brand-mark">t</div><div><strong>Tavi</strong><small>ASSETS</small></div></div>
+    <div class="rail-section">LIBRARY</div>
+    <button class="nav active" data-tab="discover">◈ <span>Discover</span></button>
+    <button class="nav" data-tab="installed">▣ <span>My assets</span></button>
+    <div class="rail-bottom"><span class="live-dot"></span> Local development preview<br><small>Purchases are disabled</small></div>
+  </aside>
+  <main>
+    <header class="toolbar"><span class="crumb">Tavi <b>/</b> Asset Store</span><span class="preview-label">OFFLINE PREVIEW · 0.1.2</span></header>
+    <div class="content">
+      <section class="hero">
+        <div class="eyebrow">MAKE TAVI YOUR OWN</div>
+        <h1>One place for your<br><em>world of assets.</em></h1>
+        <p>Discover, install, and customize content for your Tavi apps. Your choices stay on this device.</p>
+        <div class="hero-chips"><span>✦ Verified packages</span><span>⬡ Shared across apps</span><span>◉ Works offline</span></div>
+        <div class="hero-art" aria-hidden="true"><div class="card-shape one">♠</div><div class="card-shape two">♥</div><div class="card-shape three">♣</div></div>
+      </section>
+      <div class="section-head"><div><div class="eyebrow subtle" id="section-kicker">CURATED COLLECTION</div><h2 id="section-title">Browse assets</h2></div><div class="count" id="asset-count">Loading…</div></div>
+      <div class="filters"><input id="search" placeholder="Search content…" aria-label="Search content" autocomplete="off"><select id="category" aria-label="Category"><option value="">All categories</option></select></div>
+      <div class="collection" id="collection" aria-live="polite"></div>
+      <div class="footnote">Local content demonstration. Real ownership, wallet transactions and automatic downloads require separately approved Tavi and LoopRD integration.</div>
+    </div>
+  </main>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

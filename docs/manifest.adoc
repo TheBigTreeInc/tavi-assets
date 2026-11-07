@@ -1,0 +1,54 @@
+= Data-only asset-pack contract — tavi.assets.pack/v1
+:toc:
+
+== Status
+
+This is an independent Tavi Assets source-level contract. It is *not* a published `.tavix` format, a Tavi extension manifest, a LoopRD entitlement token or proof of an approved publisher. A future TaviX distribution adapter must negotiate an agreed transport and source authenticity separately.
+
+== Layout
+
+[source,text]
+----
+manifest.json
+front.svg
+back-green.svg
+back-blue.svg
+----
+
+Required manifest fields:
+
+[source,json]
+----
+{
+  "schema": "tavi.assets.pack/v1",
+  "id": "org.tavi.cards.standard",
+  "version": "0.1.1",
+  "type": "playing-cards",
+  "compatibility": {"host": "tavi-assets/v1"},
+  "files": {"front.svg": "<sha256>", "back-green.svg": "<sha256>", "back-blue.svg": "<sha256>"},
+  "resources": {
+    "card.front.ace-spades": {"default": "front.svg"},
+    "card.back": {"default": "back-green.svg", "variants": {"green":"back-green.svg", "blue":"back-blue.svg"}}
+  }
+}
+----
+
+All declared files are hashed. A semantic resource/capability always resolves to a valid default path and may map named variants to alternate paths with the *same media type*. The actual example manifests contain real, verified hashes.
+
+== Constraints in 0.1.1
+
+* Version: numeric three-component SemVer, no prerelease.
+* Compatibility: exactly `tavi-assets/v1` at present.
+* Total per-pack payload: 128 MiB; individual asset: 20 MiB; at most 512 files and 512 capabilities; at most 64 variants per capability.
+* Data-only extensions: SVG, PNG, WebP, JPG, OGG, WAV, MP3 and JSON, subject to file signature, format-specific checks and no code execution.
+* Relative, normalized forward-slash paths only. Reject symlinks and directory traversal.
+* SVG supports only explicitly permitted drawing elements and attributes; scripts, event handlers, foreign resources, embedded HTML and external references are not accepted.
+* Duplicate manifest JSON keys, incompatible host fields and conflicting immutable-version bytes are rejected.
+
+== Catalog
+
+`examples/catalog.json` follows `tavi.assets.catalog/v1` with curated presentation metadata, prices (gold integer), and trusted local source names/version records. Price is *descriptive*, not authority to purchase. Installed state comes from the device registry. Owned state must eventually come from LoopRD (not local mutable catalog JSON).
+
+== Future versioning
+
+All additions affecting packaging, transport, resource APIs or validation must be reviewed against compatibility and security. No backwards-compatibility promise is made while the project is pre-1.0.

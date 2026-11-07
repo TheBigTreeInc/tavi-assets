@@ -1,0 +1,15 @@
+{
+  "schema": "ziprunner.post-update-tests.v1",
+  "version": "0.1.3",
+  "tests": [
+    {
+      "kind": "command",
+      "semantic_id": "tavi-assets-source-post-update",
+      "definition_revision": "1",
+      "rerun_policy": "every_update",
+      "command": "python tools/check.py",
+      "attention_on_failure": true,
+      "gating": false
+    }
+  ]
+}

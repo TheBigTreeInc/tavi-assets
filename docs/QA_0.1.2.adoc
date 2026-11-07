@@ -1,0 +1,29 @@
+= Tavi Assets 0.1.2 — bounded QA and next-pass decision
+:toc:
+
+== Evidence reviewed
+
+* Canonical ZipRunner project ID from operator: `d0fe2552-0ae9-4162-b8e1-68c174d14a3a` (identity of the *local* project registry, not an identifier to replace `project_key` in recipe).
+* 7 November 2026 ZipRunner collector summary: Windows 11, Python 3.13.14, ZipRunner 1.2.304.256. The configured Python build was **not executed** in that read-only collection; no canonical ZIP build receipt or Git SHA/push was observed; GitHub Actions are **not observed**, not failed.
+* Local Workboard compact index: **only** `define-next-pass` at high/suggested. Full local Workboard not exported; never overwrite operator edits, histories, verification or approvals.
+* 0.1.1 source archive inspection: contained `project.zr` and `ziprunner-manifest.json` but **not** the mandatory effective-root `.ziprunner-workboard-update.json`.
+* Pin: https://github.com/pac-labs/ziprunner-spec/blob/341005206094862853435ad68801be7ff28c4490/SPECIFICATION.md (interchange v2.3.0; 2026-10-15). Required workboard schema is `ziprunner.workboard-update.v1`; newer verification plan is producer format, not guaranteed runtime support.
+
+== This bounded implementation pass
+
+* Scope: repair source-package interchange metadata, prove it with repeatable source verification, model real code as Structurizr Level 3 components, and retain review/approval boundaries.
+* No new Tavi host methods, no LoopRD purchase path, no TaviX publication and no Git actions.
+* Maintain source-only acceptance assertions in `tools/verify_contracts.py` and `tests/test_ziprunner_contract.py`; the configured Windows command is still `python tools/check.py`.
+* Report `define-next-pass` as producer-implemented for **review**, not locally Done. Newly introduced `TA-016` is distinct package verification work and does not replace any existing task.
+
+== Acceptance & proof collection
+
+. Verify ZipRunner accepts the source ZIP's root Workboard document under the existing `tavi-assets` project and preserves operator-authored ticket `define-next-pass` status/history.
+. Capture exact candidate ZIP hash, extracted `python tools/check.py` output and a Windows ZipRunner build receipt; local Linux source checks alone do not establish Windows acceptance.
+. Inspect the offline storefront in Windows: start preview, choose a card-back, restart, update a pack, confirm persisted preference and remove an installation.
+. Validate `docs/architecture/workspace.dsl` with Structurizr CLI if available; **DSL parser validation remains unverified until executed**.
+. Independently accept/reject in ZipRunner. Only a separate approved action may Git push, tag, publish or release.
+
+== Remaining limitations
+
+The public spec may specify workboard merging and origin-feedback/report semantics, but runtime support in the collector's ZipRunner version was not observed. The producer does not possess the full local Workboard, build logs, exact Git SHA, or a Windows runtime session. `ziprunner-verification-plan.json` is a checklist for a consumer; it is not a verification report or permission to execute or publish. An official verification report can only be emitted by a trusted consumer after observing checks.

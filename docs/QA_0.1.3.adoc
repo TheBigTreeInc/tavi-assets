@@ -1,0 +1,32 @@
+= Tavi Assets 0.1.3: bounded recovery and post-update verification
+:toc:
+
+== Evidence used and scope
+
+The operator's 0.1.2 ZipRunner QA report records exact ZIP SHA-256 `0a3bc29f63a62368764dab73dcfb20fbb7c5154228ca5ceb99857d2b8cd393d2` as `build_passed_operator_unverified`. It records `waiting_for_verification` and no post-update check plan, no operator decisions and no Git push. The read-only environment collector did not execute its configured commands; these are separate observations. Do not interpret the collector's `commands.executed=false` as contradiction of the independently recorded build status. Source acceptance remains incomplete.
+
+This pass targets *TA-010* and test-plan coverage supporting *TA-012*, without modifying producer-to-operator trust boundaries or source package publication policy.
+
+== Implemented source change: TA-010
+
+* `AssetManager` now serializes initialization/recovery with the same OS-held lock used by installation. The old registry must parse before recovery deletes anything.
+* On restart, only scratch names of the exact Python `tempfile.mkstemp()`/`mkdtemp()` form (`.registry-` or `.stage-` plus eight lowercase/digit/underscore characters) are cleaned. Unknown paths are never removed under a guess. Unsafe symlinks reject cleanup.
+* A released version directory created by stage rename but not referenced by the atomic registry swap is **not** activated or considered owned; it may be reused by an explicitly approved later install after verification.
+* `doctor` exposes bounded recovery counts for an operator on disposable local cache. It is not a production repair or an entitlement API.
+* Crash-boundary, invalid registry and cross-process lock tests use `unittest` and a real child process. Linux tests do not prove Windows locking behavior.
+
+== ZipRunner post-update plan
+
+`.ziprunner-post-update-tests.json` declares a non-gating post-readiness command (`python tools/check.py`). It supplies a candidate test definition only; no consumer-executed check receipt exists yet. The pinned public interchange specification documents producer-side source and verification contracts; implementation support must be established independently for the installed ZipRunner version.
+
+== Acceptance criteria / human gates
+
+. Run the exact 0.1.3 ZIP as an overlay in the canonical Windows ZipRunner project; capture a build receipt and exact executed `python tools/check.py` output.
+. Verify the post-update check is registered and executed. If the consumer does not support this descriptor, capture a manually executed equivalent and mark consumer support unverified; never claim automatic execution.
+. In a disposable local data root, interrupt or create a conforming scratch stage and registry temp. Restart `AssetManager`/run `doctor`, confirm only scratch state is removed and selected card backs persist. Confirm finalized unregistered releases cannot resolve as installed.
+. Review the `Stage Recovery` component in `docs/architecture/workspace.dsl`. Run Structurizr CLI parser when available; mark otherwise not run.
+. Review original operator-owned `define-next-pass` and `TA-016` acceptance; preserve full Workboard history and decisions (full export not available in this author session). Record operator acceptance separately from build and Git push authorization.
+
+== Explicit exclusions
+
+No remote sources, new store prices, purchase authority, LoopRD endpoints, Tavi host APIs, bundled code, Git write or production deployment. The source package never includes active settings, runtime cache, credentials or a fabricated trusted verification report.

@@ -1,0 +1,41 @@
+{
+  "schema": "ziprunner.zr/v1",
+  "project_key": "tavi-assets",
+  "label": "Tavi Assets — local data-only asset management",
+  "match": [
+    "tavi-assets-*-ziprunner.zip"
+  ],
+  "command_subdir": ".",
+  "stop": [],
+  "stop_ports": [],
+  "build": [
+    "python tools/check.py"
+  ],
+  "start": [],
+  "build_window": "hidden",
+  "start_window": "managed",
+  "delete_missing": false,
+  "strip_single_root": false,
+  "protected_paths": [
+    ".git/**",
+    ".env",
+    ".env.*",
+    "*.sqlite",
+    "*.sqlite3",
+    "data/**",
+    "logs/**",
+    "state/**",
+    "secrets/**",
+    "node_modules/**",
+    ".venv/**",
+    "runtime/**",
+    "target/**",
+    ".tavi-assets/**",
+    "ziprunner.config.json",
+    "ziprunner.project-state.json"
+  ],
+  "require_clean_git_before_overlay": false,
+  "mechanisms_require_build_success": true,
+  "post_build_mechanisms": [],
+  "version": "0.1.3"
+}

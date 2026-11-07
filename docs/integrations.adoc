@@ -1,0 +1,29 @@
+= Integrations and source-grounded boundary review
+:toc:
+
+== TaviX inspected contract (7 November 2026)
+
+Reviewed from connected `TheBigTreeInc/tavix` default branch:
+
+* `docs/TAVIX_PACKAGE_FORMAT.adoc`: `.tavix` is a versioned ZIP of a Tavi extension with `tavi.extension/v1` manifest and `tavix.package/v1` lock; TaviX's canonical index uses `tavi.repository/v1`.
+* `docs/TAVIX_CONTRACT.adoc`: observed Tavi 0.3.124 extension host uses `channel: tavi.extension/v1`, `host.info` for negotiated features, and `host.capabilities` for granted permissions. Actual host support after 0.3.124 is NOT verified here.
+* `contracts/tavix-1.0.json`: TaviX 0.1.10 documentation snapshot is not a new production API. App/game classification is separate from `kind: app`; Tavi 0.3.124 rejects new classification fields without a host change.
+* `project.zr`: observed `ziprunner.zr/v1` descriptor pattern used to shape this project's own source check.
+
+TaviX currently distributes executable extensions, while this project's sample assets are data-only directories with a separate manifest. Reusing the `.tavix` envelope or static repository must require explicit cross-project agreement, particularly to prevent a pack from bringing executable JS or relying on TaviX's existing permissions.
+
+== Proposed host contract (not implemented in Tavi)
+
+Feature ID *proposal*: `tavi.assets/v1` with host-mediated `assets.resolve` and `assets.describe` for authorized extension sessions. These method names are **not observed TaviX SDK or Tavi host methods**. Host derives extension identity from its verified session and grants pack IDs plus semantic resource capabilities. No path, URL, arbitrary file read, token, install, purchase or another extension's private data reaches the extension.
+
+`HostAssetService` in this source is an implementation-oriented Python test adapter only; it has no live Tavi bridge. Its `trusted_caller_id` argument is supplied by host code and **must never be populated from a caller-controlled message payload**.
+
+== Proposed LoopRD/Wallet contracts (not verified)
+
+`Entitlements.can_access(actor, pack_id, price_gold)` and `Wallet.purchase(actor, sku, idempotency_key)` in this source are boundaries with fail-closed defaults, not production methods. The production implementation must derive actor from a trusted identity, verify child purchase permissions, enforce the protected free-gold floor server-side, authorize wallet spending transactionally with entitlement creation, and return an auditable idempotent purchase receipt. *Never charge in the client or issue an entitlement on the strength of local state.*
+
+The source preview only installs price-zero items. Test code can inject mock entitlements to exercise the boundary; no mock can become an authoritative purchase.
+
+== Missing integration evidence
+
+Native Tavi latest host contract, LoopRD entitlement endpoints, current Wallet purchase transaction semantics, Companion resource model, Atrium and Klondike resource access and TaviX data-only package distribution extension are not yet verified. No network calls, publication, remote downloads or cross-device state synchronization are shipped.

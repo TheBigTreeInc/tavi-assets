@@ -1,0 +1,51 @@
+= Tavi Assets Architecture — 0.1.2
+:toc:
+
+== Scope and authority
+
+Tavi Assets is a *data-only* content management engine, not another store of money, accounts, or app installation authority. Tavi hosts trusted extension sessions and a shared UI. LoopRD/Wallet authorize ownership and atomic server-side purchases. TaviX owns compatible package distribution. Applications consume host-authorized resource capabilities.
+
+This version is a Python source-tree developer demonstration. The browser preview is not intended to be embedded directly into the production Tavi extension host.
+
+== Components
+
+* `core.py`: file hash/type/path validation, OS-locked registry writes, staged local installation, versions, preferences, resolution and removal.
+* `catalog.py`: curated local catalog and source inspection, free-only default entitlement adapter, denied purchase adapter, storefront orchestration.
+* `host.py`: host-side per-caller pack/capability allowlist; delivers bytes and media type, never paths. The real host MUST derive caller identity from an authenticated session.
+* `preview.py` plus `web/`: local-only HTTP preview with same-origin checks, an unpredictable write token, resource views and management operations. No real accounts.
+* `tools/`: cross-platform Python source-tree CLI and tests.
+
+== Asset installation sequence
+
+. Trusted catalog picks an approved release (local fixture in 0.1.1).
+. Entitlement adapter checks whether the actor is authorized; free content is admitted by the local demonstration policy, non-free content fails closed.
+. Source manifest, SHA-256 hashes, paths, file signatures and SVG allowlist are verified.
+. Files are copied into a unique staging directory and verified a second time.
+. The immutable versioned pack directory is renamed atomically into place.
+. OS-level registry lock protects the activation read/modify/write; registry JSON is written to a temporary file, fsynced and atomically replaced.
+. A failed or corrupted update leaves the previously active version in the registry. Existing preferences remain keyed by pack ID and resource capability.
+
+*Important:* a development CLI can install an arbitrary explicit local path and intentionally does not verify entitlement; production Tavi MUST expose only entitlement-checked installation and cannot reuse the CLI as an application-facing method.
+
+== Registry
+
+`<local state>/registry.json` contains *device-local* installed pack ID/version and preferences. `packs/<pack ID>/<version>/` stores checked content. User preferences remain across pack updates and removals; server-side cross-device synchronization is not implemented. Local state belongs outside the Git source tree and must not be overwritten by ZipRunner.
+
+== Security model
+
+* Pack IDs, versions, relative paths, resource capabilities and declared variants have strict patterns and bounds.
+* Every declared asset is hashed; symlinks, traversal, unsupported extensions, invalid images and SVG event handlers/external references are denied.
+* SVG is restricted to a small element/attribute allowlist. More complex themes require explicit security review; no HTML, JS, CSS or arbitrary executable asset types are allowed.
+* Host resolution uses trusted grants. The UI preview is local developer administrative functionality, NOT a cross-extension security boundary.
+* Registry writer uses POSIX `flock` or Windows `msvcrt.locking`; no Windows run yet.
+* SHA-256 integrity does NOT establish origin authenticity. Production catalog trust, signed/revision-pinned sources and publisher review are future contracts.
+* External assets may still be malicious to native decoders: add malware/decoder and platform sandbox review before production release.
+* Source installation is independent from purchasing. Never infer ownership from local files or grant a purchase locally.
+
+== Incomplete work
+
+Approved remote sources, entitlement/wallet contract binding, server-side child purchase permissions, app-specific overrides, cross-device preferences, automatic updates, concurrent external process fuzzing, quota and interruption cleanup, public host bridge, Windows UI acceptance, and integration tests are pending.
+
+== Project-owned Level 3 model
+
+The canonical Structurizr DSL is `docs/architecture/workspace.dsl`; `architecture/workspace.dsl` is a synced prior-path copy. See `docs/architecture/README.adoc` for code-level mapping, opaque external boundaries, and why parser validation remains unverified. This standing model is a **ZipRunner extension/local policy**, not a public ziprunner-spec requirement.

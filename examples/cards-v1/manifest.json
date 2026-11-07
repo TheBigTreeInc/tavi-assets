@@ -1,0 +1,26 @@
+{
+  "schema": "tavi.assets.pack/v1",
+  "id": "org.tavi.cards.standard",
+  "version": "0.1.1",
+  "type": "playing-cards",
+  "compatibility": {
+    "host": "tavi-assets/v1"
+  },
+  "files": {
+    "front.svg": "9f2b662ad6d565995f6ec1fa70503edb7ed08e30872596f9ded05f4187dfc254",
+    "back-green.svg": "9f59dd398b7f0bbc9aff5ee3506cb72b0c353ef61a3e85c98b15de842473d88f",
+    "back-blue.svg": "56d0982ef21df778c3fde4941d2412d0a88b7922bd8957d5950433a2ee76a441"
+  },
+  "resources": {
+    "card.front.ace-spades": {
+      "default": "front.svg"
+    },
+    "card.back": {
+      "default": "back-green.svg",
+      "variants": {
+        "green": "back-green.svg",
+        "blue": "back-blue.svg"
+      }
+    }
+  }
+}
