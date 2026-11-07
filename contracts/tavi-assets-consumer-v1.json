@@ -1,0 +1,143 @@
+{
+  "schema": "tavi.assets.consumer-contract/v1",
+  "status": "proposed-not-implemented-in-Tavi",
+  "feature": "tavi.assets/v1",
+  "transport": {
+    "hostChannel": "tavi.extension/v1",
+    "negotiation": "call host.info; check features includes tavi.assets/v1; permissions via host session; deny if missing",
+    "authentication": "host derives caller identity and grants from authenticated extension session; never accept callerId or grants from request",
+    "sdk": "sdk/client.mjs and sdk/index.d.ts are transport-injected reference clients, not a TaviX runtime implementation"
+  },
+  "requests": [
+    {
+      "method": "assets.describe",
+      "params": {
+        "packId": "org.tavi.example"
+      },
+      "response": "tavi.assets.pack-info/v1"
+    },
+    {
+      "method": "assets.objects.list",
+      "params": {
+        "packId": "org.tavi.example",
+        "kind": "playing-card",
+        "rarity": "common",
+        "tags": [
+          "suit.hearts"
+        ],
+        "offset": 0,
+        "limit": 100
+      },
+      "response": "tavi.assets.object-list/v1"
+    },
+    {
+      "method": "assets.objects.get",
+      "params": {
+        "packId": "org.tavi.example",
+        "objectId": "hearts.ace"
+      },
+      "response": "tavi.assets.object/v1"
+    },
+    {
+      "method": "assets.collections.list",
+      "params": {
+        "packId": "org.tavi.example",
+        "kind": "deck"
+      },
+      "response": "tavi.assets.collection-list/v1"
+    },
+    {
+      "method": "assets.collections.get",
+      "params": {
+        "packId": "org.tavi.example",
+        "collectionId": "starter"
+      },
+      "response": "tavi.assets.collection/v1"
+    },
+    {
+      "method": "assets.preferences.get",
+      "params": {
+        "packId": "org.tavi.example"
+      },
+      "response": "tavi.assets.preferences/v1"
+    },
+    {
+      "method": "assets.preferences.set",
+      "params": {
+        "packId": "org.tavi.example",
+        "capability": "card.back",
+        "variant": "blue"
+      },
+      "response": "tavi.assets.preferences/v1",
+      "authorization": "host-granted customization permission and host-owned user consent policy"
+    },
+    {
+      "method": "assets.resolve",
+      "params": {
+        "packId": "org.tavi.example",
+        "capability": "card.back"
+      },
+      "response": "tavi.assets.resource/v1",
+      "format": "bounded base64, media type and selected variant; no paths or arbitrary URLs"
+    }
+  ],
+  "events": {
+    "proposed": [
+      "assets.changed"
+    ],
+    "status": "not implemented or emitted by Tavi; clients must function without notifications",
+    "payload": {
+      "packId": "string",
+      "version": "string",
+      "reason": "install|update|remove|preferences"
+    }
+  },
+  "metadata": {
+    "object": [
+      "id",
+      "kind",
+      "name",
+      "description",
+      "rarity",
+      "tags",
+      "attributes",
+      "resources",
+      "rulesRef",
+      "modifiers"
+    ],
+    "collection": [
+      "id",
+      "kind",
+      "name",
+      "description",
+      "tags",
+      "entries"
+    ],
+    "rulesRef": "opaque identifier for game-owned behavior mapping; never script or executable logic",
+    "rarity": "author-declared taxonomy label and tier for display/filtering; no enforced game balance or random probabilities",
+    "ownership": "catalog price and pack metadata never provide an entitlement",
+    "modifiers": "optional declarative tavi.cards.modifiers.v1 trigger/condition/effects; parsed but never executed by Tavi Assets; game runtime must explicitly opt into and validate profile, op support and balancing"
+  },
+  "errors": [
+    "feature_unavailable",
+    "host access denied",
+    "unknown object",
+    "unknown collection",
+    "unknown capability",
+    "host customization denied",
+    "resource too large for inline host transport"
+  ],
+  "security": [
+    "no untrusted postMessage binding",
+    "no raw filesystem paths",
+    "read granted packs only",
+    "media capability grants are separate from pack metadata",
+    "no purchases or install from extension",
+    "no scripts in packs",
+    "all source bytes and references revalidated"
+  ],
+  "sources": [
+    "docs/consumer-contract.adoc",
+    "docs/integrations.adoc"
+  ]
+}

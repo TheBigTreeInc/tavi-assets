@@ -183,6 +183,8 @@ def validate(folder):
         used = [entry["default"], *variants.values()]
         if len({MIME[Path(file).suffix.lower()] for file in used}) != 1:
             raise AssetError("variants must have one media type")
+    from .metadata import validate_metadata
+    validate_metadata(manifest)
     return manifest
 
 
@@ -360,6 +362,19 @@ class AssetManager:
             state["installed"][ident] = version
             self._save(state)
             return manifest
+
+    def manifest_for(self, ident):
+        """Return validated active manifest; never treat cache-only files as active."""
+        if not isinstance(ident, str) or not IDENT.fullmatch(ident):
+            raise AssetError("invalid pack ID")
+        state = self._load()
+        version = state["installed"].get(ident)
+        if not version:
+            raise AssetError("pack not installed")
+        manifest = validate(self.root / "packs" / ident / version)
+        if manifest["id"] != ident or manifest["version"] != version:
+            raise AssetError("active release identity mismatch")
+        return manifest
 
     def list_installed(self):
         return dict(self._load()["installed"])

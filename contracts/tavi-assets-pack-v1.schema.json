@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TheBigTreeInc/tavi-assets/contracts/tavi-assets-pack-v1.schema.json",
+  "title": "Tavi Assets data-only pack with optional typed object graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "version",
+    "type",
+    "compatibility",
+    "files",
+    "resources"
+  ],
+  "properties": {
+    "schema": {
+      "const": "tavi.assets.pack/v1"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "type": {
+      "$ref": "#/$defs/token"
+    },
+    "compatibility": {
+      "const": {
+        "host": "tavi-assets/v1"
+      }
+    },
+    "display": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "style": {
+          "$ref": "#/$defs/token"
+        }
+      }
+    },
+    "tags": {
+      "$ref": "#/$defs/tags"
+    },
+    "taxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rarities": {
+          "type": "object",
+          "maxProperties": 32,
+          "propertyNames": {
+            "$ref": "#/$defs/token"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "label"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "$ref": "#/$defs/name"
+              },
+              "tier": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              }
+            }
+          }
+        },
+        "tags": {
+          "type": "object",
+          "maxProperties": 256,
+          "propertyNames": {
+            "$ref": "#/$defs/token"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "label"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "$ref": "#/$defs/name"
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 512
+              }
+            }
+          }
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 512,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "resources": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 512,
+      "propertyNames": {
+        "$ref": "#/$defs/token"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "default"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "default": {
+            "type": "string"
+          },
+          "variants": {
+            "type": "object",
+            "maxProperties": 64,
+            "propertyNames": {
+              "$ref": "#/$defs/token"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "objects": {
+      "type": "object",
+      "maxProperties": 2048,
+      "propertyNames": {
+        "$ref": "#/$defs/token"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "kind",
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/token"
+          },
+          "name": {
+            "$ref": "#/$defs/name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "rarity": {
+            "$ref": "#/$defs/token"
+          },
+          "tags": {
+            "$ref": "#/$defs/tags"
+          },
+          "rulesRef": {
+            "$ref": "#/$defs/token"
+          },
+          "resources": {
+            "type": "array",
+            "maxItems": 32,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/$defs/token"
+            }
+          },
+          "attributes": {
+            "type": "object"
+          },
+          "modifiers": {
+            "type": "array",
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "required": [
+                "profile",
+                "trigger",
+                "effects"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "profile": {
+                  "const": "tavi.cards.modifiers.v1"
+                },
+                "trigger": {
+                  "enum": [
+                    "hand.scored",
+                    "card.played",
+                    "round.started",
+                    "round.ended"
+                  ]
+                },
+                "conditions": {
+                  "type": "array",
+                  "maxItems": 8,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "field",
+                      "operator",
+                      "value"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "field": {
+                        "$ref": "#/$defs/token"
+                      },
+                      "operator": {
+                        "enum": [
+                          "equals",
+                          "at-least",
+                          "contains"
+                        ]
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "$ref": "#/$defs/token"
+                          },
+                          {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1000
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "effects": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 8,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "op",
+                      "value"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "op": {
+                        "enum": [
+                          "chips.add",
+                          "mult.add",
+                          "mult.multiply",
+                          "draw.add",
+                          "discard.add"
+                        ]
+                      },
+                      "value": {
+                        "type": "number",
+                        "minimum": -1000,
+                        "maximum": 1000
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "collections": {
+      "type": "object",
+      "maxProperties": 256,
+      "propertyNames": {
+        "$ref": "#/$defs/token"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "kind",
+          "name",
+          "entries"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/token"
+          },
+          "name": {
+            "$ref": "#/$defs/name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "tags": {
+            "$ref": "#/$defs/tags"
+          },
+          "entries": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 512,
+            "items": {
+              "type": "object",
+              "required": [
+                "objectId",
+                "quantity"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "objectId": {
+                  "$ref": "#/$defs/token"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 99
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,126}$"
+    },
+    "token": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9._-]{0,126}$",
+      "not": {
+        "enum": [
+          "__proto__",
+          "constructor",
+          "prototype"
+        ]
+      }
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "tags": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/token"
+      }
+    }
+  },
+  "$comment": "Cross-reference checks (object resources, collection member IDs and declared rarity IDs), file digests, strict safe SVG/media and bounded attribute-tree depth are performed by core.validate(), not expressible in this basic JSON Schema alone."
+}

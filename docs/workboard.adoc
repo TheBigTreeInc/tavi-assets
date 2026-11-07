@@ -1,24 +1,24 @@
-= Tavi Assets Workboard notes — 0.1.3 producer view
+= Tavi Assets Workboard producer notes — 0.1.4
 
-The canonical operator Workboard on 7 November 2026 reported 12 IDs (snapshot digest `f985365219caa947201cacb0d8188ded227816a8dc99fe668d2d2e260ab4ca74`). Its full text, history, and acceptance criteria were not exported. The mandatory Workboard delta is **not** an operator-state replacement. `Done` requires independently trusted verification and explicit acceptance.
+The canonical operator Workboard remains authoritative; this producer only reports a delta. The last supplied compact QA snapshot (2026-11-07) contained 12 ticket IDs, including `define-next-pass` (high / Review), TA-016 (Review), TA-010 (high / planned), TA-012 (high / planned), and `engineering-review-preview-a88be80a` (medium / suggested). The full operator-edited criteria/history were not exported. Subsequent ZipRunner state may differ; do not overwrite it.
 
-== Producer implementation awaiting independent review
+== New task to review
 
-* `TA-010` [operator previously planned/high] — crash recovery + platform-held lock tests implemented in source. Windows lock behavior, exact ZIP import and operator acceptance are still unverified. The `implemented` report is not a Done decision.
+* `TA-017` [high / producer implemented, not operator-approved] — a universal typed metadata and consumer contract plus reference SDK. Evidence: `docs/consumer-contract.adoc`, `contracts/tavi-assets-pack-v1.schema.json`, `contracts/tavi-assets-consumer-v1.json`, `sdk/client.mjs`, `sdk/index.d.ts`, `src/tavi_assets/metadata.py`, `tests/test_metadata.py`, `tests/consumer_sdk_smoke.mjs`, `examples/storybook-decks/manifest.json`, and C4 changes. Operator Windows/UI/Structurizr/consumer acceptance remains pending. Do not mark Done.
 
-== Operator-owned review / suggested items retained
+== Existing tasks preserved
 
-* `define-next-pass` [high/review] — original bounded-scope review; no new ticket created to replace it.
-* `TA-016` [review] — 0.1.2 source intake remains to be operator accepted. No source re-report may silently close it.
-* `engineering-review-preview-a88be80a` [medium/suggested] — exact original full description and criteria not supplied, retain ID and let operator decide.
+* `define-next-pass` [high / Review] — original bounded-scope and QA review, still awaits operator status decision.
+* `TA-016` [Review] — original ZipRunner intake review, not closed by a passing author build.
+* `TA-010` [high / planned or review pending operator reconciliation] — earlier crash recovery implementation stays in source, Windows/native-lock acceptance still pending.
+* `TA-007` [high / planned] — actual Tavi host asset API, caller auth and capability grants.
+* `TA-008` [high / planned] — reviewed TaviX data-only distribution and source trust.
+* `TA-009` [high / planned] — LoopRD/Wallet server authority and purchases.
+* `TA-011` [high / planned] — remote catalog and safe update schedule.
+* `TA-012` [high / planned] — native Windows ZipRunner build, post-update and operator acceptance.
+* `TA-013` [medium / planned] — cross-application/overridden and cross-device preferences.
+* `TA-014` [medium / planned] — quotas and adversarial filesystem fuzzing.
+* `TA-015` [medium / planned] — real Companion/Atrium/Klondike asset integration tests.
+* `engineering-review-preview-a88be80a` [medium / suggested] — original scope unknown, leave to operator.
 
-== Other remaining IDs from the compact QA index
-
-* `TA-007` [high/planned] trusted Tavi host access.
-* `TA-008` [high/planned] approved data-only TaviX distribution.
-* `TA-009` [high/planned] LoopRD/Wallet ownership authority.
-* `TA-011` [high/planned] remote catalog and safe update schedule.
-* `TA-012` [high/planned] Windows ZipRunner and post-update acceptance, explicit operator decision.
-* `TA-013`, `TA-014`, `TA-015` [medium/planned] customization, resource robustness, real app consumption.
-
-No ticket is moved to Done by the producer; no push, tag or release is authorized.
+No manual status or release approvals are encoded by the source update.

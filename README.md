@@ -1,61 +1,37 @@
-# Tavi Assets 0.1.3 — crash-recovery and post-update QA + offline storefront
+# Tavi Assets 0.1.4 — typed asset libraries and proposed universal consumer contract
 
-This repository contains the **data-only** asset lifecycle engine, a curated sample catalog, a **local developer storefront**, and a proposed restricted host adapter. It does not implement Tavi, TaviX extension loading, LoopRD authentication, production downloads or Wallet purchases.
+This is a **standalone source implementation**, delivered through ZipRunner first. It has a local asset engine, versioned data-only manifests, a curated offline storefront, a restricted Python host-test adapter, and a **proposed** JS/TypeScript consumer SDK. It does not provide production Tavi host methods, LoopRD ownership, Wallet purchases, automatic remote downloads, or live TaviX extension distribution.
 
-## Verify the extracted source
+## Verify the source
 
-Run in the extracted ZIP's project root (Python 3.10+; no pip install needed):
+On Python 3.10+ (no pip installation required), run from the extracted root:
 
-```text
+```sh
 python tools/check.py
 ```
 
-The check validates the mandatory ZipRunner Workboard update, cross-references the source verification plan and identity, then runs the complete test suite and verifies both sample pack manifests and the example catalog. On Windows, the same command works from PowerShell or CMD.
+The same command is configured as the project's ZipRunner build command and post-update check. The contract verifier checks package/project identity, original Workboard IDs, verification plan references, and source C4 DSL presence. It validates the example packs and runs the complete Python suite; the Node SDK mock smoke executes only if `node` is available (otherwise skipped, **not passed**). Native Windows and real Tavi extension integration require separate acceptance.
 
-## Open the storefront preview
+## Open the local storefront
 
-```text
+```sh
 python tools/asset.py --root .tavi-assets preview --open
 ```
 
-If the browser doesn't open, visit `http://127.0.0.1:8765/`. `Ctrl+C` stops the development server. No network calls to external servers are made. **Only this local development UI is served; do not expose it on a public interface.** The preview binds to loopback and uses a token for state-changing requests.
+Preview is loopback-only and development-purpose; never expose it publicly. The catalog includes a classic deck (v0.1.1 and v0.1.2) and the new **Ink & Ember Card Library** (v0.1.0). All sample content is free with **original artwork** and no external network calls. Choose the new card library and expand **Inspect contents** to filter by object type or rarity, view three deck collections and 16 jokers, and preview art. Install it and change its card-back variant (`ochre` / `indigo`) to test persistent customization.
 
-Install the latest free playing-card pack, choose Blue or Green backs, restart the CLI and confirm the choice persists. For an update demonstration, install the older version before opening the preview:
+Use `python tools/asset.py --root .tavi-assets doctor` to inspect bounded recovery of abandoned scratch entries. Local developer CLI `install` deliberately operates on an explicit path and **does not enforce remote entitlements**; never expose that command to untrusted applications.
 
-```text
-python tools/asset.py --root .tavi-assets install examples/cards-v1
-python tools/asset.py --root .tavi-assets preview --open
-```
+## Integration contract for other projects
 
-The storefront will then display an update to 0.1.2. Removal clears installed cache bytes but retains customization settings for a future reinstallation. The developer CLI installs *explicit local paths* and bypasses storefront entitlement checks by design; it MUST NOT be exposed to extensions or used as a production install endpoint.
+- **Authoritative source-level asset pack**: `contracts/tavi-assets-pack-v1.schema.json` and `docs/consumer-contract.adoc` describe `tavi.assets.pack/v1` optional `objects`, `collections`, `taxonomy`, `tags`, `rarity`, `attributes`, `rulesRef`, and resource capability references. `core.validate()` enforces cross references and digest/security checks not expressible by the JSON Schema alone.
+- **Proposed host consumer contract**: `contracts/tavi-assets-consumer-v1.json` describes `tavi.assets/v1` and proposed `assets.describe`, `assets.objects.*`, `assets.collections.*`, `assets.preferences.*` and `assets.resolve` methods, which are **NOT yet implemented in Tavi**.
+- **Reference SDK**: `sdk/client.mjs` / `sdk/index.d.ts` with feature negotiation and a host-supplied request transport. `sdk/README.adoc` and `examples/consumer-sdk-demo.mjs` explain usage. This is **not** an installed or published TaviX SDK package.
+- **Game boundary**: packs describe objects and optional opaque `rulesRef` identifiers. Games own rule execution, card effects and legal deck building. Packs can declare an unlimited variety of designs within bounded validation limits, but **cannot execute scripts or change gameplay without an approved game implementation**.
+- **Example metadata**: `examples/storybook-decks/` contains three independent deck collections with 52 playing, 12 arcana and 9 astral cards, plus a collection of 16 custom joker objects. 91 small static SVG illustrations; all art and identities are newly authored, not copies of existing games.
 
-## Recover an interrupted local install (disposable cache only)
+## Release and QA
 
-```text
-python tools/asset.py --root .tavi-assets doctor
-```
+`project.zr` preserves local config/runtime paths and executes `python tools/check.py` without pushing or releasing. `.ziprunner-workboard-update.json` carries author implementation evidence against **TA-017** and preserves all prior operator/QA ticket IDs. `ziprunner-verification-plan.json`, `.ziprunner-post-update-tests.json` and `docs/QA_0.1.4.adoc` define unexecuted Windows/manual acceptance. No source-push, commit, Actions result or operator-approved release is claimed.
 
-The asset manager performs a bounded cleanup on initialization while holding its writer lock. `doctor` reports counts of discarded exact-name scratch stages and registry temp files, and finalized but **unregistered** releases still on disk. These inactive releases do not become installed or entitled. A corrupt registry or unsafe cache symlink rejects recovery; it never attempts to infer user ownership. For native Windows acceptance, simulate a stage interruption in a **disposable** cache and retain the exact build/QA log.
-
-`.ziprunner-post-update-tests.json` supplies an explicitly non-gating `python tools/check.py` post-update check. Its presence is **not** evidence that the Windows ZipRunner consumer executed it or supports all proposed spec features.
-
-## Design and responsibilities
-
-- **Tavi Assets:** data-only packs, catalog integration, local lifecycle and preferences, read-only host resolution and preview UI.
-- **Tavi:** trusted host session, navigation, authorization, extension-to-host bridge and core settings.
-- **LoopRD and Wallet:** server-authoritative ownership, price, transaction and protected-gold decisions.
-- **TaviX:** extension/package distribution tooling; its verified existing `.tavix` format is not itself this asset-pack contract.
-
-A host-side `HostAssetService` grants pack/capability pairs to **trusted session identities**. It does not provide a production TaviX wire method, and it must never trust an extension-supplied caller ID. Paid catalog items always fail entitlement checks in the default adapter. Purchases are unavailable.
-
-Further information: `docs/architecture.adoc`, `docs/manifest.adoc`, `docs/integrations.adoc`, `docs/workboard.adoc`, and `architecture/workspace.dsl`.
-
-## Release gate
-
-This source is intended for ZipRunner acceptance. Nothing may push, tag, publish or modify active local credentials, databases or runtime settings. `project.zr` follows the observed TaviX ZipRunner descriptor pattern, but native import behavior still needs verification.
-
-## ZipRunner QA and release boundaries (0.1.3)
-
-ZipRunner reported **`build_passed_operator_unverified`** for the exact 0.1.2 source ZIP, but no post-update plan, operator decision or push was observed. The 0.1.3 candidate adds the post-update descriptor and a bounded TA-010 recovery implementation. This is a producer claim awaiting independent Windows validation, **not** a Windows acceptance result. The local Workboard's original `define-next-pass` and `TA-016` remained Review in the 0.1.2 QA index and remain operator-owned; no Done status or release authorization is inferred. See `docs/QA_0.1.3.adoc` and `ziprunner-verification-plan.json`.
-
-Canonical project ID: `d0fe2552-0ae9-4162-b8e1-68c174d14a3a`. No Git push/tag/Pages/release is authorized or implied.
+**Next priority:** Verify the 0.1.4 exact ZIP in native Windows ZipRunner, review the proposed contract and actual game support, then negotiate the real Tavi host and TaviX distribution boundaries under existing tickets TA-007/TA-008. Ownership and purchases remain TA-009.

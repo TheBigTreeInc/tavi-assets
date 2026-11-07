@@ -56,6 +56,13 @@ def create_preview_server(service, port=0):
             if url.path == "/api/state":
                 self._reply(200, {"items": service.describe(), "token": token, "mode": "offline-preview", "purchasesEnabled": False})
                 return
+            if url.path == "/api/metadata":
+                q = parse_qs(url.query)
+                try:
+                    self._reply(200, service.metadata(q.get("id", [""])[0]))
+                except AssetError as exc:
+                    self._error(400, str(exc))
+                return
             if url.path == "/api/preview":
                 q = parse_qs(url.query)
                 try:

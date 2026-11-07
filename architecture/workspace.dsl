@@ -1,4 +1,4 @@
-workspace "Tavi Assets" "0.1.3 source-backed local asset engine architecture" {
+workspace "Tavi Assets" "0.1.4 source-backed asset object graph and consumer SDK proposal" {
     model {
         user = person "Tavi user / local reviewer" "Previews and customizes offline sample content."
         tavi = softwareSystem "Tavi" "Trusted host and extension session boundary; asset bridge is not yet integrated."
@@ -7,6 +7,7 @@ workspace "Tavi Assets" "0.1.3 source-backed local asset engine architecture" {
         apps = softwareSystem "Companion / Atrium / Klondike" "Future authorized asset consumers; not integrated."
         assets = softwareSystem "Tavi Assets" "Offline data-only pack management and local storefront preview." {
             engine = container "Asset Core" "Validate, stage, activate and resolve local packs." "Python: src/tavi_assets/core.py" {
+                metadataValidator = component "Typed Object Graph Validator" "metadata.validate_metadata(): validates kinds, tags, rarity taxonomy, item resource references, object descriptions and collection membership without executable effects." "Python: src/tavi_assets/metadata.py"
                 validator = component "Pack Validator" "validate(), _inside(), _check_magic(), _svg_is_safe(): checks source structure, file hashes, allowed types and SVG." "Python"
                 installer = component "Pack Installer" "AssetManager.install()/uninstall(): staged copy, validation and version activation." "Python"
                 recovery = component "Stage Recovery" "AssetManager._recover_locked()/recover(): lock-serialized cleanup of abandoned temporary stages; unregistered finalized releases never activated." "Python"
@@ -24,7 +25,12 @@ workspace "Tavi Assets" "0.1.3 source-backed local asset engine architecture" {
                 browser = component "Storefront UI" "Browser catalog, search, install, select and remove interactions." "JavaScript: src/tavi_assets/web/main.js"
             }
             hostAdapter = container "Restricted Host Resource Adapter" "Proposed host-boundary library, not a live extension bridge." "Python: src/tavi_assets/host.py" {
+                discovery = component "Granted Metadata Discovery" "HostAssetService.describe()/list_objects()/get_object()/list_collections()/get_collection()/preferences(): pack-authorized, path-free object information." "Python: src/tavi_assets/host.py"
                 grants = component "Trusted Grant Resolver" "HostAssetService.resolve(): per-host-supplied caller grants for pack/capability pairs." "Python"
+            }
+            consumerSdk = container "Reference Consumer SDK" "Proposed transport-injected SDK. No deployed TaviX host feature or production transport exists." "JavaScript ES module and .d.ts" {
+                client = component "Typed Asset Consumer" "createTaviAssetsClient(): negotiate tavi.assets/v1 via injected host.info and send named assets.* requests only when feature exists." "JavaScript: sdk/client.mjs"
+                fakeHost = component "Mock Transport in SDK Tests" "tests/consumer_sdk_smoke.mjs emulates host info/requests; not an actual extension host." "Node.js test fixture"
             }
             device = container "Managed Device Files" "Registry JSON, versioned checked pack directories and preferences; local developer data." "Filesystem"
         }
@@ -39,6 +45,7 @@ workspace "Tavi Assets" "0.1.3 source-backed local asset engine architecture" {
         store -> resolver "Selects variant preferences" "Python calls"
         catalogReader -> validator "Checks every catalog pack source" "Python calls"
         installer -> validator "Verifies source, staging and installed bytes" "Python calls"
+        validator -> metadataValidator "Checks typed objects/collections, rarity and references" "Python calls"
         installer -> registry "Activates/deactivates version records" "Python calls"
         recovery -> registry "Reads installed registry before deleting incomplete scratch state" "Python calls"
         recovery -> device "Deletes only recognized abandoned stage/registry temporary files under lock" "Filesystem"
@@ -48,6 +55,8 @@ workspace "Tavi Assets" "0.1.3 source-backed local asset engine architecture" {
         resolver -> registry "Reads installed version and selection" "Python calls"
         resolver -> device "Reads validated asset bytes" "Filesystem"
         grants -> resolver "Resolves granted semantic resources" "Python calls"
+        discovery -> registry "Requests validated active pack manifest through AssetManager.manifest_for" "Python calls"
+        client -> fakeHost "Uses injected mock info/request transport in test suite" "Node.js mock calls"
         http -> browser "Returns UI, catalog state and previews" "HTTP loopback"
     }
     views {
@@ -72,6 +81,10 @@ workspace "Tavi Assets" "0.1.3 source-backed local asset engine architecture" {
             autoLayout lr
         }
         component hostAdapter "HostAdapterL3" {
+            include *
+            autoLayout lr
+        }
+        component consumerSdk "ConsumerSdkL3" {
             include *
             autoLayout lr
         }

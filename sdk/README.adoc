@@ -1,0 +1,7 @@
+= Tavi Assets consumer SDK — proposed API v1
+
+`client.mjs` is an ES module with no dependencies or direct browser/network access; `index.d.ts` is the TypeScript declaration. It is a *reference client*, not a published TaviX SDK or an implemented Tavi host method. The caller supplies an explicitly trusted, session-bound `transport` exposing `info()` and `request(method, params)` from a future approved Tavi host SDK. `connect()` requires `host.info.features` to contain `tavi.assets/v1`; absence rejects before any assets method is sent.
+
+The contract is suitable for implementing in Companion, Atrium and Klondike after host integration, but the SDK does not grant installation, entitlement or purchase privileges. The host owns authentication, identity, permitted packs, resource capabilities and consent to change preferences.
+
+`rulesRef` is an opaque game-owned lookup token; no pack metadata is executable. A game decides the supported mechanics for each token, defaults for unknown tokens, deck-building rules and balancing. Packs can supply new artwork/identities/sets but cannot silently add new game logic to a trusted game.

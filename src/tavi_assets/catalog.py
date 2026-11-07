@@ -97,13 +97,18 @@ class StoreService:
             ident = item["id"]
             current = installed.get(ident)
             latest = self.catalog.latest(ident)["version"]
+            _, manifest = self.catalog.source(ident)
             output.append({
                 "id": ident, "title": item["title"], "summary": item["summary"],
                 "category": item.get("category", "Assets"), "priceGold": item["priceGold"],
                 "latest": latest, "installed": current, "owned": bool(self.entitlements.can_access(actor, ident, item["priceGold"])),
                 "updateAvailable": bool(current and tuple(map(int, latest.split("."))) > tuple(map(int, current.split(".")))),
                 "preferences": state["preferences"].get(ident, {}),
-                "resources": self.catalog.source(ident)[1]["resources"]
+                "resources": manifest["resources"],
+                "objectCount": len(manifest.get("objects", {})),
+                "collectionCount": len(manifest.get("collections", {})),
+                "tags": manifest.get("tags", []),
+                "display": manifest.get("display", {})
             })
         return output
 
@@ -121,6 +126,18 @@ class StoreService:
     def uninstall(self, ident):
         self.catalog.item(ident)
         self.manager.uninstall(ident)
+
+    def metadata(self, ident):
+        """Catalog metadata preview only; NOT an authenticated host extension API."""
+        self.catalog.item(ident)
+        _, manifest = self.catalog.source(ident)
+        from .metadata import public_object
+        return {"schema": "tavi.assets.catalog-preview/v1", "packId": ident,
+                "display": manifest.get("display", {}), "tags": manifest.get("tags", []),
+                "taxonomy": manifest.get("taxonomy", {}),
+                "collections": [{"id": key, **value} for key, value in sorted(manifest.get("collections", {}).items())],
+                "objects": [public_object(key, value, set(manifest["resources"]))
+                            for key, value in sorted(manifest.get("objects", {}).items())]}
 
     def preview(self, ident, capability, variant=None):
         _, manifest = self.catalog.source(ident)

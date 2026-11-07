@@ -1,7 +1,7 @@
 {
   "schema": "ziprunner.verification-plan/v1",
   "project": "tavi-assets",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "tasks": [
     {
       "id": "TA-010",
@@ -77,6 +77,35 @@
           "mode": "manual",
           "checks": [
             "DNP-M1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TA-017",
+      "criteria": [
+        {
+          "id": "TA-017-AC-1",
+          "description": "Typed metadata, collection references, taxonomy and original multi-deck fixture validate and reject unsafe content.",
+          "mode": "automated",
+          "checks": [
+            "TA-017-T1"
+          ]
+        },
+        {
+          "id": "TA-017-AC-2",
+          "description": "Feature-negotiated SDK declines missing Tavi host support.",
+          "mode": "automated",
+          "checks": [
+            "TA-017-T2"
+          ]
+        },
+        {
+          "id": "TA-017-AC-3",
+          "description": "Operator reviews UI cards, host security and proposed integration contract without declaring production support.",
+          "mode": "manual",
+          "checks": [
+            "TA-017-M1"
           ]
         }
       ]
@@ -161,6 +190,38 @@
       "stage": "acceptance",
       "description": "Original define-next-pass review",
       "instructions": "Review docs/QA_0.1.3.adoc for bounded scope and verify no original acceptance criterion was replaced; keep this ticket operator-owned."
+    },
+    {
+      "id": "TA-017-T1",
+      "kind": "automated",
+      "stage": "functional",
+      "description": "Source object graph and contract, security and demo acceptance",
+      "runner_ref": "python tools/check.py",
+      "test_ref": "tests/test_metadata.py",
+      "assertions": [
+        "3 deck collections + joker pool discoverable",
+        "Custom rarity/tag search; no unknown collections/resources",
+        "Host pack and capability grants enforced, no filesystem paths"
+      ]
+    },
+    {
+      "id": "TA-017-T2",
+      "kind": "automated",
+      "stage": "functional",
+      "description": "Reference SDK feature gate with mock host transport",
+      "runner_ref": "node tests/consumer_sdk_smoke.mjs",
+      "test_ref": "tests/consumer_sdk_smoke.mjs",
+      "assertions": [
+        "No assets requests before feature negotiation",
+        "Unsupported host fails closed; no wallet/purchase API exposed"
+      ]
+    },
+    {
+      "id": "TA-017-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Operator validates new three-deck/joker metadata UX and reviewed cross-project ownership",
+      "instructions": "On Windows inspect card pack, 3 deck types, 16 custom jokers and rarity filters in local preview; review host feature and schema proposals; confirm no claims of game effects, ownership or production integration; record acceptance separately."
     }
   ]
 }

@@ -1,17 +1,17 @@
 {
   "schema": "ziprunner.workboard-update.v1",
   "project": "tavi-assets",
-  "version": "0.1.3",
-  "summary": "Reliability pass TA-010: recover interrupted scratch stages under OS-held registry lock; add subprocess lock and crash-boundary tests, post-update test descriptor, source acceptance and C4 Stage Recovery. Windows/QA and publication remain gated.",
+  "version": "0.1.4",
+  "summary": "TA-017 typed asset object/collection metadata contract, proposed negotiated consumer SDK, three-deck and 16-joker example, author-side validation and C4 model updates. Existing operator tickets and release gates remain open.",
   "implemented": [
     {
-      "id": "TA-010",
-      "title": "Interrupted staging recovery and native Windows locking",
-      "summary": "Implemented lock-serialized recovery of abandoned eight-character temporary stage/registry files, retained finalized inactive versions without activating ownership, fail-closed unsafe path handling, repeatable crash simulation and separate-process lock-contention tests; Windows execution remains unverified.",
+      "id": "TA-017",
+      "title": "Universal typed asset metadata and consumer SDK contract",
+      "summary": "Implemented pack objects/collections/taxonomy validation, style/tags/rarity, source-level metadata host adapter, proposed feature-negotiated JS/TypeScript SDK, full three-deck + 16 joker example, storefront inspection, security and integration tests. No production Tavi host methods or gameplay effects.",
       "operator_checks": [
-        "On native Windows, import the exact source ZIP and capture the executed python tools/check.py build log; confirm subprocess lock-contention and crash-recovery tests pass.",
-        "Use python tools/asset.py --root <disposable-path> doctor on a disposable cache after intentionally interrupting a sample stage; confirm scratch cleanup never promotes an unregistered version.",
-        "Confirm existing installed card selection remains across restart and update; review the C4 Stage Recovery component and record operator acceptance separately."
+        "Import the exact 0.1.4 ZIP into the canonical project and capture executed Python and optional Node test receipts; verify 0.1.4 manifest and Workboard identity.",
+        "Inspect original three deck collections and 16 jokers in the offline preview, filter by kind/rarity, select an alternative card back and verify restart persistence.",
+        "Review sdk/client.mjs, JSON Schemas, docs/consumer-contract.adoc, host metadata privacy/grants, C4 changes and proposed Tavi boundaries; operator acceptance separately, no automatic publication."
       ]
     }
   ],
@@ -80,6 +80,12 @@
       "title": "Preview engineering review (operator suggested)",
       "summary": "Suggestion appears in 0.1.2 QA index; original description and operator-owned acceptance criteria were not exported. Do not infer its scope or change its status.",
       "priority": "medium"
+    },
+    {
+      "id": "TA-010",
+      "title": "Interrupted staging recovery and native Windows locking",
+      "summary": "0.1.3 recovery source implemented but native Windows locking and operator acceptance still pending; do not infer Done.",
+      "priority": "high"
     }
   ]
 }

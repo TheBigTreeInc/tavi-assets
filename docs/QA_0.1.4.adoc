@@ -1,0 +1,30 @@
+= QA 0.1.4 — universal typed asset contract
+:toc:
+
+== Bounded scope
+
+Proposed contract and source implementation for heterogeneous data-only objects, tags, rarity taxonomy, collections/decks and opaque game-owned rule references; sample with 3 deck types + 16 original jokers; read-only granted metadata adapter, reference transport-injected JS/TypeScript SDK, local storefront metadata browsing, and contract tests. No production Tavi/TaviX, LoopRD/Wallet integrations or publication. Original prior tasks remain separate and open until operator decision.
+
+== Operator-preserved ticket context
+
+The latest operator QA in this conversation reported canonical ID `d0fe2552-0ae9-4162-b8e1-68c174d14a3a` and original Workboard IDs `define-next-pass`, TA-007 through TA-016 and `engineering-review-preview-a88be80a`. Source-only implementation of TA-010 was previously reported; native Windows locking acceptance is still pending. `define-next-pass` and TA-016 were in Review; TA-012 was planned; no Done approval was observed. The full local Workboard details were not exported. TA-017 is the *new* source-contract task introduced by this pass, not a replacement for another operator ticket.
+
+== Automated checks packaged for TA-017
+
+* Run `python tools/check.py`: manifest/catalog validation, mandatory workboard/version identity, complete Python tests and Node mocked SDK smoke where available.
+* `tests/test_metadata.py`: discover 3 decks, 16 jokers, 89 objects, 91 SVG assets; reject unknown collection members, duplicated refs, unsupported rarity, invalid tags/attributes/scripts, unauthorized hosts, unsafe metadata and forbidden customization, preserve selections across restart.
+* `tests/consumer_sdk_smoke.mjs`: session transport must negotiate feature before requests; filters, collections and permitted methods; rejects unsupported host and missing transport.
+* `tests/test_preview.py`: HTTP local catalog metadata preview and response content, no filesystem paths.
+* JSON Schema is machine-readable shape, NOT a substitute for source validator cross-reference/security enforcement.
+
+== Independent acceptance needed
+
+. Import exact ZIP into canonical Windows ZipRunner project, capture executed build and post-update receipts and verify correct source root, checksum and log.
+. In local preview install Ink & Ember, inspect three deck categories, all 16 jokers and rarity/type filters, select Indigo back, restart and check preference persists.
+. Confirm new SDK with trusted Tavi host developer and obtain agreement on method names, host negotiation, data-only distribution and authentication. No real Tavi host adapter is shipped.
+. Inspect `docs/architecture/workspace.dsl` with Structurizr CLI if available; record parser result, do not infer it from text checks.
+. Reconcile `TA-017` into Workboard Review only after build; do not mark Done before source and Windows operator criteria are independently checked. All Git push/tag/release actions require separate explicit operator approval.
+
+== Known limitations
+
+Unknown rulesRef values do not become game effects; the rule engine still requires implementation. No cross-pack collection dependencies or remote signature authority. No Tavi host feature, no native Windows/operator acceptance, no cross-device preference sync, no TaviX release. No source-level editor for building new packs; example artifacts are generated fixtures. Any advertised game compatibility remains proposed until tested in a real game.

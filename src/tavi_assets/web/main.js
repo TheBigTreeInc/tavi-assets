@@ -49,8 +49,10 @@ function renderCard(item) {
   const preview = element('div', 'preview');
   const pill = element('span', 'pill', item.priceGold ? item.priceGold + ' gold · unavailable' : 'FREE');
   preview.append(pill);
-  const variant = item.preferences['card.back'] || 'green';
-  if (item.resources['card.front.ace-spades']) preview.append(assetImage(item.id, 'card.front.ace-spades'));
+  const backs = item.resources['card.back']?.variants || {};
+  const variant = item.preferences['card.back'] && backs[item.preferences['card.back']] ? item.preferences['card.back'] : null;
+  const face = Object.keys(item.resources).find(name => name.startsWith('card.front.') || name.startsWith('card.face.'));
+  if (face) preview.append(assetImage(item.id, face));
   if (item.resources['card.back']) preview.append(assetImage(item.id, 'card.back', variant));
   card.append(preview);
   const body = element('div', 'asset-body');
@@ -83,6 +85,60 @@ function renderCard(item) {
     actions.append(remove);
   }
   body.append(actions);
+  if (item.objectCount) {
+    const inventory = element('details', 'inventory');
+    const summary = element('summary', null, `Inspect contents · ${item.objectCount} objects / ${item.collectionCount} collections`);
+    inventory.append(summary);
+    inventory.addEventListener('toggle', async () => {
+      if (!inventory.open || inventory.dataset.loaded) return;
+      const contents = element('div', 'inventory-content', 'Loading typed metadata…');
+      inventory.append(contents);
+      try {
+        const response = await fetch(`/api/metadata?id=${encodeURIComponent(item.id)}`);
+        if (!response.ok) throw new Error('Cannot inspect pack');
+        const data = await response.json();
+        inventory.dataset.loaded = '1';
+        contents.replaceChildren();
+        for (const group of data.collections) {
+          const groupLabel = element('div', 'inventory-group', `${group.name} · ${group.kind} · ${group.entries.length} entries`);
+          contents.append(groupLabel);
+        }
+        const filters = element('div', 'inventory-filters');
+        const kindSelect = element('select');
+        kindSelect.setAttribute('aria-label', 'Object type');
+        const allKinds = element('option', null, 'All object types'); allKinds.value = ''; kindSelect.append(allKinds);
+        for (const kind of [...new Set(data.objects.map(object => object.kind))].sort()) {
+          const option = element('option', null, kind); option.value = kind; kindSelect.append(option);
+        }
+        const raritySelect = element('select');
+        raritySelect.setAttribute('aria-label', 'Rarity');
+        const allRarities = element('option', null, 'All rarities'); allRarities.value = ''; raritySelect.append(allRarities);
+        for (const rarity of [...new Set(data.objects.map(object => object.rarity))].sort()) {
+          const option = element('option', null, rarity); option.value = rarity; raritySelect.append(option);
+        }
+        filters.append(kindSelect, raritySelect); contents.append(filters);
+        const results = element('div', 'inventory-results'); contents.append(results);
+        function draw() {
+          results.replaceChildren();
+          const filtered = data.objects.filter(obj => (!kindSelect.value || obj.kind === kindSelect.value) &&
+            (!raritySelect.value || obj.rarity === raritySelect.value));
+          for (const obj of filtered.slice(0, 40)) {
+            const line = element('div', 'inventory-object');
+            if (obj.resources.length) line.append(assetImage(item.id, obj.resources[0]));
+            const description = element('div');
+            description.append(element('strong', null, obj.name),
+              element('small', null, `${obj.kind} · ${obj.rarity} · ${obj.tags.join(', ')}`));
+            line.append(description); results.append(line);
+          }
+          if (filtered.length > 40) results.append(element('p', null, `Showing the first 40 of ${filtered.length} matches. Narrow by type or rarity.`));
+        }
+        kindSelect.addEventListener('change', draw);
+        raritySelect.addEventListener('change', draw);
+        draw();
+      } catch (error) { contents.textContent = error.message; }
+    });
+    body.append(inventory);
+  }
   if (item.installed && item.resources['card.back']) {
     const row = element('div', 'variants');
     row.append(element('span', null, 'Card back:'));

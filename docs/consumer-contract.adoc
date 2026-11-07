@@ -1,0 +1,125 @@
+= Tavi Assets universal consumer contract — 0.1.4 (proposed host/v1)
+:toc:
+:sectnums:
+
+== Scope and status
+
+The *source-level* object/collection validation is implemented by `src/tavi_assets/metadata.py` and `core.validate()`, and the read-only metadata endpoints are implemented in the Python `HostAssetService` test adapter. `contracts/tavi-assets-pack-v1.schema.json` describes the manifest shapes; `contracts/tavi-assets-consumer-v1.json` describes proposed host methods. `sdk/client.mjs` and `sdk/index.d.ts` provide a transport-injected reference consumer SDK.
+
+Tavi's actual `tavi.extension/v1` host does *not yet* implement the proposed `tavi.assets/v1` feature or `assets.*` methods. The SDK is not a real installed TaviX extension, is not published, and cannot fetch approved remote packs. Do not claim Companion, Atrium, Klondike or Tavi integrations passed; no production LoopRD or Wallet authority is included.
+
+== Two layers: asset data and game behavior
+
+An asset pack answers **what is this item?**: stable ID, object kind, name, tags, rarity, type-specific attributes, artwork resource capabilities, collections and an optional opaque `rulesRef` key. A trusted application answers **what may this item do?**: legal cards, deck composition, balancing, score multipliers, trigger/event semantics and supported rule mappings. Asset metadata is *not executable* and cannot invent new game logic, mint gold, alter entitlements or install extensions.
+
+For example, a card object in a roguelike card game's content pack can be:
+
+[source,json]
+----
+{
+  "kind": "joker-card",
+  "name": "Ashkeeper",
+  "rarity": "uncommon",
+  "tags": ["card.joker", "game.roguelike-poker"],
+  "attributes": {"joker_family": "storybook", "index": 1},
+  "resources": ["card.face.joker.ashkeeper"],
+  "rulesRef": "rules.joker.ashkeeper"
+}
+----
+
+The key `rules.joker.ashkeeper` is an uninterpreted string until an *approved game rules engine* recognizes it. An unknown rulesRef must yield a controlled fallback or an explicit unsupported-content result, never remote code loading. If a game wants downloadable **gameplay** modifiers, that is a separate reviewed, permissioned extension/rules contract: not implemented by asset packs.
+
+== Resource manifest `tavi.assets.pack/v1`
+
+* Required: `schema`, `id`, `version`, `type`, `compatibility`, `files`, `resources`.
+* Optional: `display` (name/description/style), `tags`, `taxonomy` (rarity and tag labels), `objects`, `collections`.
+* Each declared object ID is unique inside the pack and has `kind` and `name`, optionally `rarity`, `tags`, `description`, `attributes`, `resources` (semantic capabilities) and an opaque `rulesRef`. Resource entries must reference capabilities from the same verified pack.
+* Collections have stable IDs, `kind`, `name`, optional tags/description and bounded `{objectId, quantity}` entries. All references must resolve to objects in **the same pack**. No nested/cross-pack loading in 0.1.4. Future dependency bundles require a separate versioned dependency contract and entitlement/compatibility enforcement.
+* Rarity is a category ID for display/filtering; its optional taxonomy `tier` is presentation order, not drop probability or game power. Packs can declare custom names (e.g., `cursed`, `mythic`); declared rarities must be consistent with object rarities. If taxonomy omitted, the default names are common/uncommon/rare/epic/legendary/unique.
+* Tags are normalized searchable tokens; a pack may provide labels for them in `taxonomy.tags`. Tags are descriptive, never host authorization, ownership, inventory state or executable dispatch.
+* The `attributes` field is bounded JSON (string/number/boolean/null, arrays, maps) with safe normalized keys and depth/size constraints; no JS, executable expressions, URLs or raw storage paths are supported. Apps must interpret only known attribute keys and bounds.
+* Identity and references are stable within a given immutable pack ID + version; silently replacing bytes at a released version is prohibited.
+
+The schema is the machine-readable basic shape. `core.validate()` additionally enforces cross-references, media magic/SVG safety, file hashes and archive-path safety. A JSON Schema-only check **does not** establish integrity or entitlements.
+
+== Example: Ink & Ember card content
+
+`examples/storybook-decks/manifest.json` (original sample artwork) contains three independent deck collections:
+
+[cols="2,1,1",options="header"]
+|===
+|Collection |Objects |Kind
+|`deck.playing.classic` |52 |`playing-card`
+|`deck.arcana.lantern` |12 |`arcana-card`
+|`deck.astral.compass` |9 |`astral-card`
+|`pool.jokers.storybook` |16 |`joker-card`
+|===
+
+This demonstrates 89 objects with 91 static SVG resources and 2 selectable card backs. The visual reference is an original ink-and-candlelight fantasy theme. It is not an official asset or reproduction of Don't Starve Together, Balatro or any other existing game. The sample has no copyrighted game art, game code, licensed brands, rule effects or paid items.
+
+== Host API (proposal, feature gate `tavi.assets/v1`)
+
+Applications call `host.info`; if `features` does not include `tavi.assets/v1`, **do not** send `assets.*`. Later methods are read-only except the explicitly permitted variant selection:
+
+[cols="2,3",options="header"]
+|===
+|Method |Usage
+|`assets.describe` |Return authorized pack identity, type, style, taxonomy, available granted capabilities, and object/collection counts
+|`assets.objects.list` |Filter objects by `kind`, `rarity`, all-of `tags` and paginate by integer `offset`/`limit` (1..100)
+|`assets.objects.get` |Fetch one metadata object by pack-scoped ID
+|`assets.collections.list` |Discover deck or pool collections by kind
+|`assets.collections.get` |Fetch ordered object refs and quantities in a deck/pool
+|`assets.preferences.get` |Read variant names and selected value for *granted* capabilities
+|`assets.preferences.set` |Mutating operation requiring host-derived customization grant and host-owned user consent policy
+|`assets.resolve` |Return validated bytes for a *granted* semantic capability; JSON example uses bounded base64 and media type, not a path/URL
+|===
+
+The on-disk demo Python methods are named `describe`, `list_objects`, `get_object`, `list_collections`, `get_collection`, `preferences`, `select` and `resolve_wire`. A production host bridge must implement the proposed transport consistently and authorize on the **host-derived authenticated caller identity**, never a request-supplied ID. The static Python adapter cannot prove the production browser bridge. The proposed `assets.changed` event is *not implemented*; clients must tolerate its absence and refresh explicitly.
+
+=== Consumer pattern
+
+[source,js]
+----
+import { createTaviAssetsClient } from './sdk/client.mjs';
+// transport is supplied by a reviewed Tavi host SDK; this is not a bare postMessage wrapper.
+const assets = createTaviAssetsClient(transport);
+try {
+  await assets.connect();
+  const packs = await assets.listCollections('org.tavi.examples.storybook-decks', {kind:'deck'});
+  for (const deck of packs.items) {
+    const content = await assets.getCollection('org.tavi.examples.storybook-decks', deck.id);
+    // Hand object IDs to game-owned, supported rule engine; don't eval rulesRef.
+  }
+} catch (error) {
+  // Feature not negotiated, pack missing, authorization denied: use built-in art.
+}
+----
+
+== Security and lifecycle
+
+* The authorization boundary is the *Tavi host*, not this SDK and not the `.tavix` metadata. The sample is a local standalone demo only.
+* A pack install or metadata claim does not establish LoopRD ownership. Parent/child purchase consent and protected free gold remain server-gated.
+* No raw file paths or foreign pack private data are returned. A granted pack identity authorizes metadata, whereas access to bytes additionally requires a permitted capability.
+* Selection changes are not emitted to other apps automatically; shared and application-specific cross-device preference synchronization remain tracked under `TA-013`.
+* A game can render approved art without supporting a new rulesRef. Incompatible behavior must fail closed or choose a built-in fallback.
+* TaviX distribution remains a separate `TA-008` contract. No `.tavix` extension archive can be assumed to be equivalent to this data-only pack manifest.
+
+== QA and ownership
+
+`tests/test_metadata.py` covers pack-level validation, three deck collections + joker pool, custom rarity, pagination and unauthorized host access. `tests/consumer_sdk_smoke.mjs` verifies the injected host feature gate with a fake transport. `tests/test_preview.py` covers the local metadata storefront. All tests are source/fixture checks, *not* approval to integrate with the production Tavi host. See `ziprunner-verification-plan.json` and `docs/QA_0.1.4.adoc` for independently required acceptance gates.
+
+== Optional declarative joker modifiers (`tavi.cards.modifiers.v1`)
+
+To make *many custom jokers* possible without shipping JavaScript, individual objects can include bounded data-only `modifiers` blocks. This is **a proposed interpreter profile**, *not an implemented game engine*. A block names a profile, a supported event trigger (`hand.scored`, `card.played`, `round.started`, `round.ended`), zero or more predicates, and up to eight effects. The current author-side validator allows only numeric score/draw operators (`chips.add`, `mult.add`, `mult.multiply`, `draw.add`, `discard.add`) with finite bounded values and simple equality/at-least/contains predicates. No arbitrary expressions, scripting, wallet operations, network access or file reads are possible in the descriptor. A game **must explicitly opt in** to the exact profile and implement/validate every supported trigger, predicate and effect; unsupported profiles or mechanics must fail closed.
+
+[source,json]
+----
+{
+  "profile": "tavi.cards.modifiers.v1",
+  "trigger": "hand.scored",
+  "conditions": [{"field": "hand.category", "operator": "equals", "value": "pair"}],
+  "effects": [{"op": "chips.add", "value": 20}]
+}
+----
+
+Sixteen original jokers in `examples/storybook-decks/manifest.json` now contain distinct sample modifier blocks as **inert configuration**. Balancing, stacking order, timing, event semantics, player protections, randomness, interactions and which gameplay mode can consume them must be specified by the consuming game and approved in its own rules engine. In particular, `rulesRef` is still an opaque fallback mapping and is not automatically executed.

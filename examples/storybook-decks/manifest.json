@@ -1,0 +1,2741 @@
+{
+  "schema": "tavi.assets.pack/v1",
+  "id": "org.tavi.examples.storybook-decks",
+  "version": "0.1.0",
+  "type": "card-library",
+  "compatibility": {
+    "host": "tavi-assets/v1"
+  },
+  "display": {
+    "name": "Ink & Ember Card Library",
+    "description": "Original ink-and-candlelight fantasy card library: three playable decks and a pool of custom jokers. Not affiliated with any existing game.",
+    "style": "inked-survival"
+  },
+  "tags": [
+    "style.inked-survival",
+    "game.roguelike-poker",
+    "content.original"
+  ],
+  "taxonomy": {
+    "rarities": {
+      "common": {
+        "label": "Common",
+        "tier": 10
+      },
+      "uncommon": {
+        "label": "Uncommon",
+        "tier": 20
+      },
+      "rare": {
+        "label": "Rare",
+        "tier": 30
+      },
+      "legendary": {
+        "label": "Legendary",
+        "tier": 40
+      },
+      "cursed": {
+        "label": "Cursed",
+        "tier": 50
+      }
+    },
+    "tags": {
+      "card.playing": {
+        "label": "Playing card"
+      },
+      "card.arcana": {
+        "label": "Arcana card"
+      },
+      "card.astral": {
+        "label": "Astral card"
+      },
+      "card.joker": {
+        "label": "Joker"
+      },
+      "style.inked-survival": {
+        "label": "Ink & candlelight"
+      },
+      "game.roguelike-poker": {
+        "label": "Roguelike poker compatible metadata"
+      },
+      "content.original": {
+        "label": "Original example artwork"
+      },
+      "collection.deck": {
+        "label": "Playable deck"
+      },
+      "collection.pool": {
+        "label": "Card pool"
+      }
+    }
+  },
+  "files": {
+    "cards/playing/spades-ace.svg": "e5e67d09a59f70f30f3e5783222ca03757c13f2b6a36e5e12d827c7642759744",
+    "cards/playing/spades-two.svg": "e414118918e723300ac807614abb710cadc369d1ea859be2da98c749dc38cb5d",
+    "cards/playing/spades-three.svg": "a1302e6518a1abe8587897195220ba165e37ddbc49704e0c632169bfdb0ca229",
+    "cards/playing/spades-four.svg": "ccc6b63ce65165bebeeb915abd51d81f0c60063f7d4c80f3afecff72fa6fcdb2",
+    "cards/playing/spades-five.svg": "35304cb189e1956d304a180a597253bf796e74d828d391d542820eb108d6a86f",
+    "cards/playing/spades-six.svg": "3ba9fee33a2a8144a62a7c76e9859ed5af5c205bbc50a61b92bf4e7897bea2b4",
+    "cards/playing/spades-seven.svg": "db77df9061cad886c2836d2d3307b2638d32aa4cfac64f4a49d4cb908dea72c9",
+    "cards/playing/spades-eight.svg": "27730275ad5c0f07e3a55392d4730ae47c6fffa5df79c13a61be3db843e9670b",
+    "cards/playing/spades-nine.svg": "29c3fcd39c82f7ef08182f2975611e47512bb816d3d3bd2d7adce7c09645b20b",
+    "cards/playing/spades-ten.svg": "b50b6a315f3d407becb2e6389cf6134b6095e79e5b936c97a757e65f6732bc71",
+    "cards/playing/spades-jack.svg": "0e6aeab127215b26e688f5f0f7a5c9738fd78a6c7c4c8e99aca1acda947422df",
+    "cards/playing/spades-queen.svg": "35c56a83c0f38b38bba9f1736ae6d44e1842bf74062aa46757eb89b2c3df37bd",
+    "cards/playing/spades-king.svg": "01a83fd5a4f81a01d4c9420d9e0c028235c9cd840062030d9a5e550212126ccf",
+    "cards/playing/hearts-ace.svg": "db5e6e4a757da0aaa605e414046f0cf96ae99ad912ee759049900f8c6ce695e2",
+    "cards/playing/hearts-two.svg": "c547ef692e1701b3825cdbf1dff80ab39bcb52f798c46c0db0e9d5a5ef582c4c",
+    "cards/playing/hearts-three.svg": "e7096f093c733f48395cdbafcd3073c65c4a4d0ab7ef26ed6fb6905f8b11f039",
+    "cards/playing/hearts-four.svg": "c0ed8f6dd89955590999b6aa5b36326ff1d764ba9c9216e08b5bca6890d22972",
+    "cards/playing/hearts-five.svg": "c537ef3bb93bf21e5009e9a6a829d9ac3c4b28972eb5e1644366b63996037933",
+    "cards/playing/hearts-six.svg": "9827392a125bbf03b8569b60b52504fa88b56b5e089242312ce7f559c6f1bd6e",
+    "cards/playing/hearts-seven.svg": "eb9900d9a4f3c8a5b2c2d4c68557bb82777d839c6de318b8d5c304f77a4a0050",
+    "cards/playing/hearts-eight.svg": "4014cbbb1e16f2578a75d428a0b5ca169164f9120573774c2ecb117d76033cf6",
+    "cards/playing/hearts-nine.svg": "9255fa8f6e0663ca252d3a2b03839235edec4b35a43ae79d474952ae669f3199",
+    "cards/playing/hearts-ten.svg": "4092b82823d893d5a2b6ed068dc2f37138f94f3f0a35aa687ffde3ecce528a4c",
+    "cards/playing/hearts-jack.svg": "b95ca2a22c687da97ec36b3227d1916e907f8f03d5c5b3a1f28dafa62a9d8848",
+    "cards/playing/hearts-queen.svg": "45e3c722377b41ce6dc46540a93732fcca8a7eab55079f209b2aa60a6c955cb7",
+    "cards/playing/hearts-king.svg": "1c2674ee359005dbc9b41d2cd35a905a964d387ea60990a4c8cc74fb95d1f123",
+    "cards/playing/diamonds-ace.svg": "457fb1a10ef71e5feb9af271f26dab69790014409e37432ff769913e4a37d8e6",
+    "cards/playing/diamonds-two.svg": "9a63c629e7fd23fdb1803f9fb1b205dbca968baccb7d3cfeff44ba05579ca016",
+    "cards/playing/diamonds-three.svg": "6872be71aa4fd0027aad9c9379ad2dbbd81f02ba8a78c2ba81bbca75b6e41659",
+    "cards/playing/diamonds-four.svg": "44aa7ef5289e39947e6b4d22e93bc27e4d4f02692403d061fe0bc4323a17cae4",
+    "cards/playing/diamonds-five.svg": "01500e1a772d9efe29ab9e3e4e8dfa0f064dabdb4b646cc3bae6957d0ae6a0cc",
+    "cards/playing/diamonds-six.svg": "3dff95fd9e70f943da88019e4f75e68d89f15e586653ef59d7cd14df0f693681",
+    "cards/playing/diamonds-seven.svg": "b438124d9a8d6155798d1356ef0d3611fd209e0e75368da0963215d5046d47d0",
+    "cards/playing/diamonds-eight.svg": "aea16c1d3766354df69f0911808526261f30243b2320d3c657ef618dc9823292",
+    "cards/playing/diamonds-nine.svg": "0fc1b06e2b0f68564484c29ac1151cff15ff6d14255b3aef7506b8929d529d3b",
+    "cards/playing/diamonds-ten.svg": "4b1011c34e936c2fa680d47079080a4489e6b1c8410fc543eeb3d993481d8d5b",
+    "cards/playing/diamonds-jack.svg": "1649b87585f11e51be9ca4403df08526ce77a4e039296cd2b44d8f75935e2cc3",
+    "cards/playing/diamonds-queen.svg": "26c33c15d8b1c1671b824d9cb952ace665ff985f418dbb3d3cc665ed90563220",
+    "cards/playing/diamonds-king.svg": "6276750eb1d69b0f71fe8d9e1b08f758253f1a43b7f511d93ec92cea34fe4691",
+    "cards/playing/clubs-ace.svg": "4eb64360c305797590831dadb7749eb1ff0d7e4af18a3da8b4f031a084a2aef8",
+    "cards/playing/clubs-two.svg": "2c29edec73de4e6a81f613ad54d1288158837094c5822f5e997370f588605d7d",
+    "cards/playing/clubs-three.svg": "9dff6e38195abf49dfa10d08843693e047d9d8cfad274bbe7c56a8fe6cfa593c",
+    "cards/playing/clubs-four.svg": "5814c1428d9c26ecd40ff0bcca87b04057849ab556c925e0ae09b83009a13dd5",
+    "cards/playing/clubs-five.svg": "dd719cc2970c8d117334d635cc5452565f08456260d4586fad7411901bba24d5",
+    "cards/playing/clubs-six.svg": "0145d21bce492b84ce5aaaa5be3de3c40d913c610316ff2b6b0c76fc1d74b66f",
+    "cards/playing/clubs-seven.svg": "bf4c95ccb7c0200feb064edb9ab8568b0510902bb2a80bd15c646d9b6093f2b6",
+    "cards/playing/clubs-eight.svg": "14d559463004cdb5350efa3b1cea696a4461c352769e7c87db3345e924c5a690",
+    "cards/playing/clubs-nine.svg": "87fee3c7816b32e58c4729a12f2cebbc1c8979e89a459ba9cdc0126bfb9c245a",
+    "cards/playing/clubs-ten.svg": "2e666ab1e09538d7850f0faf1845845a4840c05c31e024ee24b2cd12420abf1f",
+    "cards/playing/clubs-jack.svg": "a279a046e74833f244ccb5a60407b0d71a5a646479139b26e46b540a337f68bd",
+    "cards/playing/clubs-queen.svg": "870fdabdd2fa9f6b59d92a51c7dbe2ecce392aace7aae1bfcbe6d30a95fa6474",
+    "cards/playing/clubs-king.svg": "7b0bbea09c75a09be386253bd104a0f830f3b46c60beb5c12c95156c5b35a2e5",
+    "cards/arcana/01.svg": "d473856017b39ed08b2a018a5357e77944228acb25bc73bd25ff66ff012b4dfc",
+    "cards/arcana/02.svg": "5553cbdcfad82bef9fb6e1b7a50805ad594b84f26af295a9046bd44d50d49d5e",
+    "cards/arcana/03.svg": "9494a512193783b8e47cbc79158e0354a1719054429d15d605b53a313026c950",
+    "cards/arcana/04.svg": "dc95d51fba1b763c79f95fad3f278ed3181eb92a1da5d1c17539733d1804099a",
+    "cards/arcana/05.svg": "1e1618a411a9e1c21ce108e04b1486e8c5ccc093c8a4c2fbefb64fde9c1452e7",
+    "cards/arcana/06.svg": "80ae9bc9422a1f6f138db7276526b45f331dbead00bbb4caa2f6cb890ff8fd00",
+    "cards/arcana/07.svg": "d7b542264d002c5625976b76e874e0bf5f520157d2b9c1270fd4e2b52eaa890a",
+    "cards/arcana/08.svg": "5a7375773c9825f7e4e05f7a9de17f2ac093615c7497a970d2df3da8c05ae0bd",
+    "cards/arcana/09.svg": "e8c49704bdbbd677ef8f490fb4d719753743a3a4f257db0eb06dab5685ede1ae",
+    "cards/arcana/10.svg": "030d84922ff8d883a49def9a2d644b7d1caea965d7df0d2b6879756b31fbcdb4",
+    "cards/arcana/11.svg": "fc21168481d89cc2abe54ba0a0bb6d43bcde0d144bc1789fdb4110ec22414753",
+    "cards/arcana/12.svg": "4a46e8f2c8441da6e88fc1a9f8da6bb4fc400b9312e50ad92f718f5e9c68ecd0",
+    "cards/astral/01.svg": "f37e06f08e28b079984274541cda778fcda0d4ab2e8851bfee3452ebad075327",
+    "cards/astral/02.svg": "817c56d400478d09fcddebe2a3a81fa67ef57cbfd6b6155a968680d23413a01d",
+    "cards/astral/03.svg": "315e3ff68ae654a019f8df60e0adcff9f296d2c54316bfd72bfe61ffb3184c59",
+    "cards/astral/04.svg": "4874f3232da23d728dbdd2e308a392b19c23cbde0a3f0bf608a2633a4735e69d",
+    "cards/astral/05.svg": "7f51d5c971c31413a859ce09102093258158b367c77340e3b563f19786b808f6",
+    "cards/astral/06.svg": "075013d5ab2462da04e866f47a2215d0e918aefe9b5f18cca40f916bf65df95e",
+    "cards/astral/07.svg": "76ced8f73aa5083f051ba07d6e1c5ad2262f3e7988c29a45c33d1524f9f52715",
+    "cards/astral/08.svg": "f9cd6c68910a5c341f2140cff47b09513277d600fd7c12ac330a3378f91face8",
+    "cards/astral/09.svg": "688844f17ce9e1affb3678fe633bb560ece2f4b9ec6fe1160064678d007ddae3",
+    "cards/jokers/ashkeeper.svg": "1e35f16c68db51a26782c4cf3ce630ace1af08f833ccd51fb61f0a639da372b4",
+    "cards/jokers/moth-collector.svg": "6bacd29b4ff5dc79596b21b0f899122b63f383e1dbd4273dd5d2591df940220b",
+    "cards/jokers/bramble-baron.svg": "219a37c8e7efe7de05b83c99998928e57f0bcb302f7b513e52fbfeb31210ffe0",
+    "cards/jokers/hollow-piper.svg": "838885fdb27d5d5bbd42aff0b4a6d8204d09ae3f0aa104ecf7350f5a7c9735b5",
+    "cards/jokers/candle-thief.svg": "481e140d067194cb6812f2c616f328c1c879aa3e5aae518c0db5f1531e1a7196",
+    "cards/jokers/marsh-cartographer.svg": "754c1ea76049acbe5b1c130feb15290519c2e43607b1962743d838e64a738392",
+    "cards/jokers/crowsmith.svg": "11ee796ba6a5ac568e84d97748d7bb947645237e6996cc620d3663705f4e6326",
+    "cards/jokers/bottled-storm.svg": "d4d7073ec224d4abf2ff7ee77b7290d2bc95a60d3790c8e383134eb28f32f28f",
+    "cards/jokers/bone-librarian.svg": "e536993f06f15c225f90107303503be05ba43bcd1f92ff4e749cac361601c274",
+    "cards/jokers/lantern-juggler.svg": "f82b8fd675eaf1754db147f441aad0f2051f3f882ba6e4286cf20e68f8f0bb64",
+    "cards/jokers/thorn-weaver.svg": "6967ccc7cee8fadf8bad233254eaf5c65528324e8f59a7c650488477b5635e25",
+    "cards/jokers/midnight-forager.svg": "362e67ab67613bc3dd17b25b7deaf70629e3ed9c173df425523782d7477d356f",
+    "cards/jokers/salt-alchemist.svg": "e017c03f9759e6bc1e173bd557c91867c9cc9572e133ce5618f5f120289c04ba",
+    "cards/jokers/moss-gambler.svg": "053e801dd30e926b6c35d8b84a3e9a294c199be56ebbc716a51e1342d64ed53a",
+    "cards/jokers/the-second-shadow.svg": "0b26fce31709f01302fd1fcf4f6ae0dd5daa9efd72b084774d06066bd1916f49",
+    "cards/jokers/clockwork-hermit.svg": "e746e8f7bc4f67d3b90d2bf0d47589e85b9a14a83049570f21dd8f9c1efa6208",
+    "cards/backs/ochre.svg": "c2da9381c498cb8a4c388bcb8b912b465997070148306643e265c5854e71f7df",
+    "cards/backs/indigo.svg": "c47d2fa3616d71ad3d2dd7988dbd839e507cb7fc644b70cda834cf80dc886a14"
+  },
+  "resources": {
+    "card.face.spades.ace": {
+      "default": "cards/playing/spades-ace.svg"
+    },
+    "card.face.spades.two": {
+      "default": "cards/playing/spades-two.svg"
+    },
+    "card.face.spades.three": {
+      "default": "cards/playing/spades-three.svg"
+    },
+    "card.face.spades.four": {
+      "default": "cards/playing/spades-four.svg"
+    },
+    "card.face.spades.five": {
+      "default": "cards/playing/spades-five.svg"
+    },
+    "card.face.spades.six": {
+      "default": "cards/playing/spades-six.svg"
+    },
+    "card.face.spades.seven": {
+      "default": "cards/playing/spades-seven.svg"
+    },
+    "card.face.spades.eight": {
+      "default": "cards/playing/spades-eight.svg"
+    },
+    "card.face.spades.nine": {
+      "default": "cards/playing/spades-nine.svg"
+    },
+    "card.face.spades.ten": {
+      "default": "cards/playing/spades-ten.svg"
+    },
+    "card.face.spades.jack": {
+      "default": "cards/playing/spades-jack.svg"
+    },
+    "card.face.spades.queen": {
+      "default": "cards/playing/spades-queen.svg"
+    },
+    "card.face.spades.king": {
+      "default": "cards/playing/spades-king.svg"
+    },
+    "card.face.hearts.ace": {
+      "default": "cards/playing/hearts-ace.svg"
+    },
+    "card.face.hearts.two": {
+      "default": "cards/playing/hearts-two.svg"
+    },
+    "card.face.hearts.three": {
+      "default": "cards/playing/hearts-three.svg"
+    },
+    "card.face.hearts.four": {
+      "default": "cards/playing/hearts-four.svg"
+    },
+    "card.face.hearts.five": {
+      "default": "cards/playing/hearts-five.svg"
+    },
+    "card.face.hearts.six": {
+      "default": "cards/playing/hearts-six.svg"
+    },
+    "card.face.hearts.seven": {
+      "default": "cards/playing/hearts-seven.svg"
+    },
+    "card.face.hearts.eight": {
+      "default": "cards/playing/hearts-eight.svg"
+    },
+    "card.face.hearts.nine": {
+      "default": "cards/playing/hearts-nine.svg"
+    },
+    "card.face.hearts.ten": {
+      "default": "cards/playing/hearts-ten.svg"
+    },
+    "card.face.hearts.jack": {
+      "default": "cards/playing/hearts-jack.svg"
+    },
+    "card.face.hearts.queen": {
+      "default": "cards/playing/hearts-queen.svg"
+    },
+    "card.face.hearts.king": {
+      "default": "cards/playing/hearts-king.svg"
+    },
+    "card.face.diamonds.ace": {
+      "default": "cards/playing/diamonds-ace.svg"
+    },
+    "card.face.diamonds.two": {
+      "default": "cards/playing/diamonds-two.svg"
+    },
+    "card.face.diamonds.three": {
+      "default": "cards/playing/diamonds-three.svg"
+    },
+    "card.face.diamonds.four": {
+      "default": "cards/playing/diamonds-four.svg"
+    },
+    "card.face.diamonds.five": {
+      "default": "cards/playing/diamonds-five.svg"
+    },
+    "card.face.diamonds.six": {
+      "default": "cards/playing/diamonds-six.svg"
+    },
+    "card.face.diamonds.seven": {
+      "default": "cards/playing/diamonds-seven.svg"
+    },
+    "card.face.diamonds.eight": {
+      "default": "cards/playing/diamonds-eight.svg"
+    },
+    "card.face.diamonds.nine": {
+      "default": "cards/playing/diamonds-nine.svg"
+    },
+    "card.face.diamonds.ten": {
+      "default": "cards/playing/diamonds-ten.svg"
+    },
+    "card.face.diamonds.jack": {
+      "default": "cards/playing/diamonds-jack.svg"
+    },
+    "card.face.diamonds.queen": {
+      "default": "cards/playing/diamonds-queen.svg"
+    },
+    "card.face.diamonds.king": {
+      "default": "cards/playing/diamonds-king.svg"
+    },
+    "card.face.clubs.ace": {
+      "default": "cards/playing/clubs-ace.svg"
+    },
+    "card.face.clubs.two": {
+      "default": "cards/playing/clubs-two.svg"
+    },
+    "card.face.clubs.three": {
+      "default": "cards/playing/clubs-three.svg"
+    },
+    "card.face.clubs.four": {
+      "default": "cards/playing/clubs-four.svg"
+    },
+    "card.face.clubs.five": {
+      "default": "cards/playing/clubs-five.svg"
+    },
+    "card.face.clubs.six": {
+      "default": "cards/playing/clubs-six.svg"
+    },
+    "card.face.clubs.seven": {
+      "default": "cards/playing/clubs-seven.svg"
+    },
+    "card.face.clubs.eight": {
+      "default": "cards/playing/clubs-eight.svg"
+    },
+    "card.face.clubs.nine": {
+      "default": "cards/playing/clubs-nine.svg"
+    },
+    "card.face.clubs.ten": {
+      "default": "cards/playing/clubs-ten.svg"
+    },
+    "card.face.clubs.jack": {
+      "default": "cards/playing/clubs-jack.svg"
+    },
+    "card.face.clubs.queen": {
+      "default": "cards/playing/clubs-queen.svg"
+    },
+    "card.face.clubs.king": {
+      "default": "cards/playing/clubs-king.svg"
+    },
+    "card.face.arcana.01": {
+      "default": "cards/arcana/01.svg"
+    },
+    "card.face.arcana.02": {
+      "default": "cards/arcana/02.svg"
+    },
+    "card.face.arcana.03": {
+      "default": "cards/arcana/03.svg"
+    },
+    "card.face.arcana.04": {
+      "default": "cards/arcana/04.svg"
+    },
+    "card.face.arcana.05": {
+      "default": "cards/arcana/05.svg"
+    },
+    "card.face.arcana.06": {
+      "default": "cards/arcana/06.svg"
+    },
+    "card.face.arcana.07": {
+      "default": "cards/arcana/07.svg"
+    },
+    "card.face.arcana.08": {
+      "default": "cards/arcana/08.svg"
+    },
+    "card.face.arcana.09": {
+      "default": "cards/arcana/09.svg"
+    },
+    "card.face.arcana.10": {
+      "default": "cards/arcana/10.svg"
+    },
+    "card.face.arcana.11": {
+      "default": "cards/arcana/11.svg"
+    },
+    "card.face.arcana.12": {
+      "default": "cards/arcana/12.svg"
+    },
+    "card.face.astral.01": {
+      "default": "cards/astral/01.svg"
+    },
+    "card.face.astral.02": {
+      "default": "cards/astral/02.svg"
+    },
+    "card.face.astral.03": {
+      "default": "cards/astral/03.svg"
+    },
+    "card.face.astral.04": {
+      "default": "cards/astral/04.svg"
+    },
+    "card.face.astral.05": {
+      "default": "cards/astral/05.svg"
+    },
+    "card.face.astral.06": {
+      "default": "cards/astral/06.svg"
+    },
+    "card.face.astral.07": {
+      "default": "cards/astral/07.svg"
+    },
+    "card.face.astral.08": {
+      "default": "cards/astral/08.svg"
+    },
+    "card.face.astral.09": {
+      "default": "cards/astral/09.svg"
+    },
+    "card.face.joker.ashkeeper": {
+      "default": "cards/jokers/ashkeeper.svg"
+    },
+    "card.face.joker.moth-collector": {
+      "default": "cards/jokers/moth-collector.svg"
+    },
+    "card.face.joker.bramble-baron": {
+      "default": "cards/jokers/bramble-baron.svg"
+    },
+    "card.face.joker.hollow-piper": {
+      "default": "cards/jokers/hollow-piper.svg"
+    },
+    "card.face.joker.candle-thief": {
+      "default": "cards/jokers/candle-thief.svg"
+    },
+    "card.face.joker.marsh-cartographer": {
+      "default": "cards/jokers/marsh-cartographer.svg"
+    },
+    "card.face.joker.crowsmith": {
+      "default": "cards/jokers/crowsmith.svg"
+    },
+    "card.face.joker.bottled-storm": {
+      "default": "cards/jokers/bottled-storm.svg"
+    },
+    "card.face.joker.bone-librarian": {
+      "default": "cards/jokers/bone-librarian.svg"
+    },
+    "card.face.joker.lantern-juggler": {
+      "default": "cards/jokers/lantern-juggler.svg"
+    },
+    "card.face.joker.thorn-weaver": {
+      "default": "cards/jokers/thorn-weaver.svg"
+    },
+    "card.face.joker.midnight-forager": {
+      "default": "cards/jokers/midnight-forager.svg"
+    },
+    "card.face.joker.salt-alchemist": {
+      "default": "cards/jokers/salt-alchemist.svg"
+    },
+    "card.face.joker.moss-gambler": {
+      "default": "cards/jokers/moss-gambler.svg"
+    },
+    "card.face.joker.the-second-shadow": {
+      "default": "cards/jokers/the-second-shadow.svg"
+    },
+    "card.face.joker.clockwork-hermit": {
+      "default": "cards/jokers/clockwork-hermit.svg"
+    },
+    "card.back": {
+      "default": "cards/backs/ochre.svg",
+      "variants": {
+        "ochre": "cards/backs/ochre.svg",
+        "indigo": "cards/backs/indigo.svg"
+      }
+    }
+  },
+  "objects": {
+    "playing.spades.ace": {
+      "kind": "playing-card",
+      "name": "Ace of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.ace"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "ace",
+        "rank_value": 1
+      },
+      "resources": [
+        "card.face.spades.ace"
+      ],
+      "rulesRef": "rules.playing.ace"
+    },
+    "playing.spades.two": {
+      "kind": "playing-card",
+      "name": "Two of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.two"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "two",
+        "rank_value": 2
+      },
+      "resources": [
+        "card.face.spades.two"
+      ],
+      "rulesRef": "rules.playing.two"
+    },
+    "playing.spades.three": {
+      "kind": "playing-card",
+      "name": "Three of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.three"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "three",
+        "rank_value": 3
+      },
+      "resources": [
+        "card.face.spades.three"
+      ],
+      "rulesRef": "rules.playing.three"
+    },
+    "playing.spades.four": {
+      "kind": "playing-card",
+      "name": "Four of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.four"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "four",
+        "rank_value": 4
+      },
+      "resources": [
+        "card.face.spades.four"
+      ],
+      "rulesRef": "rules.playing.four"
+    },
+    "playing.spades.five": {
+      "kind": "playing-card",
+      "name": "Five of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.five"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "five",
+        "rank_value": 5
+      },
+      "resources": [
+        "card.face.spades.five"
+      ],
+      "rulesRef": "rules.playing.five"
+    },
+    "playing.spades.six": {
+      "kind": "playing-card",
+      "name": "Six of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.six"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "six",
+        "rank_value": 6
+      },
+      "resources": [
+        "card.face.spades.six"
+      ],
+      "rulesRef": "rules.playing.six"
+    },
+    "playing.spades.seven": {
+      "kind": "playing-card",
+      "name": "Seven of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.seven"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "seven",
+        "rank_value": 7
+      },
+      "resources": [
+        "card.face.spades.seven"
+      ],
+      "rulesRef": "rules.playing.seven"
+    },
+    "playing.spades.eight": {
+      "kind": "playing-card",
+      "name": "Eight of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.eight"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "eight",
+        "rank_value": 8
+      },
+      "resources": [
+        "card.face.spades.eight"
+      ],
+      "rulesRef": "rules.playing.eight"
+    },
+    "playing.spades.nine": {
+      "kind": "playing-card",
+      "name": "Nine of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.nine"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "nine",
+        "rank_value": 9
+      },
+      "resources": [
+        "card.face.spades.nine"
+      ],
+      "rulesRef": "rules.playing.nine"
+    },
+    "playing.spades.ten": {
+      "kind": "playing-card",
+      "name": "Ten of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.ten"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "ten",
+        "rank_value": 10
+      },
+      "resources": [
+        "card.face.spades.ten"
+      ],
+      "rulesRef": "rules.playing.ten"
+    },
+    "playing.spades.jack": {
+      "kind": "playing-card",
+      "name": "Jack of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.jack"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "jack",
+        "rank_value": 11
+      },
+      "resources": [
+        "card.face.spades.jack"
+      ],
+      "rulesRef": "rules.playing.jack"
+    },
+    "playing.spades.queen": {
+      "kind": "playing-card",
+      "name": "Queen of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.queen"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "queen",
+        "rank_value": 12
+      },
+      "resources": [
+        "card.face.spades.queen"
+      ],
+      "rulesRef": "rules.playing.queen"
+    },
+    "playing.spades.king": {
+      "kind": "playing-card",
+      "name": "King of Spades",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.spades",
+        "rank.king"
+      ],
+      "attributes": {
+        "suit": "spades",
+        "rank": "king",
+        "rank_value": 13
+      },
+      "resources": [
+        "card.face.spades.king"
+      ],
+      "rulesRef": "rules.playing.king"
+    },
+    "playing.hearts.ace": {
+      "kind": "playing-card",
+      "name": "Ace of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.ace"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "ace",
+        "rank_value": 1
+      },
+      "resources": [
+        "card.face.hearts.ace"
+      ],
+      "rulesRef": "rules.playing.ace"
+    },
+    "playing.hearts.two": {
+      "kind": "playing-card",
+      "name": "Two of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.two"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "two",
+        "rank_value": 2
+      },
+      "resources": [
+        "card.face.hearts.two"
+      ],
+      "rulesRef": "rules.playing.two"
+    },
+    "playing.hearts.three": {
+      "kind": "playing-card",
+      "name": "Three of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.three"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "three",
+        "rank_value": 3
+      },
+      "resources": [
+        "card.face.hearts.three"
+      ],
+      "rulesRef": "rules.playing.three"
+    },
+    "playing.hearts.four": {
+      "kind": "playing-card",
+      "name": "Four of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.four"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "four",
+        "rank_value": 4
+      },
+      "resources": [
+        "card.face.hearts.four"
+      ],
+      "rulesRef": "rules.playing.four"
+    },
+    "playing.hearts.five": {
+      "kind": "playing-card",
+      "name": "Five of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.five"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "five",
+        "rank_value": 5
+      },
+      "resources": [
+        "card.face.hearts.five"
+      ],
+      "rulesRef": "rules.playing.five"
+    },
+    "playing.hearts.six": {
+      "kind": "playing-card",
+      "name": "Six of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.six"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "six",
+        "rank_value": 6
+      },
+      "resources": [
+        "card.face.hearts.six"
+      ],
+      "rulesRef": "rules.playing.six"
+    },
+    "playing.hearts.seven": {
+      "kind": "playing-card",
+      "name": "Seven of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.seven"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "seven",
+        "rank_value": 7
+      },
+      "resources": [
+        "card.face.hearts.seven"
+      ],
+      "rulesRef": "rules.playing.seven"
+    },
+    "playing.hearts.eight": {
+      "kind": "playing-card",
+      "name": "Eight of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.eight"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "eight",
+        "rank_value": 8
+      },
+      "resources": [
+        "card.face.hearts.eight"
+      ],
+      "rulesRef": "rules.playing.eight"
+    },
+    "playing.hearts.nine": {
+      "kind": "playing-card",
+      "name": "Nine of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.nine"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "nine",
+        "rank_value": 9
+      },
+      "resources": [
+        "card.face.hearts.nine"
+      ],
+      "rulesRef": "rules.playing.nine"
+    },
+    "playing.hearts.ten": {
+      "kind": "playing-card",
+      "name": "Ten of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.ten"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "ten",
+        "rank_value": 10
+      },
+      "resources": [
+        "card.face.hearts.ten"
+      ],
+      "rulesRef": "rules.playing.ten"
+    },
+    "playing.hearts.jack": {
+      "kind": "playing-card",
+      "name": "Jack of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.jack"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "jack",
+        "rank_value": 11
+      },
+      "resources": [
+        "card.face.hearts.jack"
+      ],
+      "rulesRef": "rules.playing.jack"
+    },
+    "playing.hearts.queen": {
+      "kind": "playing-card",
+      "name": "Queen of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.queen"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "queen",
+        "rank_value": 12
+      },
+      "resources": [
+        "card.face.hearts.queen"
+      ],
+      "rulesRef": "rules.playing.queen"
+    },
+    "playing.hearts.king": {
+      "kind": "playing-card",
+      "name": "King of Hearts",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.hearts",
+        "rank.king"
+      ],
+      "attributes": {
+        "suit": "hearts",
+        "rank": "king",
+        "rank_value": 13
+      },
+      "resources": [
+        "card.face.hearts.king"
+      ],
+      "rulesRef": "rules.playing.king"
+    },
+    "playing.diamonds.ace": {
+      "kind": "playing-card",
+      "name": "Ace of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.ace"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "ace",
+        "rank_value": 1
+      },
+      "resources": [
+        "card.face.diamonds.ace"
+      ],
+      "rulesRef": "rules.playing.ace"
+    },
+    "playing.diamonds.two": {
+      "kind": "playing-card",
+      "name": "Two of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.two"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "two",
+        "rank_value": 2
+      },
+      "resources": [
+        "card.face.diamonds.two"
+      ],
+      "rulesRef": "rules.playing.two"
+    },
+    "playing.diamonds.three": {
+      "kind": "playing-card",
+      "name": "Three of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.three"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "three",
+        "rank_value": 3
+      },
+      "resources": [
+        "card.face.diamonds.three"
+      ],
+      "rulesRef": "rules.playing.three"
+    },
+    "playing.diamonds.four": {
+      "kind": "playing-card",
+      "name": "Four of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.four"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "four",
+        "rank_value": 4
+      },
+      "resources": [
+        "card.face.diamonds.four"
+      ],
+      "rulesRef": "rules.playing.four"
+    },
+    "playing.diamonds.five": {
+      "kind": "playing-card",
+      "name": "Five of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.five"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "five",
+        "rank_value": 5
+      },
+      "resources": [
+        "card.face.diamonds.five"
+      ],
+      "rulesRef": "rules.playing.five"
+    },
+    "playing.diamonds.six": {
+      "kind": "playing-card",
+      "name": "Six of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.six"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "six",
+        "rank_value": 6
+      },
+      "resources": [
+        "card.face.diamonds.six"
+      ],
+      "rulesRef": "rules.playing.six"
+    },
+    "playing.diamonds.seven": {
+      "kind": "playing-card",
+      "name": "Seven of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.seven"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "seven",
+        "rank_value": 7
+      },
+      "resources": [
+        "card.face.diamonds.seven"
+      ],
+      "rulesRef": "rules.playing.seven"
+    },
+    "playing.diamonds.eight": {
+      "kind": "playing-card",
+      "name": "Eight of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.eight"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "eight",
+        "rank_value": 8
+      },
+      "resources": [
+        "card.face.diamonds.eight"
+      ],
+      "rulesRef": "rules.playing.eight"
+    },
+    "playing.diamonds.nine": {
+      "kind": "playing-card",
+      "name": "Nine of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.nine"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "nine",
+        "rank_value": 9
+      },
+      "resources": [
+        "card.face.diamonds.nine"
+      ],
+      "rulesRef": "rules.playing.nine"
+    },
+    "playing.diamonds.ten": {
+      "kind": "playing-card",
+      "name": "Ten of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.ten"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "ten",
+        "rank_value": 10
+      },
+      "resources": [
+        "card.face.diamonds.ten"
+      ],
+      "rulesRef": "rules.playing.ten"
+    },
+    "playing.diamonds.jack": {
+      "kind": "playing-card",
+      "name": "Jack of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.jack"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "jack",
+        "rank_value": 11
+      },
+      "resources": [
+        "card.face.diamonds.jack"
+      ],
+      "rulesRef": "rules.playing.jack"
+    },
+    "playing.diamonds.queen": {
+      "kind": "playing-card",
+      "name": "Queen of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.queen"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "queen",
+        "rank_value": 12
+      },
+      "resources": [
+        "card.face.diamonds.queen"
+      ],
+      "rulesRef": "rules.playing.queen"
+    },
+    "playing.diamonds.king": {
+      "kind": "playing-card",
+      "name": "King of Diamonds",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.diamonds",
+        "rank.king"
+      ],
+      "attributes": {
+        "suit": "diamonds",
+        "rank": "king",
+        "rank_value": 13
+      },
+      "resources": [
+        "card.face.diamonds.king"
+      ],
+      "rulesRef": "rules.playing.king"
+    },
+    "playing.clubs.ace": {
+      "kind": "playing-card",
+      "name": "Ace of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.ace"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "ace",
+        "rank_value": 1
+      },
+      "resources": [
+        "card.face.clubs.ace"
+      ],
+      "rulesRef": "rules.playing.ace"
+    },
+    "playing.clubs.two": {
+      "kind": "playing-card",
+      "name": "Two of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.two"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "two",
+        "rank_value": 2
+      },
+      "resources": [
+        "card.face.clubs.two"
+      ],
+      "rulesRef": "rules.playing.two"
+    },
+    "playing.clubs.three": {
+      "kind": "playing-card",
+      "name": "Three of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.three"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "three",
+        "rank_value": 3
+      },
+      "resources": [
+        "card.face.clubs.three"
+      ],
+      "rulesRef": "rules.playing.three"
+    },
+    "playing.clubs.four": {
+      "kind": "playing-card",
+      "name": "Four of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.four"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "four",
+        "rank_value": 4
+      },
+      "resources": [
+        "card.face.clubs.four"
+      ],
+      "rulesRef": "rules.playing.four"
+    },
+    "playing.clubs.five": {
+      "kind": "playing-card",
+      "name": "Five of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.five"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "five",
+        "rank_value": 5
+      },
+      "resources": [
+        "card.face.clubs.five"
+      ],
+      "rulesRef": "rules.playing.five"
+    },
+    "playing.clubs.six": {
+      "kind": "playing-card",
+      "name": "Six of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.six"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "six",
+        "rank_value": 6
+      },
+      "resources": [
+        "card.face.clubs.six"
+      ],
+      "rulesRef": "rules.playing.six"
+    },
+    "playing.clubs.seven": {
+      "kind": "playing-card",
+      "name": "Seven of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.seven"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "seven",
+        "rank_value": 7
+      },
+      "resources": [
+        "card.face.clubs.seven"
+      ],
+      "rulesRef": "rules.playing.seven"
+    },
+    "playing.clubs.eight": {
+      "kind": "playing-card",
+      "name": "Eight of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.eight"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "eight",
+        "rank_value": 8
+      },
+      "resources": [
+        "card.face.clubs.eight"
+      ],
+      "rulesRef": "rules.playing.eight"
+    },
+    "playing.clubs.nine": {
+      "kind": "playing-card",
+      "name": "Nine of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.nine"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "nine",
+        "rank_value": 9
+      },
+      "resources": [
+        "card.face.clubs.nine"
+      ],
+      "rulesRef": "rules.playing.nine"
+    },
+    "playing.clubs.ten": {
+      "kind": "playing-card",
+      "name": "Ten of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.ten"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "ten",
+        "rank_value": 10
+      },
+      "resources": [
+        "card.face.clubs.ten"
+      ],
+      "rulesRef": "rules.playing.ten"
+    },
+    "playing.clubs.jack": {
+      "kind": "playing-card",
+      "name": "Jack of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.jack"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "jack",
+        "rank_value": 11
+      },
+      "resources": [
+        "card.face.clubs.jack"
+      ],
+      "rulesRef": "rules.playing.jack"
+    },
+    "playing.clubs.queen": {
+      "kind": "playing-card",
+      "name": "Queen of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.queen"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "queen",
+        "rank_value": 12
+      },
+      "resources": [
+        "card.face.clubs.queen"
+      ],
+      "rulesRef": "rules.playing.queen"
+    },
+    "playing.clubs.king": {
+      "kind": "playing-card",
+      "name": "King of Clubs",
+      "rarity": "common",
+      "tags": [
+        "card.playing",
+        "suit.clubs",
+        "rank.king"
+      ],
+      "attributes": {
+        "suit": "clubs",
+        "rank": "king",
+        "rank_value": 13
+      },
+      "resources": [
+        "card.face.clubs.king"
+      ],
+      "rulesRef": "rules.playing.king"
+    },
+    "arcana.01": {
+      "kind": "arcana-card",
+      "name": "The Lantern",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 1
+      },
+      "resources": [
+        "card.face.arcana.01"
+      ],
+      "rulesRef": "rules.arcana.01"
+    },
+    "arcana.02": {
+      "kind": "arcana-card",
+      "name": "The Orchard",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 2
+      },
+      "resources": [
+        "card.face.arcana.02"
+      ],
+      "rulesRef": "rules.arcana.02"
+    },
+    "arcana.03": {
+      "kind": "arcana-card",
+      "name": "The Tower",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 3
+      },
+      "resources": [
+        "card.face.arcana.03"
+      ],
+      "rulesRef": "rules.arcana.03"
+    },
+    "arcana.04": {
+      "kind": "arcana-card",
+      "name": "The Moth",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 4
+      },
+      "resources": [
+        "card.face.arcana.04"
+      ],
+      "rulesRef": "rules.arcana.04"
+    },
+    "arcana.05": {
+      "kind": "arcana-card",
+      "name": "The Well",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 5
+      },
+      "resources": [
+        "card.face.arcana.05"
+      ],
+      "rulesRef": "rules.arcana.05"
+    },
+    "arcana.06": {
+      "kind": "arcana-card",
+      "name": "The Thread",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 6
+      },
+      "resources": [
+        "card.face.arcana.06"
+      ],
+      "rulesRef": "rules.arcana.06"
+    },
+    "arcana.07": {
+      "kind": "arcana-card",
+      "name": "The Key",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 7
+      },
+      "resources": [
+        "card.face.arcana.07"
+      ],
+      "rulesRef": "rules.arcana.07"
+    },
+    "arcana.08": {
+      "kind": "arcana-card",
+      "name": "The Warden",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 8
+      },
+      "resources": [
+        "card.face.arcana.08"
+      ],
+      "rulesRef": "rules.arcana.08"
+    },
+    "arcana.09": {
+      "kind": "arcana-card",
+      "name": "The Fox",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 9
+      },
+      "resources": [
+        "card.face.arcana.09"
+      ],
+      "rulesRef": "rules.arcana.09"
+    },
+    "arcana.10": {
+      "kind": "arcana-card",
+      "name": "The Harvest",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 10
+      },
+      "resources": [
+        "card.face.arcana.10"
+      ],
+      "rulesRef": "rules.arcana.10"
+    },
+    "arcana.11": {
+      "kind": "arcana-card",
+      "name": "The Mirror",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 11
+      },
+      "resources": [
+        "card.face.arcana.11"
+      ],
+      "rulesRef": "rules.arcana.11"
+    },
+    "arcana.12": {
+      "kind": "arcana-card",
+      "name": "The Gate",
+      "rarity": "uncommon",
+      "tags": [
+        "card.arcana"
+      ],
+      "attributes": {
+        "series": "arcana",
+        "number": 12
+      },
+      "resources": [
+        "card.face.arcana.12"
+      ],
+      "rulesRef": "rules.arcana.12"
+    },
+    "astral.01": {
+      "kind": "astral-card",
+      "name": "Ash Star",
+      "rarity": "rare",
+      "tags": [
+        "card.astral"
+      ],
+      "attributes": {
+        "series": "astral",
+        "number": 1
+      },
+      "resources": [
+        "card.face.astral.01"
+      ],
+      "rulesRef": "rules.astral.01"
+    },
+    "astral.02": {
+      "kind": "astral-card",
+      "name": "Hollow Moon",
+      "rarity": "rare",
+      "tags": [
+        "card.astral"
+      ],
+      "attributes": {
+        "series": "astral",
+        "number": 2
+      },
+      "resources": [
+        "card.face.astral.02"
+      ],
+      "rulesRef": "rules.astral.02"
+    },
+    "astral.03": {
+      "kind": "astral-card",
+      "name": "North Needle",
+      "rarity": "rare",
+      "tags": [
+        "card.astral"
+      ],
+      "attributes": {
+        "series": "astral",
+        "number": 3
+      },
+      "resources": [
+        "card.face.astral.03"
+      ],
+      "rulesRef": "rules.astral.03"
+    },
+    "astral.04": {
+      "kind": "astral-card",
+      "name": "Sable Sun",
+      "rarity": "rare",
+      "tags": [
+        "card.astral"
+      ],
+      "attributes": {
+        "series": "astral",
+        "number": 4
+      },
+      "resources": [
+        "card.face.astral.04"
+      ],
+      "rulesRef": "rules.astral.04"
+    },
+    "astral.05": {
+      "kind": "astral-card",
+      "name": "Glass Comet",
+      "rarity": "rare",
+      "tags": [
+        "card.astral"
+      ],
+      "attributes": {
+        "series": "astral",
+        "number": 5
+      },
+      "resources": [
+        "card.face.astral.05"
+      ],
+      "rulesRef": "rules.astral.05"
+    },
+    "astral.06": {
+      "kind": "astral-card",
+      "name": "Root Planet",
+      "rarity": "rare",
+      "tags": [
+        "card.astral"
+      ],
+      "attributes": {
+        "series": "astral",
+        "number": 6
+      },
+      "resources": [
+        "card.face.astral.06"
+      ],
+      "rulesRef": "rules.astral.06"
+    },
+    "astral.07": {
+      "kind": "astral-card",
+      "name": "The Eclipse",
+      "rarity": "rare",
+      "tags": [
+        "card.astral"
+      ],
+      "attributes": {
+        "series": "astral",
+        "number": 7
+      },
+      "resources": [
+        "card.face.astral.07"
+      ],
+      "rulesRef": "rules.astral.07"
+    },
+    "astral.08": {
+      "kind": "astral-card",
+      "name": "Night Tide",
+      "rarity": "rare",
+      "tags": [
+        "card.astral"
+      ],
+      "attributes": {
+        "series": "astral",
+        "number": 8
+      },
+      "resources": [
+        "card.face.astral.08"
+      ],
+      "rulesRef": "rules.astral.08"
+    },
+    "astral.09": {
+      "kind": "astral-card",
+      "name": "Silent Orbit",
+      "rarity": "rare",
+      "tags": [
+        "card.astral"
+      ],
+      "attributes": {
+        "series": "astral",
+        "number": 9
+      },
+      "resources": [
+        "card.face.astral.09"
+      ],
+      "rulesRef": "rules.astral.09"
+    },
+    "joker.ashkeeper": {
+      "kind": "joker-card",
+      "name": "Ashkeeper",
+      "rarity": "uncommon",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 1,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.ashkeeper"
+      ],
+      "rulesRef": "rules.joker.ashkeeper",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "flush"
+            }
+          ],
+          "effects": [
+            {
+              "op": "chips.add",
+              "value": 5
+            }
+          ]
+        }
+      ]
+    },
+    "joker.moth-collector": {
+      "kind": "joker-card",
+      "name": "Moth Collector",
+      "rarity": "rare",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 2,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.moth-collector"
+      ],
+      "rulesRef": "rules.joker.moth-collector",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "straight"
+            }
+          ],
+          "effects": [
+            {
+              "op": "chips.add",
+              "value": 10
+            }
+          ]
+        }
+      ]
+    },
+    "joker.bramble-baron": {
+      "kind": "joker-card",
+      "name": "Bramble Baron",
+      "rarity": "legendary",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 3,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.bramble-baron"
+      ],
+      "rulesRef": "rules.joker.bramble-baron",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "full-house"
+            }
+          ],
+          "effects": [
+            {
+              "op": "mult.add",
+              "value": 4
+            }
+          ]
+        }
+      ]
+    },
+    "joker.hollow-piper": {
+      "kind": "joker-card",
+      "name": "Hollow Piper",
+      "rarity": "cursed",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 4,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.hollow-piper"
+      ],
+      "rulesRef": "rules.joker.hollow-piper",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "pair"
+            }
+          ],
+          "effects": [
+            {
+              "op": "chips.add",
+              "value": 20
+            }
+          ]
+        }
+      ]
+    },
+    "joker.candle-thief": {
+      "kind": "joker-card",
+      "name": "Candle Thief",
+      "rarity": "common",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 5,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.candle-thief"
+      ],
+      "rulesRef": "rules.joker.candle-thief",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "flush"
+            }
+          ],
+          "effects": [
+            {
+              "op": "mult.multiply",
+              "value": 1.6
+            }
+          ]
+        }
+      ]
+    },
+    "joker.marsh-cartographer": {
+      "kind": "joker-card",
+      "name": "Marsh Cartographer",
+      "rarity": "uncommon",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 6,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.marsh-cartographer"
+      ],
+      "rulesRef": "rules.joker.marsh-cartographer",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "straight"
+            }
+          ],
+          "effects": [
+            {
+              "op": "mult.add",
+              "value": 7
+            }
+          ]
+        }
+      ]
+    },
+    "joker.crowsmith": {
+      "kind": "joker-card",
+      "name": "Crowsmith",
+      "rarity": "rare",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 7,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.crowsmith"
+      ],
+      "rulesRef": "rules.joker.crowsmith",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "full-house"
+            }
+          ],
+          "effects": [
+            {
+              "op": "chips.add",
+              "value": 35
+            }
+          ]
+        }
+      ]
+    },
+    "joker.bottled-storm": {
+      "kind": "joker-card",
+      "name": "Bottled Storm",
+      "rarity": "legendary",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 8,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.bottled-storm"
+      ],
+      "rulesRef": "rules.joker.bottled-storm",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "pair"
+            }
+          ],
+          "effects": [
+            {
+              "op": "chips.add",
+              "value": 40
+            }
+          ]
+        }
+      ]
+    },
+    "joker.bone-librarian": {
+      "kind": "joker-card",
+      "name": "Bone Librarian",
+      "rarity": "cursed",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 9,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.bone-librarian"
+      ],
+      "rulesRef": "rules.joker.bone-librarian",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "flush"
+            }
+          ],
+          "effects": [
+            {
+              "op": "mult.add",
+              "value": 3
+            }
+          ]
+        }
+      ]
+    },
+    "joker.lantern-juggler": {
+      "kind": "joker-card",
+      "name": "Lantern Juggler",
+      "rarity": "common",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 10,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.lantern-juggler"
+      ],
+      "rulesRef": "rules.joker.lantern-juggler",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "straight"
+            }
+          ],
+          "effects": [
+            {
+              "op": "mult.multiply",
+              "value": 2.1
+            }
+          ]
+        }
+      ]
+    },
+    "joker.thorn-weaver": {
+      "kind": "joker-card",
+      "name": "Thorn Weaver",
+      "rarity": "uncommon",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 11,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.thorn-weaver"
+      ],
+      "rulesRef": "rules.joker.thorn-weaver",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "full-house"
+            }
+          ],
+          "effects": [
+            {
+              "op": "chips.add",
+              "value": 55
+            }
+          ]
+        }
+      ]
+    },
+    "joker.midnight-forager": {
+      "kind": "joker-card",
+      "name": "Midnight Forager",
+      "rarity": "rare",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 12,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.midnight-forager"
+      ],
+      "rulesRef": "rules.joker.midnight-forager",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "pair"
+            }
+          ],
+          "effects": [
+            {
+              "op": "mult.add",
+              "value": 6
+            }
+          ]
+        }
+      ]
+    },
+    "joker.salt-alchemist": {
+      "kind": "joker-card",
+      "name": "Salt Alchemist",
+      "rarity": "legendary",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 13,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.salt-alchemist"
+      ],
+      "rulesRef": "rules.joker.salt-alchemist",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "flush"
+            }
+          ],
+          "effects": [
+            {
+              "op": "chips.add",
+              "value": 65
+            }
+          ]
+        }
+      ]
+    },
+    "joker.moss-gambler": {
+      "kind": "joker-card",
+      "name": "Moss Gambler",
+      "rarity": "cursed",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 14,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.moss-gambler"
+      ],
+      "rulesRef": "rules.joker.moss-gambler",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "straight"
+            }
+          ],
+          "effects": [
+            {
+              "op": "chips.add",
+              "value": 70
+            }
+          ]
+        }
+      ]
+    },
+    "joker.the-second-shadow": {
+      "kind": "joker-card",
+      "name": "The Second Shadow",
+      "rarity": "common",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 15,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.the-second-shadow"
+      ],
+      "rulesRef": "rules.joker.the-second-shadow",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "full-house"
+            }
+          ],
+          "effects": [
+            {
+              "op": "mult.multiply",
+              "value": 2.6
+            }
+          ]
+        }
+      ]
+    },
+    "joker.clockwork-hermit": {
+      "kind": "joker-card",
+      "name": "Clockwork Hermit",
+      "rarity": "uncommon",
+      "tags": [
+        "card.joker",
+        "game.roguelike-poker"
+      ],
+      "attributes": {
+        "index": 16,
+        "joker_family": "storybook"
+      },
+      "resources": [
+        "card.face.joker.clockwork-hermit"
+      ],
+      "rulesRef": "rules.joker.clockwork-hermit",
+      "modifiers": [
+        {
+          "profile": "tavi.cards.modifiers.v1",
+          "trigger": "hand.scored",
+          "conditions": [
+            {
+              "field": "hand.category",
+              "operator": "equals",
+              "value": "pair"
+            }
+          ],
+          "effects": [
+            {
+              "op": "chips.add",
+              "value": 80
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "collections": {
+    "deck.playing.classic": {
+      "kind": "deck",
+      "name": "Candlelit Playing Deck",
+      "tags": [
+        "collection.deck",
+        "card.playing"
+      ],
+      "entries": [
+        {
+          "objectId": "playing.spades.ace",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.two",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.three",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.four",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.five",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.six",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.seven",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.eight",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.nine",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.ten",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.jack",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.queen",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.spades.king",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.ace",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.two",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.three",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.four",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.five",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.six",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.seven",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.eight",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.nine",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.ten",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.jack",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.queen",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.hearts.king",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.ace",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.two",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.three",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.four",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.five",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.six",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.seven",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.eight",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.nine",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.ten",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.jack",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.queen",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.diamonds.king",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.ace",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.two",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.three",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.four",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.five",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.six",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.seven",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.eight",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.nine",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.ten",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.jack",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.queen",
+          "quantity": 1
+        },
+        {
+          "objectId": "playing.clubs.king",
+          "quantity": 1
+        }
+      ]
+    },
+    "deck.arcana.lantern": {
+      "kind": "deck",
+      "name": "Lantern Arcana Deck",
+      "tags": [
+        "collection.deck",
+        "card.arcana"
+      ],
+      "entries": [
+        {
+          "objectId": "arcana.01",
+          "quantity": 1
+        },
+        {
+          "objectId": "arcana.02",
+          "quantity": 1
+        },
+        {
+          "objectId": "arcana.03",
+          "quantity": 1
+        },
+        {
+          "objectId": "arcana.04",
+          "quantity": 1
+        },
+        {
+          "objectId": "arcana.05",
+          "quantity": 1
+        },
+        {
+          "objectId": "arcana.06",
+          "quantity": 1
+        },
+        {
+          "objectId": "arcana.07",
+          "quantity": 1
+        },
+        {
+          "objectId": "arcana.08",
+          "quantity": 1
+        },
+        {
+          "objectId": "arcana.09",
+          "quantity": 1
+        },
+        {
+          "objectId": "arcana.10",
+          "quantity": 1
+        },
+        {
+          "objectId": "arcana.11",
+          "quantity": 1
+        },
+        {
+          "objectId": "arcana.12",
+          "quantity": 1
+        }
+      ]
+    },
+    "deck.astral.compass": {
+      "kind": "deck",
+      "name": "Night Compass Deck",
+      "tags": [
+        "collection.deck",
+        "card.astral"
+      ],
+      "entries": [
+        {
+          "objectId": "astral.01",
+          "quantity": 1
+        },
+        {
+          "objectId": "astral.02",
+          "quantity": 1
+        },
+        {
+          "objectId": "astral.03",
+          "quantity": 1
+        },
+        {
+          "objectId": "astral.04",
+          "quantity": 1
+        },
+        {
+          "objectId": "astral.05",
+          "quantity": 1
+        },
+        {
+          "objectId": "astral.06",
+          "quantity": 1
+        },
+        {
+          "objectId": "astral.07",
+          "quantity": 1
+        },
+        {
+          "objectId": "astral.08",
+          "quantity": 1
+        },
+        {
+          "objectId": "astral.09",
+          "quantity": 1
+        }
+      ]
+    },
+    "pool.jokers.storybook": {
+      "kind": "joker-pool",
+      "name": "Storybook Joker Pool",
+      "tags": [
+        "collection.pool",
+        "card.joker"
+      ],
+      "entries": [
+        {
+          "objectId": "joker.ashkeeper",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.moth-collector",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.bramble-baron",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.hollow-piper",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.candle-thief",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.marsh-cartographer",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.crowsmith",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.bottled-storm",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.bone-librarian",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.lantern-juggler",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.thorn-weaver",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.midnight-forager",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.salt-alchemist",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.moss-gambler",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.the-second-shadow",
+          "quantity": 1
+        },
+        {
+          "objectId": "joker.clockwork-hermit",
+          "quantity": 1
+        }
+      ]
+    }
+  }
+}

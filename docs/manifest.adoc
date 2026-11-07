@@ -52,3 +52,11 @@ All declared files are hashed. A semantic resource/capability always resolves to
 == Future versioning
 
 All additions affecting packaging, transport, resource APIs or validation must be reviewed against compatibility and security. No backwards-compatibility promise is made while the project is pre-1.0.
+
+== Typed object library added in 0.1.4
+
+Pack schema remains `tavi.assets.pack/v1`, extending the manifest with optional `display`, `tags`, `taxonomy`, `objects` and `collections`. Legacy v1 packs without those fields remain valid; immutable previously installed version bytes must not be rewritten. The actual machine-readable shape is `contracts/tavi-assets-pack-v1.schema.json`. Cross-reference integrity, manifest hashes, safe content and restrictions are enforced by `src/tavi_assets/metadata.py` and `core.validate()`.
+
+`objects` maps pack-scoped IDs to `kind`, `name`, `rarity`, `tags`, `attributes`, `resources` and optional `rulesRef` (opaque game-owned lookup, never executable). `collections` maps IDs to named kind, tags and ordered `{objectId, quantity}` entries. Rarity taxonomy can define custom labels and display tiers; tiers are not drop probabilities. Tags are descriptive and searchable and do not convey ownership or permissions.
+
+Inspect the comprehensive example `examples/storybook-decks/manifest.json`. See `docs/consumer-contract.adoc` for SDK methods, three-deck/joker composition, security and missing host support.

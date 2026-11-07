@@ -3,14 +3,14 @@
   "spec_version": "1.0.0",
   "project": {
     "key": "tavi-assets",
-    "version": "0.1.3",
-    "base_version": "0.1.2"
+    "version": "0.1.4",
+    "base_version": "0.1.3"
   },
   "update": {
-    "id": "TAVI-ASSETS-20261107-0113",
+    "id": "TAVI-ASSETS-20261107-0114",
     "kind": "source_update",
-    "created_at": "2026-11-07T19:59:16+01:00",
-    "summary": "Crash-safe local staging recovery and inspectable post-update test plan, preserving Windows/QA gates and C4 ownership."
+    "created_at": "2026-11-07T23:18:23+01:00",
+    "summary": "Producer TA-017 typed object/collection metadata, host adapter and transport-injected consumer SDK with 3 deck and joker sample. No production Tavi integration or publication."
   },
   "planned_work": [
     {
@@ -36,27 +36,38 @@
       "title": "Define the next bounded implementation pass",
       "priority": "high",
       "acceptance_criteria": "Manager/QA reviews bounded scope and acceptance criteria, promotion separately gated."
+    },
+    {
+      "id": "TA-017",
+      "title": "Universal typed asset metadata and consumer SDK contract",
+      "priority": "high",
+      "acceptance_criteria": "Validated typed object graph with stable pack-scoped IDs, tags, rarities, collections, no executable behavior; approved consumer API and SDK contract, fixture examples, source tests; native Windows and operator review separately."
     }
   ],
   "done_work": [
     {
-      "id": "TA-010",
-      "summary": "Local source implementation and regression tests complete; native Windows verification pending, not operator Done.",
+      "id": "TA-017",
+      "summary": "Source implementation complete with source-level tests; independently unverified by target operator.",
       "evidence": [
         {
           "kind": "source",
-          "ref": "src/tavi_assets/core.py",
-          "description": "Lock-serialized staging cleanup and safe recover logic"
+          "ref": "src/tavi_assets/metadata.py",
+          "description": "Typed graph validation"
         },
         {
-          "kind": "test",
-          "ref": "tests/test_recovery.py",
-          "description": "Crash boundary and interprocess lock regression"
+          "kind": "source",
+          "ref": "sdk/client.mjs",
+          "description": "Transport-injected negotiated reference SDK"
+        },
+        {
+          "kind": "tests",
+          "ref": "tests/test_metadata.py",
+          "description": "Object graph and authorization tests"
         },
         {
           "kind": "documentation",
-          "ref": "docs/QA_0.1.3.adoc",
-          "description": "Bounded QA scope and acceptance"
+          "ref": "docs/consumer-contract.adoc",
+          "description": "Consumer contract and game rules boundary"
         }
       ]
     }
@@ -76,79 +87,58 @@
       "id": "define-next-pass",
       "status": "review",
       "next_action": "Review bounded 0.1.3 scope against full operator Workboard criteria and record decision."
+    },
+    {
+      "id": "TA-010",
+      "status": "review",
+      "next_action": "Independent Windows lock and recovery acceptance still pending; do not infer Done from 0.1.3 author source checks."
     }
   ],
   "validation": {
     "model_reported": "partial",
     "checks": [
       {
-        "id": "TA-0113-SOURCE",
-        "status": "passed",
-        "description": "Author-side Python unit tests, catalog validation and source interchange checks",
-        "command": "python tools/check.py",
-        "environment": "Linux; results captured after source generation"
+        "id": "TA-017-SOURCE",
+        "status": "not_run",
+        "description": "Run exact ZIP extracted source: python tools/check.py"
       },
       {
-        "id": "TA-0113-EXTRACTED",
+        "id": "TA-017-WINDOWS",
         "status": "not_run",
-        "description": "Exact ZIP extraction to be independently verified during artifact assembly"
+        "description": "Native Windows ZipRunner exact candidate acceptance"
       },
       {
-        "id": "TA-0113-WINDOWS",
+        "id": "TA-017-C4",
         "status": "not_run",
-        "description": "No access to Windows operator session"
-      },
-      {
-        "id": "TA-0113-POST",
-        "status": "not_run",
-        "description": "Post-update descriptor authored; consumer has not executed it"
-      },
-      {
-        "id": "TA-0113-C4",
-        "status": "not_run",
-        "description": "Structurizr CLI not invoked"
-      },
-      {
-        "id": "TA-0113-CI",
-        "status": "not_run",
-        "description": "No approved Git push or exact commit workflow observed"
+        "description": "Structurizr CLI parser validation"
       }
     ]
   },
   "handover": {
-    "next_pass": "Native Windows ZipRunner build + post-update run and operator QA; subsequent implementation priorities remain TA-007/TA-008.",
+    "next_pass": "Import exact 0.1.4 into canonical ZipRunner on Windows; check build/post-update and Deck/Joker UI then negotiate actual Tavi host methods/permissions under TA-007.",
     "risks": [
-      "Windows registry lock behavior not independently tested",
-      "Potential app support differences for post-update descriptor",
-      "Full operator-authored Workboard unavailable; preserve statuses/history"
+      "Proposed SDK cannot call a production Tavi Assets host yet",
+      "Gameplay rule references are opaque and require game-owned implementation",
+      "No external distributor trust or entitlement enforcement for local CLI"
     ],
     "blockers": [
-      "Native Windows and operator acceptance",
-      "Tavi, TaviX and LoopRD verified host distribution contracts"
-    ],
-    "notes": [
-      "No push, tag, release or local credentials changes",
-      "Inactive orphan versions are not installed/entitled",
-      "Do not infer operator Done from author-side passed tests"
+      "Native Windows and operator acceptance outstanding",
+      "Actual Tavi and TaviX host/source contracts not approved"
     ]
   },
   "operator_actions": [
     {
-      "id": "TA-OP-0113-1",
-      "description": "Import exact 0.1.3 ZIP into canonical tavi-assets project."
+      "id": "TA-017-OP1",
+      "description": "Verify exact 0.1.4 ZIP and source tests on Windows; capture build/post-update receipts"
     },
     {
-      "id": "TA-OP-0113-2",
-      "description": "Capture native Windows python tools/check.py results, post-update check and interrupted stage recovery."
-    },
-    {
-      "id": "TA-OP-0113-3",
-      "description": "Review storefront, Workboard and Structurizr; explicitly accept or reject before any Git action."
+      "id": "TA-017-OP2",
+      "description": "Review typed metadata and host API proposal, UI and Structurizr model; keep release gated"
     }
   ],
   "release": {
     "requested": false,
     "requires_operator_approval": true,
-    "notes": "Local ZipRunner QA only; no push/tag/publish authorized."
+    "notes": "Source only. No push/tag/publication, no production integration approved."
   }
 }

@@ -49,3 +49,11 @@ Approved remote sources, entitlement/wallet contract binding, server-side child 
 == Project-owned Level 3 model
 
 The canonical Structurizr DSL is `docs/architecture/workspace.dsl`; `architecture/workspace.dsl` is a synced prior-path copy. See `docs/architecture/README.adoc` for code-level mapping, opaque external boundaries, and why parser validation remains unverified. This standing model is a **ZipRunner extension/local policy**, not a public ziprunner-spec requirement.
+
+== Delta in 0.1.4 — object metadata and consumer SDK
+
+* `metadata.py` validates typed object graphs, rarity taxonomies, searchable normalized tags and same-pack collection references, without executable attributes or arbitrary code references. `core.validate()` applies these additional checks to local install and resource reads.
+* `host.py` now has `describe`, object list/get, collection list/get, preferences get/select and bounded `resolve_wire` methods. The Python adapter is test-only for authorized Tavi host sessions and cannot authenticate a production caller.
+* `catalog.py` and `preview.py` expose a local metadata-inspection endpoint; the storefront shows pack collections, type/rarity filters and example object artwork.
+* `sdk/client.mjs` and `sdk/index.d.ts` are proposed transport-injected consumers that refuse asset calls without a negotiated `tavi.assets/v1` feature. Node test mocks provide the only transport actually verified.
+* C4 Level 3 `AssetCoreL3` includes the typed metadata validator; `HostAdapterL3` includes granted object discovery; `ConsumerSdkL3` models the reference SDK and fake transport. There is no C4 relationship implying production Tavi calls occur. Structurizr CLI has not been executed until proven otherwise.

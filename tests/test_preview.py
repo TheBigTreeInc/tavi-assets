@@ -70,6 +70,20 @@ class TestPreview(unittest.TestCase):
         s, data, _ = self.request("GET", "/api/state")
         self.assertIsNone(json.loads(data)["items"][0]["installed"])
 
+    def test_typed_metadata_preview_is_read_only_and_path_free(self):
+        new_id = 'org.tavi.examples.storybook-decks'
+        s, data, headers = self.request('GET', '/api/metadata?id='+new_id)
+        self.assertEqual(s, 200)
+        meta = json.loads(data)
+        self.assertEqual(meta['schema'], 'tavi.assets.catalog-preview/v1')
+        self.assertEqual(len(meta['objects']), 89)
+        self.assertEqual(len(meta['collections']), 4)
+        self.assertIn('joker-card', {o['kind'] for o in meta['objects']})
+        self.assertIn('rare', {o['rarity'] for o in meta['objects']})
+        self.assertIn('modifiers', meta['objects'][0])
+        self.assertNotIn('"files"', data.decode())
+        self.assertEqual(headers['X-Content-Type-Options'], 'nosniff')
+
     def test_host_header_is_rejected(self):
         s, _, _ = self.request("GET", "/api/state", headers={"Host": "attacker.invalid"})
         self.assertEqual(s, 403)

@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import {createTaviAssetsClient, AssetsUnavailableError} from '../sdk/client.mjs';
+const calls = [];
+const transport = {info: async () => ({api:'1.0.0',features:['tavi.assets/v1']}),
+  request: async (method, params) => {calls.push([method,params]);return {schema:'example/mock',items:[]};}};
+const client = createTaviAssetsClient(transport);
+await assert.rejects(client.describe('org.test.pack'), AssetsUnavailableError);
+assert.equal((await client.connect()).feature, 'tavi.assets/v1');
+await client.listObjects('org.test.pack',{kind:'joker-card',rarity:'rare',limit:10});
+await client.listObjects('org.test.pack',{packId:'org.attacker.fake',kind:'joker-card'});
+assert.equal(calls[1][1].packId,'org.test.pack');
+await client.getCollection('org.test.pack','deck.playing.classic');
+await client.resolve('org.test.pack','card.back');
+assert.deepEqual(calls.map(x=>x[0]), ['assets.objects.list','assets.objects.list','assets.collections.get','assets.resolve']);
+assert.deepEqual(calls[0][1],{packId:'org.test.pack',kind:'joker-card',rarity:'rare',limit:10});
+assert.throws(()=>client.getObject('../other','obj'),TypeError);
+assert.equal(client.purchase,undefined);
+const absent=createTaviAssetsClient({info:async()=>({features:['tavix.navigation/v1']}),request:async()=>{throw Error('must not send');}});
+await assert.rejects(absent.connect(), AssetsUnavailableError);
+assert.throws(()=>createTaviAssetsClient({}),TypeError);
+console.log('Tavi Assets proposed consumer SDK smoke passed (mock transport only)');

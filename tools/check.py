@@ -15,6 +15,7 @@ def main():
     print(check_contracts(ROOT), flush=True)
     validate(ROOT / "examples" / "cards-v1")
     validate(ROOT / "examples" / "cards-v2")
+    validate(ROOT / "examples" / "storybook-decks")
     Catalog(ROOT / "examples")
     suite = unittest.defaultTestLoader.discover(str(ROOT / "tests"), pattern="test_*.py")
     result = unittest.TextTestRunner(verbosity=2).run(suite)

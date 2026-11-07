@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TheBigTreeInc/tavi-assets/contracts/tavi-assets-host-request-v1.schema.json",
+  "title": "Tavi Assets proposed assets.* method and payload (host session identity is NOT part of this request)",
+  "type": "object",
+  "required": [
+    "method",
+    "params"
+  ],
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "properties": {
+        "method": {
+          "const": "assets.describe"
+        },
+        "params": {
+          "$ref": "#/$defs/packOnly"
+        }
+      }
+    },
+    {
+      "properties": {
+        "method": {
+          "const": "assets.objects.list"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "packId"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "packId": {
+              "$ref": "#/$defs/id"
+            },
+            "kind": {
+              "$ref": "#/$defs/id"
+            },
+            "rarity": {
+              "$ref": "#/$defs/id"
+            },
+            "tags": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "$ref": "#/$defs/id"
+              }
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "method": {
+          "const": "assets.objects.get"
+        },
+        "params": {
+          "$ref": "#/$defs/object"
+        }
+      }
+    },
+    {
+      "properties": {
+        "method": {
+          "const": "assets.collections.list"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "packId"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "packId": {
+              "$ref": "#/$defs/id"
+            },
+            "kind": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "method": {
+          "const": "assets.collections.get"
+        },
+        "params": {
+          "$ref": "#/$defs/collection"
+        }
+      }
+    },
+    {
+      "properties": {
+        "method": {
+          "const": "assets.preferences.get"
+        },
+        "params": {
+          "$ref": "#/$defs/packOnly"
+        }
+      }
+    },
+    {
+      "properties": {
+        "method": {
+          "const": "assets.preferences.set"
+        },
+        "params": {
+          "$ref": "#/$defs/select"
+        }
+      }
+    },
+    {
+      "properties": {
+        "method": {
+          "const": "assets.resolve"
+        },
+        "params": {
+          "$ref": "#/$defs/resource"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,126}$"
+    },
+    "packOnly": {
+      "type": "object",
+      "required": [
+        "packId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "packId": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "object": {
+      "type": "object",
+      "required": [
+        "packId",
+        "objectId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "packId": {
+          "$ref": "#/$defs/id"
+        },
+        "objectId": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "collection": {
+      "type": "object",
+      "required": [
+        "packId",
+        "collectionId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "packId": {
+          "$ref": "#/$defs/id"
+        },
+        "collectionId": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "resource": {
+      "type": "object",
+      "required": [
+        "packId",
+        "capability"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "packId": {
+          "$ref": "#/$defs/id"
+        },
+        "capability": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "select": {
+      "type": "object",
+      "required": [
+        "packId",
+        "capability",
+        "variant"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "packId": {
+          "$ref": "#/$defs/id"
+        },
+        "capability": {
+          "$ref": "#/$defs/id"
+        },
+        "variant": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    }
+  },
+  "$comment": "Proposed host extension methods only. Host must verify source and permission using its session, not a callerId field in params. The Python demo dispatcher is independent of an actual TaviX bridge.",
+  "properties": {
+    "method": {
+      "type": "string"
+    },
+    "params": {
+      "type": "object"
+    }
+  }
+}

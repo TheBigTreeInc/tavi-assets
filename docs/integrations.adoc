@@ -27,3 +27,7 @@ The source preview only installs price-zero items. Test code can inject mock ent
 == Missing integration evidence
 
 Native Tavi latest host contract, LoopRD entitlement endpoints, current Wallet purchase transaction semantics, Companion resource model, Atrium and Klondike resource access and TaviX data-only package distribution extension are not yet verified. No network calls, publication, remote downloads or cross-device state synchronization are shipped.
+
+== 0.1.4 universal content metadata and SDK proposal
+
+The verified, local Python source now validates typed `objects` and `collections` with declared rarity/tag taxonomies and owned media capabilities; `HostAssetService` exposes per-pack metadata and per-capability resource access under explicit host-owned grants. The reference `sdk/client.mjs` makes no direct `postMessage` calls; it requires an injected authenticated host transport and negotiated `tavi.assets/v1` feature. This **does not establish actual Tavi or TaviX support**. See `docs/consumer-contract.adoc` and `contracts/tavi-assets-consumer-v1.json` for proposed method names and message shapes. No other project's source was changed in this pass.
