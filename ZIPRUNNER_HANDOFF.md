@@ -1,17 +1,14 @@
-# Tavi Assets 0.1.6 — ZipRunner build repair handoff
+# Tavi Assets 0.1.9 — scoped TaviX grant source handoff
 
-Project: `tavi-assets`  
-Canonical ID: `d0fe2552-0ae9-4162-b8e1-68c174d14a3a`  
-Version: `0.1.6`  
-Last stable base: `0.1.4` (failed 0.1.5 overlay remains unaccepted)  
-Update ID: `TAVI-ASSETS-20261108-0116-PROTECTED-OVERLAY-REPAIR`
+This is a ZipRunner **source candidate**, not production Tavi integration or an approved release. TA-022 repairs the reference host's flat-grant cross-pack authorization defect using TaviX 0.1.11 pack-scoped host-grants/v1 projections and a separately host-verified extension manifest/digest. TA-023 records a separate TaviX capability-grouping review. Existing Workboard task IDs and human review gates remain intact.
 
-## Corrected — TA-019 / retains TA-018
+- Project: `tavi-assets`; canonical project ID: `d0fe2552-0ae9-4162-b8e1-68c174d14a3a`.
+- Version: `0.1.9`; base version: `0.1.8`.
+- Build: `python tools/check.py`; post-update check remains non-gating. ZipRunner protected `runtime/**`, `.git/**`, private state and config retained, with no automated release mechanisms.
+- Source check: 91 Python tests; 12 new Node scoped grant scenarios plus existing runtime/dependency/developer/SDK examples. The exact ZIP verification report is delivered separately.
+- TaviX 0.1.11 source validator/schema parity checked from supplied TaviX package. Native Windows ZipRunner, production host/entitlement, Structurizr CLI, Android/web and operator acceptance remain unverified.
+- The TaviX per-pack limit of 32 explicit capabilities cannot directly expose all 90 resources of the Ink & Ember example. Source reference only exposes authorized subsets. No wildcard/prefix expansion, money, new ownership, download or cross-project code change.
+- Operator: import exact candidate; collect Windows build and post-update receipts; independently verify negative access checks; approve or reject TA-022 under the original Workboard identity; review TA-023 separately.
+- No Git push, tag, release or marketplace publication without explicit approval.
 
-The 0.1.5 package accidentally placed the *source* portable service in `runtime/` while ZipRunner's `runtime/**` protected path excluded it from the Windows source overlay. 0.1.5 failed its source evidence check. In 0.1.6 the code, types and related source move to `portable_service/`. Existing protected config/state is deliberately left protected. Tests simulate filtering during import and prevent repeating the mistake.
-
-## Verify
-
-`python tools/check.py` runs Python suite, metadata/pack validations and Node runtime/SDK demos. `tests/test_overlay_protected_paths.py` checks a Windows-like filtered source overlay and missing evidence negative cases. Inspect `docs/QA_0.1.6.adoc` for operator checks.
-
-No native Windows build, actual Tavi host integration, operator approval or Git publication is claimed until separately evidenced. No active config, runtime/private state or generated output is contained in this source ZIP.
+See `docs/tavix-grant-integration.adoc` and `docs/QA_0.1.9.adoc` for the security boundary and acceptance steps.

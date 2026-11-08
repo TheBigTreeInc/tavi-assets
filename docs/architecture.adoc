@@ -5,7 +5,7 @@
 
 Tavi Assets is a *data-only* content management engine, not another store of money, accounts, or app installation authority. Tavi hosts trusted extension sessions and a shared UI. LoopRD/Wallet authorize ownership and atomic server-side purchases. TaviX owns compatible package distribution. Applications consume host-authorized resource capabilities.
 
-This version is a Python source-tree developer demonstration. The browser preview is not intended to be embedded directly into the production Tavi extension host.
+The repository has a Python local development engine/preview and a separate JavaScript embeddable reference service. Neither is connected to the production Tavi extension host. The browser preview is loopback-only and not intended to be embedded directly into Tavi.
 
 == Components
 
@@ -14,6 +14,8 @@ This version is a Python source-tree developer demonstration. The browser previe
 * `host.py`: host-side per-caller pack/capability allowlist; delivers bytes and media type, never paths. The real host MUST derive caller identity from an authenticated session.
 * `preview.py` plus `web/`: local-only HTTP preview with same-origin checks, an unpredictable write token, resource views and management operations. No real accounts.
 * `tools/`: cross-platform Python source-tree CLI and tests.
+* `portable_service/`: JavaScript asset service and trusted bridge reference, with grant-limited metadata and independent multi-slot resolution; reference storage adapters only.
+* `sdk/` and `developer/`: transport-injected consumer SDK and local synthetic developer test host.
 
 == Asset installation sequence
 
@@ -44,7 +46,7 @@ This version is a Python source-tree developer demonstration. The browser previe
 
 == Incomplete work
 
-Approved remote sources, entitlement/wallet contract binding, server-side child purchase permissions, app-specific overrides, cross-device preferences, automatic updates, concurrent external process fuzzing, quota and interruption cleanup, public host bridge, Windows UI acceptance, and integration tests are pending.
+Approved remote sources, entitlement/wallet contract binding, server-side child purchase permissions, cross-device preferences, automatic updates, concurrent external process fuzzing, quota and interruption cleanup, public host bridge, Windows UI acceptance, and integration tests are pending.
 
 == Project-owned Level 3 model
 
@@ -65,3 +67,11 @@ The `PortableRuntimeL3` component view in `docs/architecture/workspace.dsl` adds
 == 0.1.6 C4 source-location correction — TA-019
 
 `Portable Asset Service Reference` and its Level 3 components have source files under `portable_service/`, not `runtime/`. This is a code and packaging path correction, not a new operational runtime boundary. The protected `runtime/**` path remains reserved for local/device runtime state. Structurizr CLI parse has not been executed in the author environment.
+
+== Current developer API addition — TA-020
+
+The `ConsumerSdkL3` and `PortableRuntimeL3` component views also cover the local fixture host, grant-bound pack discovery, cross-pack object search, and multi-slot resource resolution. These are implemented only inside the reference JavaScript service; no relationship to a functioning production TaviX/Tavi host has been introduced. `contracts/tavi-assets-customization-bundle-v1.schema.json` and `contracts/tavi-assets-store-offer-v1.schema.json` are untrusted catalog proposals, not purchase or entitlement APIs. `rarity` is optional game-specific metadata, and no absent rarity is implicitly common. See `docs/developer-guide.adoc` and `docs/QA_0.1.7.adoc`.
+
+== TaviX scoped-grant validation component (TA-022)
+
+The `PortableRuntimeL3` view includes `TaviX Scoped Grant Validator` (`portable_service/grants.mjs`). The reference bridge calls it on every authenticated-host-dispatched request, and the readiness resolver uses its exact `(pack,capability)` scopes and requested version bounds. The developer fixture host supplies synthetic, explicitly non-production TaviX manifest+digest pairs. No production Tavi host, source signature validator, entitlement service or TaviX-owned implementation is modeled as implemented. Grouped resource capabilities are a separate TA-023 proposal.

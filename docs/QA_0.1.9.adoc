@@ -1,0 +1,18 @@
+= Tavi Assets scoped TaviX grant repair — author QA
+:toc:
+
+== Failure reproduced and repair scope
+
+Prior cross-project review confirmed that `TrustedAssetHostBridge` accepted independent `packs:[]` and `capabilities:[]` arrays. If A granted `card.back` and B granted another capability, the cross product of the arrays could expose B's `card.back` despite no B-specific approval. This repair replaces that model with TaviX 0.1.11 host-only `tavix.asset-grants/v1` projections and a separately supplied verified manifest/digest context. It makes pack-specific checks for resource bytes, metadata, collections, preferences, composition and dependency readiness. A copied official extension ID alone never authorizes asset access.
+
+== Source verification and limits
+
+Author-side source verification: 91 Python tests passed and 12/12 focused Node scoped-grant checks passed, in addition to existing Node demos; exact extraction and Windows receipts remain separate. The exact regression is `tests/tavix_scoped_grants_smoke.mjs`. `python tools/check.py` executes the Python suite, this script and existing Node tests/demos. Author-produced results and exact ZIP verification logs are separate from the Windows ZipRunner build and operator decision; do not mark original Workboard tasks Done. The 32-explicit-capability TaviX limit and 90 media capabilities in the sample pack are tracked as TA-023. No grouped capability access, real publisher signature check, Tavi host adapter, gold payments or entitlement issuance are implemented in this source ZIP.
+
+== Operator acceptance checks
+
+. Import this exact ZIP to the verified canonical project `d0fe2552-0ae9-4162-b8e1-68c174d14a3a`; confirm the built source includes `portable_service/grants.mjs` and protected `runtime/**`, `.git/**`, data and configuration stay unchanged.
+. Capture actual `python tools/check.py` Windows build and post-update receipt, including the Node TaviX scoped grant tests.
+. Verify pack A `card.back` plus pack B `card.face.spades.ace` cannot authorize B's `card.back`; repeat for hidden objects, collection members, customization, stale pack version, revoked grant and mismatched manifest digest.
+. Inspect real Tavi and TaviX integration trust boundaries and decide on TA-023 grouping; do not treat passing reference tests as production acceptance.
+. Verify source architecture model in Structurizr CLI separately when available; review operator Workboard IDs and approve/reject independently. No automatic push, tag, release or store publication.

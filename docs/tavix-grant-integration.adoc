@@ -1,0 +1,47 @@
+= Tavi Assets ↔ TaviX scoped-grant integration
+:toc:
+:sectnums:
+
+== Source authority and status
+
+The inspected TaviX developer package 0.1.11 defines `manifest.assetDependencies` requests (validated by `tools/tavix_asset_dependencies.py`) and an independent, host-only `tavix.asset-grants/v1` projection (validated by `tools/tavix_asset_grants.py`). Its schemas are authoritative in TaviX, not copied into an independent Assets standard. The inspected example is retained as a source fixture at `examples/developer/tavix-011-asset-consumer.json` for regression testing. This Tavi Assets adapter is a *locally tested reference implementation*. Neither Tavi Social nor a real authenticated LoopRD entitlement provider was integrated or tested here.
+
+== Runtime authorization boundary
+
+The privileged Tavi extension host supplies a fresh trusted callback result for *every* `assets.*` request:
+
+[source,js]
+----
+{
+  projection: { schema:'tavix.asset-grants/v1', extensionId, extensionVersion,
+    manifestSha256, scope:'host-session',
+    grants:[{packId, capabilities:['card.back'], canCustomize:false}] },
+  verifiedManifest,       // actual extension package manifest previously verified by Tavi
+  verifiedManifestSha256, // digest of that verified manifest according to TaviX contract
+  // optional: requirements, additional host-owned app feature grouping
+}
+----
+
+The callback MUST derive identity, package revision and grants from the real trusted session. Tavi owns publisher/source approval, user consent, pack entitlement, offline policy, installed-state checks and revocation. Tavi Assets checks the source shape, requested permissions, pack subsets, per-pack capability subsets, manifest identity/version/digest equality, compatible installed pack version and `canCustomize` on the *same pack*. The reference hash match is *consistency checking only*: it does not compute or attest Tavi's package signature, ownership or actual user consent. The test fixture digest is synthetic and MUST NOT be used as production evidence.
+
+The bridge rejects legacy `{packs:[...],capabilities:[...]}` grants. A flat list can accidentally form the Cartesian product of otherwise unrelated pack and capability permissions. The caller cannot supply `grants`, `callerId`, `path`, `manifest` or `requirements` via `assets.*` request params. Installed packs and all resource bytes remain host-owned. Shared `tavi.assets/v1` method names and the unprivileged SDK transport are unchanged.
+
+== Metadata visibility and personalization
+
+Pack discovery reveals only granted resource capabilities. Object lists and cross-pack discovery filter objects by at least one resource capability granted *for that pack*, before totals and pagination. Unauthorized objects cannot be requested by ID. Collection metadata and membership are filtered to visible objects; preference lists expose granted capabilities only. Cross-pack composition independently checks each tuple `(packId, capability)`; an allowed card back from pack A never enables the same capability on pack B. Pack-scoped `canCustomize` and Tavi-controlled user consent are prerequisites for application preference writes. Global preference changes remain a privileged Tavi Settings operation, not an extension method.
+
+Uninstalled, corrupt, revoked and version-incompatible content is never returned through a granted reference host request. The host must also revoke on account/user changes and must not pass stale context. Per-variant paid entitlement enforcement is not implemented; do not permit individually priced variants in production before LoopRD/Wallet authorizes that choice.
+
+== Dependency declarations and discovery
+
+A verified TaviX `assetDependencies` entry identifies explicit pack ID, half-open semver range, requested capabilities, `optional`, and optionally `requestCustomization`. Tavi Assets can derive reference dependency readiness from these verified entries without accepting a caller-supplied declaration; `assets.dependencies.status` remains separately feature-negotiated as `tavi.assets.dependencies/v1`. A host may bind a separate already-verified `tavi.assets.requirements/v1` feature-group mapping. Missing optional cosmetics are normal, and bundled fallback behavior belongs to the game.
+
+`assets.packs.list` and `assets.objects.discover` are capability-based queries **within approved explicit pack grants**. They do not grant access to an undeclared pack, unpurchased cosmetics, or arbitrary public-catalog resources. New compatible marketplace content may appear to a game only after Tavi legitimately issues a matching grant; it cannot be discovered merely by copying a pack onto disk.
+
+== Capability granularity — review required (TA-023)
+
+TaviX 0.1.11 permits a maximum of 32 *explicit capabilities per pack*. The existing Ink & Ember example declares 90 separately addressable resources. Its entire collection therefore cannot be exposed through one current TaviX v1 grant. The developer demo intentionally grants a selected subset, and collection counts reflect *authorized* visible members. TaviX and Social need an explicitly reviewed grouped-deck/namespace or bounded collection-scope proposal, including negative cross-pack checks, versioning and user consent. **Never interpret `card.*`, string prefixes, arbitrary tags, or a collection ID as permission to access all underlying files under the existing v1 contract.**
+
+== Acceptance and ownership
+
+Run `node tests/tavix_scoped_grants_smoke.mjs` and `python tools/check.py` from the source root. The former asserts the original cross-pack leak is rejected and also tests metadata, composition, customization, revocation, scope/digest spoofing and stale versions. The latter is the configured ZipRunner build command. Native Windows builds, Tavi/Android/browser authorization, Structurizr CLI, actual Gold payments and operator acceptance require separate receipts and approvals. No Git push, tag or publication is implied by passing tests.

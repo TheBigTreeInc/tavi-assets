@@ -51,7 +51,7 @@ class HostAssetService:
             raise AssetError("invalid pagination")
         matches = [(key, obj) for key, obj in sorted(manifest.get("objects", {}).items())
                    if (kind is None or obj["kind"] == kind)
-                   and (rarity is None or obj.get("rarity", "common") == rarity)
+                   and (rarity is None or obj.get("rarity") == rarity)
                    and set(tags).issubset(obj.get("tags", []))]
         page = matches[offset:offset + limit]
         next_offset = offset + limit if offset + limit < len(matches) else None

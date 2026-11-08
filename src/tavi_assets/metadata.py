@@ -163,9 +163,10 @@ def validate_metadata(manifest):
         _text(obj.get("name"), "object name")
         if "description" in obj:
             _text(obj["description"], "object description", 1024)
-        rarity = _token(obj.get("rarity", "common"), "rarity")
-        if rarity not in available_rarities:
-            raise AssetError("object references unknown rarity")
+        if "rarity" in obj:
+            rarity = _token(obj["rarity"], "rarity")
+            if rarity not in available_rarities:
+                raise AssetError("object references unknown rarity")
         _tags(obj.get("tags", []))
         resources = obj.get("resources", [])
         if not isinstance(resources, list) or len(resources) > 32 or len(set(map(str, resources))) != len(resources):
@@ -213,7 +214,8 @@ def validate_metadata(manifest):
 def public_object(object_id, obj, allowed_capabilities):
     """Never expose source file paths, private registry paths, hashes or hidden capabilities."""
     return {"id": object_id, "kind": obj["kind"], "name": obj["name"],
-            "description": obj.get("description", ""), "rarity": obj.get("rarity", "common"),
+            **({"rarity": obj["rarity"]} if "rarity" in obj else {}),
+            "description": obj.get("description", ""),
             "tags": list(obj.get("tags", [])), "attributes": obj.get("attributes", {}),
             "resources": [r for r in obj.get("resources", []) if r in allowed_capabilities],
             "rulesRef": obj.get("rulesRef"), "modifiers": obj.get("modifiers", [])}

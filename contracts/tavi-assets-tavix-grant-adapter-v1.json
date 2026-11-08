@@ -1,0 +1,18 @@
+{
+  "schema": "tavi.assets.tavix-grant-adapter/v1",
+  "status": "reference-implementation-not-Tavi-production-host",
+  "tavixSource": "TheBigTreeInc/tavix developer package 0.1.11, contracts/tavix-asset-dependencies-v1.schema.json and contracts/tavix-asset-grants-v1.schema.json",
+  "tavixProjection": "tavix.asset-grants/v1",
+  "hostInput": "{projection, verifiedManifest, verifiedManifestSha256, requirements?} from host trusted callback; no fields accepted from extension payload",
+  "recheck": "Fresh host context every dispatch; packId + capability pair; version range; per-pack canCustomize; deny revoked/ungranted packs",
+  "trustBoundary": "Schema + subset validation does NOT authenticate publisher, verify signatures, prove entitlement, or create grants; Tavi must vet real sessions, actual package hashes, user approvals and revocations",
+  "compatibility": {
+    "TaviXExplicitPackMax": 16,
+    "TaviXCapabilitiesPerPackMax": 32,
+    "exampleResources": 90,
+    "automaticUnlistedPackGrants": false,
+    "prefixOrWildcardEscalation": false,
+    "grouping": "requires reviewed TaviX/Social contract; tracked TA-023"
+  },
+  "operatorApproval": "required"
+}

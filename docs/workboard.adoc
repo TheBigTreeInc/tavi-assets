@@ -30,3 +30,15 @@ Source implementation reported: `TA-018` now provides a portable JavaScript host
 == 0.1.6 protected overlay repair — TA-019
 
 TA-019 is source-reported as an implemented bug repair, NOT operator Done. Repro: 0.1.5 Windows ZipRunner copy skipped `runtime/**` per protected paths and `python tools/check.py` rejected missing evidence. Correction: move privileged JS implementation to `portable_service/` without changing the runtime exclusion, and add filtered-overlay regressions. Source evidence and operator checks in `.ziprunner-workboard-update.json`; original statuses/IDs including `define-next-pass`, `TA-010`, `TA-012`, `TA-016`, TA-017 and TA-018 remain subject to operator control.
+
+== Developer contract source pass — TA-020
+
+TA-020 reports source implementation of grant-scoped pack/object discovery and read-only composition, proposed customization bundle and offer schemas, an explicit local game fixture host and test harness, and an evergreen root README (version-specific history in CHANGELOG.md). The exact candidate must still be built and accepted on Windows. This does not mark TA-017, TA-018, TA-019, or any pre-existing operator-controlled item Done; no live Tavi, TaviX, LoopRD or Wallet work was approved or performed. Details: `docs/QA_0.1.7.adoc` and `ziprunner-verification-plan.json`.
+
+== Proposed shared dependency pass
+
+TA-021 adds `tavi.assets.requirements/v1` and a host-scoped readiness reference, with non-production `tavi.assets.dependencies/v1` SDK negotiation. See `docs/QA_0.1.8.adoc` and `docs/asset-dependencies.adoc`. This is producer-reported source work awaiting independent Windows build and operator review. Existing TA-007, TA-008, TA-009, TA-012 and `define-next-pass` remain open; no publisher/Wallet/TaviX contracts have been silently accepted.
+
+== Scoped grants compatibility (TA-022)
+
+TA-022 is source-reported only: the portable host reference now validates TaviX 0.1.11 per-pack projections against the host's verified manifest identity/version/digest and requested scope; object/collection metadata, composition, preferences and dependency readiness respect the same pack-specific grants. Negative regression `tests/tavix_scoped_grants_smoke.mjs` covers the original cross-pack escalation. Native Windows, production Tavi session+entitlement callbacks, operator acceptance and Git publication are *not* asserted. TA-023 (planned/high) records the need for a reviewed grouping policy because the TaviX v1 32-capabilities-per-pack limit cannot expose all 90 assets from the multi-deck example. Original tickets, status and operator decisions must not be rewritten. See `docs/tavix-grant-integration.adoc` and `docs/QA_0.1.9.adoc`.

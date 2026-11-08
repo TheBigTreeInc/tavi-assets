@@ -1,0 +1,35 @@
+= QA 0.1.7 — Shared game-developer consumer contract and evergreen README
+:toc:
+
+== Bounded pass: TA-020
+
+This is a source-only candidate to let other game developers prototype against one Tavi Assets consumer SDK without making separate asset managers. It introduces granted cross-pack pack/object discovery and per-slot media resolution in the portable JavaScript runtime, plus a fixture host and example. It does not add untrusted asset-pack scripts or production asset-host methods to Tavi.
+
+== Contract decisions
+
+* `tavi.assets/v1` remains a proposed feature, negotiated before use; unsupported Tavi host APIs reject.
+* `assets.packs.list` and `assets.objects.discover` search only installed content granted to a trusted caller session; no storefront ownership search is implied.
+* `assets.composition.resolve` returns resource bytes for individually checked slots. It does not render/merge artwork, enforce game rules or create a new priced object.
+* `rarity` remains optional game-owned metadata and is not a universal marketplace axis. Absent rarity no longer defaults to `common` in validation/query output.
+* Proposed bundle and storefront offer schemas describe desired customization/content and display prices. They cannot authorize Wallet spending, ownership or variant entitlements. Those checks are not implemented yet.
+* README.md now presents evergreen project goals, usage and boundaries; version-specific changes are tracked in CHANGELOG.md.
+
+== Author-side validation targets
+
+* `python tools/check.py` executes the Python tests, Node consumer/runtime/developer tests, and runnable game demos.
+* `node tests/developer_contract_smoke.mjs` checks cross-pack discovery and composition, spoofed grant rejection, capability filtering and no Wallet operations.
+* `tests/test_developer_contract.py` checks doc contracts, optional rarity and JSON Schema when the optional `jsonschema` Python module is installed (otherwise the schema-specific checks are skipped, not passed).
+* `tools/verify_contracts.py` checks manifest, original task IDs, plan references and source files outside protected ZipRunner paths.
+* `docs/architecture/workspace.dsl` has a source-grounded C4 Level 3 update; Structurizr CLI parsing is not proven by file presence alone.
+
+== Operator acceptance still required
+
+. Import the exact candidate on Windows via canonical ZipRunner; capture executed build commands and post-update receipt for the exact ZIP SHA.
+. Run the runnable example and verify source-only API behavior; review cross-pack grants and attribute controls.
+. Check README and CHANGELOG separation, license/safe original artwork, TaviX proposal boundaries and use of original TA-017/TA-018/TA-019 task IDs.
+. Validate Structurizr DSL with available CLI if possible; perform independent UI/browser and Tavi/Android integration acceptance only when those components actually exist.
+. Review Workboard TA-020; mark source implementation Review if appropriate, never Done without explicit operator acceptance. Git push/tag/release remains separately approved.
+
+== Open work
+
+TA-007 real Tavi host, TA-008 approved distribution/dependencies, TA-009 LoopRD/Wallet/variant entitlements, TA-012 native Windows acceptance, and TA-015 real Klondike/Companion use remain open. Existing `define-next-pass` and TA-016 operator review states are preserved in the supplied delta. The last known Windows-stable base was 0.1.4 in the previously supplied failure handoff; no 0.1.6 native Windows acceptance receipt was provided at this time.

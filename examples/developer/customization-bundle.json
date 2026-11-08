@@ -1,0 +1,22 @@
+{
+  "schema": "tavi.assets.customization-bundle/v1",
+  "id": "org.tavi.demo.mixed-card-theme",
+  "name": "Mixed Card Theme",
+  "tags": [
+    "cards",
+    "cosmetic"
+  ],
+  "slots": [
+    {
+      "slot": "front",
+      "packId": "org.tavi.examples.storybook-decks",
+      "capability": "card.face.spades.ace"
+    },
+    {
+      "slot": "back",
+      "packId": "org.tavi.cards.standard",
+      "capability": "card.back",
+      "variant": "blue"
+    }
+  ]
+}

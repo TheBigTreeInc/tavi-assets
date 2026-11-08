@@ -5,7 +5,7 @@
   "transport": {
     "hostChannel": "tavi.extension/v1",
     "negotiation": "call host.info; check features includes tavi.assets/v1; permissions via host session; deny if missing",
-    "authentication": "host derives caller identity and grants from authenticated extension session; never accept callerId or grants from request",
+    "authentication": "host derives caller identity and scope from authenticated extension session, verified manifest digest and TaviX tavix.asset-grants/v1 projection; pack-scoped capability and preference rights checked independently on every request",
     "sdk": "sdk/client.mjs and sdk/index.d.ts are transport-injected reference clients, not a TaviX runtime implementation"
   },
   "requests": [
@@ -79,6 +79,50 @@
       },
       "response": "tavi.assets.resource/v1",
       "format": "bounded base64, media type and selected variant; no paths or arbitrary URLs"
+    },
+    {
+      "method": "assets.packs.list",
+      "params": {
+        "type": "playing-cards",
+        "offset": 0,
+        "limit": 50
+      },
+      "response": "tavi.assets.pack-list/v1",
+      "authorization": "only installed pack IDs granted by trusted host session; expose only granted capabilities"
+    },
+    {
+      "method": "assets.objects.discover",
+      "params": {
+        "kind": "playing-card",
+        "tags": [
+          "suit.hearts"
+        ],
+        "offset": 0,
+        "limit": 50
+      },
+      "response": "tavi.assets.discovery/v1",
+      "authorization": "search across session-granted installed packs only; resource list filtered to capabilities granted to caller"
+    },
+    {
+      "method": "assets.composition.resolve",
+      "params": {
+        "components": [
+          {
+            "slot": "back",
+            "packId": "org.tavi.cards.standard",
+            "capability": "card.back"
+          }
+        ]
+      },
+      "response": "tavi.assets.composition/v1",
+      "authorization": "each slot requires installed and granted pack + capability; no compositing of images and no entitlement bypass"
+    },
+    {
+      "method": "assets.dependencies.status",
+      "params": {},
+      "response": "tavi.assets.dependency-status/v1",
+      "feature": "tavi.assets.dependencies/v1",
+      "authorization": "Only verified installed application declarations and session-derived grants; no caller-supplied requirements, identity, purchase or path"
     }
   ],
   "events": {
@@ -114,7 +158,7 @@
       "entries"
     ],
     "rulesRef": "opaque identifier for game-owned behavior mapping; never script or executable logic",
-    "rarity": "author-declared taxonomy label and tier for display/filtering; no enforced game balance or random probabilities",
+    "rarity": "OPTIONAL, game-specific classification only; absence has no implicit common tier, price or entitlement; legacy pack-specific rarity filter remains supported",
     "ownership": "catalog price and pack metadata never provide an entitlement",
     "modifiers": "optional declarative tavi.cards.modifiers.v1 trigger/condition/effects; parsed but never executed by Tavi Assets; game runtime must explicitly opt into and validate profile, op support and balancing"
   },
@@ -134,10 +178,31 @@
     "media capability grants are separate from pack metadata",
     "no purchases or install from extension",
     "no scripts in packs",
-    "all source bytes and references revalidated"
+    "all source bytes and references revalidated",
+    "TaviX scoped grants validated against requested packs/capabilities and verified manifest identity/digest",
+    "No legacy flat pack x capability cross-product grants",
+    "Object and collection metadata filtered before totals/pagination by pack-scoped resource capability"
   ],
   "sources": [
     "docs/consumer-contract.adoc",
     "docs/integrations.adoc"
-  ]
+  ],
+  "marketplace": {
+    "rarity": "optional game-owned object metadata only; never required for purchase, pricing or availability",
+    "bundles": "contracts/tavi-assets-customization-bundle-v1.schema.json describes read-only content composition, not entitlement or pricing",
+    "offers": "contracts/tavi-assets-store-offer-v1.schema.json is an illustrative storefront catalog contract only; purchase authorization remains LoopRD/Wallet",
+    "variantEntitlements": "not enforced by this developer runtime; do not expose individually paid variants before host grants them"
+  },
+  "dependencies": {
+    "requirementsSchema": "contracts/tavi-assets-requirements-v1.schema.json",
+    "status": "proposed-not-integrated-in-production-Tavi",
+    "feature": "tavi.assets.dependencies/v1",
+    "requirementsSource": "Host-verified TaviX 0.1.11 manifest.assetDependencies; optional additional host-owned requirements for feature grouping; never request params",
+    "fallback": "optional missing does not prevent base game or bundled content; required is per-feature"
+  },
+  "limits": {
+    "tavixExplicitCapabilitiesPerPack": 32,
+    "exampleStorybookResources": 90,
+    "fullDeckDiscovery": "requires reviewed collection/group permission in TaviX; current SDK exposes only approved subsets"
+  }
 }

@@ -1,7 +1,7 @@
 {
   "schema": "ziprunner.verification-plan/v1",
   "project": "tavi-assets",
-  "version": "0.1.6",
+  "version": "0.1.9",
   "tasks": [
     {
       "id": "TA-010",
@@ -156,6 +156,99 @@
           "mode": "manual",
           "checks": [
             "TA-019-M1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TA-020",
+      "criteria": [
+        {
+          "id": "TA-020-AC-1",
+          "description": "Consumer SDK and portable service discover across granted packs and resolve authorized multi-pack slots, denying ungranted content.",
+          "mode": "automated",
+          "checks": [
+            "TA-020-T1"
+          ]
+        },
+        {
+          "id": "TA-020-AC-2",
+          "description": "Root README is evergreen; changelog contains release history; JSON contracts and proposal bundles/offers valid and no purchase authority introduced.",
+          "mode": "automated",
+          "checks": [
+            "TA-020-T2"
+          ]
+        },
+        {
+          "id": "TA-020-AC-3",
+          "description": "Operator reviews developer onboarding and exact Windows package; verifies no production Tavi/LoopRD/Wallet claims and approves separately.",
+          "mode": "manual",
+          "checks": [
+            "TA-020-M1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TA-021",
+      "criteria": [
+        {
+          "id": "TA-021-AC-1",
+          "description": "Required and optional per-feature asset declarations validate; numeric version bounds and no wallet/entitlement authority.",
+          "mode": "automated",
+          "checks": [
+            "TA-021-T1",
+            "TA-021-T2"
+          ]
+        },
+        {
+          "id": "TA-021-AC-2",
+          "description": "Grant-limited host-only resolver, spoofing rejection and independent negotiated feature are covered.",
+          "mode": "automated",
+          "checks": [
+            "TA-021-T1"
+          ]
+        },
+        {
+          "id": "TA-021-AC-3",
+          "description": "Windows build and operator reviews integration semantics, source evidence and permissions separately from Git release.",
+          "mode": "manual",
+          "checks": [
+            "TA-021-M1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TA-022",
+      "criteria": [
+        {
+          "id": "TA-022-AC1",
+          "description": "TaviX pack-specific read and customize grant is checked per pack; reject forged, stale and revoked grants.",
+          "mode": "automated",
+          "checks": [
+            "TA-022-T1"
+          ]
+        },
+        {
+          "id": "TA-022-AC2",
+          "description": "Independent Windows ZipRunner build, source review and operator acceptance of exact candidate.",
+          "mode": "manual",
+          "checks": [
+            "TA-022-M1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TA-023",
+      "criteria": [
+        {
+          "id": "TA-023-AC1",
+          "description": "TaviX/Social approve an explicit collection-level or grouped asset scope without wildcard escalation; integration not in this candidate.",
+          "mode": "manual",
+          "checks": [
+            "TA-023-M1"
           ]
         }
       ]
@@ -314,6 +407,98 @@
       "stage": "acceptance",
       "description": "Exact native Windows overlay acceptance",
       "instructions": "Import exact 0.1.6; capture build log showing copied portable_service/ files then 0 exit from python tools/check.py; inspect existing runtime/** state preserved; verify post-update and review operator Workboard separately. Do not push."
+    },
+    {
+      "id": "TA-020-T1",
+      "kind": "automated",
+      "stage": "functional",
+      "runner_ref": "node tests/developer_contract_smoke.mjs",
+      "test_ref": "tests/developer_contract_smoke.mjs",
+      "description": "Developer cross-pack SDK and denied-capability checks",
+      "assertions": [
+        "Cross-pack packs/objects are discoverable without hardcoded pack ID",
+        "Cross-pack independent composition returns only allowed slots",
+        "Spoofed grants and unauthorized resources are rejected"
+      ]
+    },
+    {
+      "id": "TA-020-T2",
+      "kind": "automated",
+      "stage": "functional",
+      "runner_ref": "python tools/check.py",
+      "test_ref": "tests/test_developer_contract.py",
+      "description": "README/changelog and offer/bundle schema/source contract review",
+      "assertions": [
+        "Evergreen root README points to developer guide and changelog",
+        "Contract metadata never grants purchases or pricing authority",
+        "Proposed bundle/offer examples are correctly typed and bounded"
+      ]
+    },
+    {
+      "id": "TA-020-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Operator reviews developer contract, Windows source receipt and future cross-project integration",
+      "instructions": "Run source ZIP on Windows, verify exact post-update receipt; review JS/TS SDK, original content sample and asset entitlement boundaries; obtain operator acceptance separately. No automatic Git action."
+    },
+    {
+      "id": "TA-021-T1",
+      "kind": "automated",
+      "stage": "functional",
+      "description": "Dependency features, negative authorization, version and SDK negotiation tests",
+      "runner_ref": "node tests/dependency_contract_smoke.mjs",
+      "test_ref": "tests/dependency_contract_smoke.mjs",
+      "assertions": [
+        "Required unavailable disables only feature; optional absent does not block app",
+        "Out-of-range, ungranted, spoofed and malformed requests rejected",
+        "No dependency request supplies wallet, entitlements, installation or grants"
+      ]
+    },
+    {
+      "id": "TA-021-T2",
+      "kind": "automated",
+      "stage": "functional",
+      "description": "Machine readable schema, examples and strict API shape invariants",
+      "runner_ref": "python tools/check.py",
+      "test_ref": "tests/test_asset_dependencies.py",
+      "assertions": [
+        "Proposed declarations are versioned and source-validated",
+        "Consumer and host contracts retain no direct wallet/purchase authority"
+      ]
+    },
+    {
+      "id": "TA-021-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Independent cross-project and native Windows acceptance",
+      "instructions": "Verify exact Windows ZIP and post-update receipts, check TaviX/Social review of proposed declaration binding, official-source trust and runtime-feature negotiation, record operator decision separately; do not mark Done/push."
+    },
+    {
+      "id": "TA-022-T1",
+      "kind": "automated",
+      "stage": "functional",
+      "description": "Cross-pack grant regression: per-pack scopes, metadata, composition, customization, spoofed projection, revocation and stale versions",
+      "runner_ref": "tavix-scoped-grant-tests",
+      "assertions": [
+        "A card.back and B card.face cannot authorize B card.back",
+        "Grant identity/revision/declared-subset and version policy fail closed",
+        "Metadata and collections expose only authorized objects"
+      ],
+      "test_ref": "tests/tavix_scoped_grants_smoke.mjs"
+    },
+    {
+      "id": "TA-022-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Windows source import plus verified authorization integration review",
+      "instructions": "Import exact ZIP, capture Windows Python+Node source build/post-update, inspect grant callback sourced only from Tavi, and explicitly accept/reject. Never infer production entitlement checks."
+    },
+    {
+      "id": "TA-023-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Review safe resource grouping proposal with TaviX",
+      "instructions": "Assess per-pack 32-capability limit against 90-resource sample and agree a bounded, reviewed grouping policy. Do not grant wildcard/prefix rights in the current schema."
     }
   ]
 }

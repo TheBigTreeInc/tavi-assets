@@ -1,0 +1,14 @@
+{
+  "schema": "tavi.assets.store-offer/v1",
+  "id": "org.tavi.demo.ink-ember-cosmetics",
+  "title": "Ink and Ember Cosmetics",
+  "entitlementId": "org.tavi.entitlements.ink-ember-cosmetics",
+  "displayGoldPrice": 250,
+  "contents": [
+    {
+      "packId": "org.tavi.examples.storybook-decks",
+      "capability": "card.back",
+      "variant": "indigo"
+    }
+  ]
+}

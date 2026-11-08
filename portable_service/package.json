@@ -1,11 +1,17 @@
 {
   "name": "@tavi/assets-runtime",
-  "version": "0.1.6",
+  "version": "0.1.9",
   "private": true,
   "type": "module",
   "description": "Source-only host-side Tavi Assets service reference, not a published runtime",
   "exports": {
-    ".": {"types": "./index.d.ts", "default": "./index.mjs"},
-    "./node-file-storage": {"types": "./node-file-storage.d.ts", "default": "./node-file-storage.mjs"}
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.mjs"
+    },
+    "./node-file-storage": {
+      "types": "./node-file-storage.d.ts",
+      "default": "./node-file-storage.mjs"
+    }
   }
 }

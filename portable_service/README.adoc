@@ -1,4 +1,4 @@
-= Tavi Assets — portable embeddable runtime reference 0.1.6
+= Tavi Assets — portable embeddable runtime reference
 :toc:
 
 == Ownership and status
@@ -30,7 +30,7 @@ An approved host supplies `{manifest, files: Record<string, Uint8Array>, origin}
 
 Preference precedence is `application override -> global preference -> pack default`. The `setGlobalPreference()` operation is trusted-host Settings only; `assets.preferences.set` writes an application override, with host-granted customize permission and host-owned user consent. Variant values unknown to a new pack version fall back while leaving previously stored preferences intact. The same version may not be silently replaced by different bytes. Updates are checked before activation; failures leave the previous version intact.
 
-The runtime does not implement discovery, background fetching, approval policy, publisher signatures, TaviX asset dependencies, a production first-party storefront UI module, cross-device sync, or wallet operations. A game's opaque card-rule references are **never executed** by this engine.
+The runtime does not implement remote catalog discovery, background fetching, production host approval policy, publisher signatures, a production first-party storefront UI module, cross-device sync, or wallet operations. A game's opaque card-rule references are **never executed** by this engine.
 
 == Security and conformance scope
 
@@ -38,4 +38,16 @@ Test with `node tests/runtime_portable_smoke.mjs`. The source ZipRunner build `p
 
 == Developer demonstration
 
-Run `node examples/portable-runtime-demo.mjs` from the source root. The demo installs the free *Ink & Ember* fixture through the explicit *local test* approval callback, queries its three decks and sixteen jokers through the existing consumer SDK, chooses an Indigo card back and reports media type. It is not a Tavi or TaviX production host session and never accesses Wallet.
+Run `node examples/portable-runtime-demo.mjs` from the source root. The demo installs the free *Ink & Ember* fixture through the explicit *local test* approval callback, queries the subset of decks and sixteen jokers authorized by its bounded TaviX fixture grant, chooses an Indigo card back and reports media type. All three decks exist in the original pack but are not automatically authorized for the consumer. It is not a Tavi or TaviX production host session and never accesses Wallet.
+
+== Cross-pack developer contract operations
+
+The trusted bridge supports `assets.packs.list`, `assets.objects.discover` and `assets.composition.resolve` on top of the existing data-only runtime. The separately verified TaviX `tavix.asset-grants/v1` per-pack capabilities constrain every result; separate slot requests are checked individually. This does not implement combined image rendering, discovery in remote catalogs, purchases or per-variant entitlements. The Python preview host adapter has not yet been updated for these new methods; real Tavi availability remains unverified.
+
+== Reference dependency readiness
+
+`dependencies.mjs` verifies the versioned `tavi.assets.requirements/v1` declaration and resolves feature-level required/optional capabilities against validated, granted installed manifests. `TrustedAssetHostBridge` accepts `assets.dependencies.status` with `{}` only, taking the declaration from the verified TaviX manifest (or independently bound verified host requirements). It is not a purchasing, entitlement or installer API. `tavi.assets.dependencies/v1` feature advertisement is only demonstrated by the local fixture host, not production Tavi.
+
+== TaviX per-pack grant adapter
+
+`grants.mjs` checks a trusted TaviX host-context projection, extension identity/version/digest and requested per-pack capabilities/customization. `service.mjs` rechecks it on every host request, filters metadata/collection membership and independently authorizes each composition slot. Flat grants are rejected. This is still a local reference, not a real Tavi extension host or authority for paid content. See `docs/tavix-grant-integration.adoc`; especially note the current TaviX limit of 32 explicit capabilities per pack, which prevents full discovery of the 90-resource sample by one unchanged v1 grant.

@@ -1,8 +1,8 @@
 {
   "schema": "ziprunner.workboard-update.v1",
   "project": "tavi-assets",
-  "version": "0.1.6",
-  "summary": "Repair failed Windows 0.1.5 overlay of TA-018: source portable service wrongly located under protected runtime/**; move it to portable_service/ without weakening protected paths; add cross-platform overlay/evidence regression. No native Windows build or approval claimed.",
+  "version": "0.1.9",
+  "summary": "Source candidate TA-022: repair TaviX 0.1.11 pack-scoped grant validation across all portable asset operations; enforce host-derived verified extension identity/digest and per-pack capabilities, versions and customization; constrain discoverable metadata; add focused regressions and conformance documentation. Preserve earlier review IDs and separate gates. TA-023 records the open >32-resource capability grouping decision. No Tavi or TaviX repository modified.",
   "implemented": [
     {
       "id": "TA-018",
@@ -22,6 +22,38 @@
         "Import the exact 0.1.6 candidate into canonical tavi-assets; check copied portable_service files and passing Python/Node build with an actual Windows ZipRunner build receipt.",
         "Run or inspect tests/test_overlay_protected_paths.py and verify source evidence files remain after a simulated overlay honoring runtime/**.",
         "Confirm no active runtime/** data, secrets, configs, Workboard operator decisions, Git history or approvals were modified; accept or reject TA-019 separately."
+      ]
+    },
+    {
+      "id": "TA-020",
+      "title": "Shared game developer contract and reusable customization preview",
+      "summary": "Publish source-controlled reference SDK shapes and local fixture host; authorize pack discovery and read-only cross-pack resource composition by real caller grants; define optional game-specific rarity, proposed cosmetic bundles/offers and developer quickstart; no production Tavi host, variant ownership, wallet, distribution or publication claimed.",
+      "operator_checks": [
+        "On Windows import exact 0.1.7 ZipRunner source and run python tools/check.py; capture executable Node developer test and cross-pack demo logs.",
+        "Confirm README.md is evergreen and release history lives in CHANGELOG.md; inspect docs/developer-guide.adoc and proposed marketplace schemas.",
+        "Verify no app can access a pack/capability without host grants; test unknown fields, purchase availability and change of preferences independently.",
+        "Review real TaviX/Tavi/LoopRD integration boundaries; accept source work under original TA-020 identity separately and do not approve publication by build result."
+      ]
+    },
+    {
+      "id": "TA-021",
+      "title": "Shared required and optional asset dependency contract for games",
+      "summary": "Source proposal schema and test fixtures, read-only host grant-filtered dependency resolver, separately negotiated dependency status SDK method, cross-project implementation work order and C4/contract tests. TaviX package binding, real Social host, durable storage and Gold purchasing remain not implemented.",
+      "operator_checks": [
+        "Import exact 0.1.8 ZIP into canonical Windows ZipRunner and capture build and post-update receipts; confirm node tests/dependency_contract_smoke.mjs actually executes.",
+        "Review declared required/optional semantics, bundled fallback behavior and numeric version constraints with TaviX/Social maintainers; do not treat a schema or locally trusted fixture as a deployed host contract.",
+        "Test ungranted/disabled/stale packs and negative malformed input on the target host once integrated; verify lack of automatic purchase or new extension authorization.",
+        "Keep TA-021 in operator Review until independently accepted; no push/tag/release without explicit approval."
+      ]
+    },
+    {
+      "id": "TA-022",
+      "title": "Enforce TaviX pack-scoped asset grant compatibility in portable host",
+      "summary": "Source-only reference host validates TaviX 0.1.11 assetDependencies and host-grants/v1 subset, rejects flat grants, checks per-pack capabilities/customization and compatible version on every request, filters object/collection metadata, and derives dependency readiness from the verified manifest when no separately bound feature declaration exists. Implements negative cross-pack authorization tests. Production Tavi integration and operator acceptance remain pending.",
+      "operator_checks": [
+        "Import exact 0.1.9 ZIP into canonical Windows ZipRunner; capture actual Python+Node build log and non-gating post-update receipt including 12 scoped-grant scenarios.",
+        "Verify pack A card.back grant plus pack B card.face grant does not grant card.back from B; repeat for compositions, metadata, preferences, stale versions, revoked grants, spoofed identity and digest.",
+        "Review verified manifest/host-only grant callback, updated TypeScript SDK contract, C4 Level 3 model, dependency docs, and source integration limitations; do not infer acceptance or a successful live Tavi bridge."
       ]
     }
   ],
@@ -101,6 +133,12 @@
       "id": "TA-017",
       "title": "Universal typed asset metadata and consumer SDK contract",
       "summary": "Previously reported in 0.1.4; still requires independent Windows/operator acceptance before any Done transition.",
+      "priority": "high"
+    },
+    {
+      "id": "TA-023",
+      "title": "Agree collection-level asset capabilities with TaviX",
+      "summary": "TaviX 0.1.11 caps explicit capabilities at 32 per pack; Ink & Ember has 90 distinct resources. Agree a reviewed capability-group/collection access semantics and host subset behavior so games can use complete decks without unbounded manifest grants. No wildcard or implicit prefix grants in this source candidate.",
       "priority": "high"
     }
   ]

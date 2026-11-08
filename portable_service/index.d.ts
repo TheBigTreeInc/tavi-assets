@@ -1,4 +1,4 @@
-/** Tavi Assets portable reference runtime 0.1.6. Host-side only; NEVER bundle into a third-party extension. */
+/** Tavi Assets portable reference runtime. Host-side only; NEVER bundle into a third-party extension. */
 export interface PackManifest {
   schema: 'tavi.assets.pack/v1'; id: string; version: string; type: string;
   compatibility: {host: 'tavi-assets/v1'};
@@ -32,9 +32,25 @@ export declare class AssetService {
   resolve(packId:string,capability:string,appId?:string|null):Promise<{schema:'tavi.assets.resource/v1';packId:string;version:string;capability:string;contentType:string;encoding:'base64';data:string;selected:string|null}>;
   uninstall(packId:string):Promise<{removed:string}>;
 }
-export interface TrustedGrant {applicationId:string;packs:string[];capabilities:string[];canCustomize?:boolean}
+/** TaviX 0.1.11 host-issued, per-pack grant; NOT an extension manifest field. */
+export interface TavixAssetGrantProjection {
+  schema:'tavix.asset-grants/v1';extensionId:string;extensionVersion:string;
+  manifestSha256:string;scope:'host-session';
+  grants:Array<{packId:string;capabilities:string[];canCustomize:boolean}>;
+}
+/** The real trusted host supplies the verified manifest and matching digest. */
+export interface TrustedAssetHostContext {
+  projection:TavixAssetGrantProjection;
+  verifiedManifest:{id:string;version:string;permissions:string[];assetDependencies?:Array<{
+    packId:string;compatibility:{min:string;maxExclusive:string};capabilities:string[];
+    optional:boolean;requestCustomization?:boolean
+  }>};
+  verifiedManifestSha256:string;
+  /** Additional application-feature groupings from verified host metadata only. */
+  requirements?:AssetRequirements;
+}
 export declare class TrustedAssetHostBridge {
-  constructor(service:AssetService, getTrustedGrant:(trustedSession:unknown)=>Promise<TrustedGrant|null>|TrustedGrant|null);
+  constructor(service:AssetService, getTrustedContext:(trustedSession:unknown)=>Promise<TrustedAssetHostContext|null>|TrustedAssetHostContext|null);
   dispatch(trustedSession:unknown,method:string,params:Record<string,unknown>):Promise<Record<string,unknown>>;
 }
 export declare class MemoryAssetStorage implements StorageAdapter { constructor(initial?:Record<string,unknown>);read():Promise<Record<string,unknown>>;transact<T>(cb:(state:any)=>T|Promise<T>):Promise<T>;exportForTesting():Record<string,unknown> }
@@ -42,3 +58,16 @@ export declare class AssetContractError extends Error {}
 export declare function validateManifest(manifest:PackManifest):true;
 export declare function validatePack(manifest:PackManifest,files:Record<string,Uint8Array>):Promise<true>;
 export declare function manifestRevision(manifest:PackManifest):Promise<string>;
+
+/** TaviX proposal only: not an accepted TaviX extension manifest field. */
+export interface AssetDependency {capability:string;packId?:string;version?:{min:string;maxExclusive:string}}
+export interface AssetFeatureRequirement {id:string;required:AssetDependency[];optional:AssetDependency[];fallback:'bundled'|'none'}
+export interface AssetRequirements {schema:'tavi.assets.requirements/v1';applicationId:string;features:AssetFeatureRequirement[]}
+export declare function validateAssetRequirements(requirements:AssetRequirements):true;
+export declare function resolveAssetRequirements(requirements:AssetRequirements,installedManifests:PackManifest[],context:TrustedAssetHostContext):{schema:'tavi.assets.dependency-status/v1';applicationId:string;features:Array<{id:string;ready:boolean;fallback:'bundled'|'none';required:unknown[];optional:unknown[]}>};
+
+/** Syntactic and manifest-subset checks, not permission issuance or proof of publisher trust. */
+export declare function validateTavixAssetDependencies(manifest:TrustedAssetHostContext['verifiedManifest']):Array<unknown>;
+export declare function validateTavixHostContext(context:TrustedAssetHostContext):{applicationId:string;byPack:Map<string,{capabilities:Set<string>;canCustomize:boolean;compatibility:{min:string;maxExclusive:string}}>};
+export declare function requirementsFromTavix(manifest:TrustedAssetHostContext['verifiedManifest']):AssetRequirements;
+export declare function withinVersion(version:string,range:{min:string;maxExclusive:string}):boolean;

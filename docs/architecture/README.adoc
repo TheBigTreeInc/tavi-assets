@@ -8,6 +8,8 @@
 * `CatalogL3`: `catalog.py` catalog reader, store service, deny-paid adapter and unavailable purchase boundary.
 * `StorefrontL3`: `preview.py` local loopback HTTP handler, `web/main.js` browser UI.
 * `HostAdapterL3`: `host.py` trusted-grant Python test adapter, not a Tavi native host method.
+* `ConsumerSdkL3`: `sdk/client.mjs` and `developer/fixture-host.mjs` reference transport plus synthetic fixture grants.
+* `PortableRuntimeL3`: privileged JS service and bridge, bounded validation, reference storage adapters, and cross-pack discovery/composition.
 
 LoopRD/Wallet, TaviX, Tavi and applications are shown only as opaque systems. No arrows imply functioning cross-project runtime integration. The edges in the model map to inspected Python/JavaScript calls and local HTTP requests. Browser is part of a local preview, not a TaviX extension container.
 

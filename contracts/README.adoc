@@ -1,14 +1,17 @@
-= Tavi Assets contract bundle — 0.1.4
+= Tavi Assets versioned contracts
 
-This folder is the **source of truth for Tavi Assets' data contracts**; other project models should consume versioned snapshots, never copy/paste unversioned implementation assumptions.
+The contract directory is the canonical source for data-only pack and proposed host/marketplace formats. A schema is not a trusted publisher signature or a purchase authorization.
 
-* `tavi-assets-pack-v1.schema.json`: data-only pack manifest with optional typed objects, tags, taxonomy/rarity, collections, inert modifiers and resources. Validation requires `core.validate()` in addition to JSON Schema to enforce secure byte hashes and same-pack cross references.
-* `tavi-assets-host-request-v1.schema.json`: proposed named host request payload shapes; explicitly excludes caller ID/path/wallet fields. NOT implemented in Tavi's production host.
-* `tavi-assets-consumer-v1.json`: proposed feature negotiation, named methods, response schema IDs, errors and safety constraints. NOT an existing native TaviX contract.
-* `tavi-assets-host-proposal-v1.json`: earlier minimal describe/resolve proposal, retained for lineage; superseded in breadth by the full consumer contract, not a production API.
+* `tavi-assets-pack-v1.schema.json` — implemented manifest shape; binary hash/path/media and graph-reference validation also required.
+* `tavi-assets-host-request-v1.schema.json` — proposed `tavi.assets/v1` request shapes; no source path, caller ID or grants accepted.
+* `tavi-assets-consumer-v1.json` — negotiated, grant-bound consumer methods including cross-pack discovery and slot resolution; current Tavi hosts do not implement these methods.
+* `tavi-assets-portable-runtime-v1.json` — host-owned JavaScript reference service/storage boundary.
+* `tavi-assets-customization-bundle-v1.schema.json` — proposed, data-only cross-pack customization slots; no purchase/entitlement effects.
+* `tavi-assets-store-offer-v1.schema.json` — proposed untrusted display offers; server-authoritative currency and ownership remain separate.
+* `tavi-assets-requirements-v1.schema.json` — proposed TaviX application feature requirements (required/optional capabilities, bounded versions, offline fallbacks).
+* `tavix-asset-dependencies-proposal-v1.json` — unapproved TaviX dependency metadata proposal; not live TaviX behavior.
+* `tavi-assets-host-proposal-v1.json` — superseded minimal host proposal retained as historical contract context.
 
-`sdk/client.mjs` + `sdk/index.d.ts` are reference consumers. See `docs/consumer-contract.adoc` for precise interpretation and `docs/QA_0.1.4.adoc` for non-accepted real-host dependencies. Neither machine-readable metadata nor this source ZIP authorizes publication or in-game dynamic code execution.
+See `docs/developer-guide.adoc` for exact API usage and `CHANGELOG.md` for source-version changes. The consumer SDK under `sdk/` is a source reference, not a published or deployed production package.
 
-== 0.1.5 portable service and dependency proposal
-
-`contracts/tavi-assets-portable-runtime-v1.json` documents the Tavi Assets-owned host-side runtime interface and storage/permission separation. `contracts/tavix-asset-dependencies-proposal-v1.json` is an unapproved proposal for declaring asset dependencies in TaviX, **not** a change to the currently deployed `tavix/1.0` wire/package contract. Neither file grants currency access or paid entitlement; LoopRD/Wallet remain separate authoritative services.
+* `tavi-assets-tavix-grant-adapter-v1.json` — source-referenced TaviX 0.1.11 host input and subset-validation semantics; **not** a second authoritative TaviX grant schema or a production permission token.

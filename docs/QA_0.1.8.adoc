@@ -1,0 +1,25 @@
+= Tavi Assets 0.1.8 — author-side dependency proposal QA
+:toc:
+
+== Scope
+
+Bounded TA-021 source-only implementation: versioned feature-level required/optional asset declaration schema, numeric semver ranges, optional pack targeting, deterministic host-only readiness checks against grant-filtered installed content, separate SDK feature negotiation and fixture tests. Source project is Tavi Assets only; Atrium, Klondike, TaviX and Social implementations were not modified.
+
+== Automated evidence
+
+`python tools/check.py` executes the preexisting source suite plus `tests/dependency_contract_smoke.mjs`; author-side 0.1.8 source run found 87/87 Python tests and 9/9 focused Node scenarios, along with existing Node tests/demos. JSON Schema draft2020-12 and TypeScript declaration checks were executed separately. The final extracted ZIP verification record is delivered alongside the ZIP.
+
+The proposed dependency resolution deliberately does not implement purchases, user inventory entitlements, downloads, approved manifest binding in TaviX, Social session policies, native platform storage, or automated game launch permission. A missing optional cosmetic must be a normal fallback, not a server fault. Failed/disabled/unowned paid content must remain unavailable by host policy; the local resolver cannot attest such status itself.
+
+== Windows and operator checks
+
+. Import exact 0.1.8 source candidate using canonical project ID `d0fe2552-0ae9-4162-b8e1-68c174d14a3a` and preserve `runtime/**`, `.git/**`, local registry and other protected state.
+. Confirm `python tools/check.py` executes in native Windows ZipRunner with Node on PATH, and that the new `tests/dependency_contract_smoke.mjs` runs (not merely that files were overlaid).
+. Verify actual post-update check status/receipt, test the reference game declaration fixture, and record any unsupported architecture/host assumptions.
+. Independently review whether TaviX approves a packaged declaration format; until then, do not add a new `tavi.extension/v1` manifest field to official releases.
+. Review the L3 C4 model with Structurizr CLI where available; no parser check is asserted by source string checks alone.
+. Leave original `define-next-pass`, TA-016, TA-018, TA-019, TA-020 and acceptance tickets under operator control; no automatic Done, Git push/tag or release.
+
+== Integration work orders
+
+See `docs/asset-dependencies.adoc`. User-provided Social 0.3.141 follow-up identifies Atrium `games.installed.open` `{params:{id,expectedVersion}}` and Klondike `storage.*` top-level wire argument corrections as project-owned changes. They are not implemented in this Tavi Assets ZIP. The separate assets feature must be advertised by Tavi only after real trusted runtime/service access is available and granted.

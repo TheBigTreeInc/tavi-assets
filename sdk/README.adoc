@@ -5,3 +5,17 @@
 The contract is suitable for implementing in Companion, Atrium and Klondike after host integration, but the SDK does not grant installation, entitlement or purchase privileges. The host owns authentication, identity, permitted packs, resource capabilities and consent to change preferences.
 
 `rulesRef` is an opaque game-owned lookup token; no pack metadata is executable. A game decides the supported mechanics for each token, defaults for unknown tokens, deck-building rules and balancing. Packs can supply new artwork/identities/sets but cannot silently add new game logic to a trusted game.
+
+== Developer methods and fixture host
+
+`listPacks`, `discoverObjects` and `resolveComposition` are additional proposed v1 API operations implemented in the Tavi Assets-owned JavaScript reference dispatcher. They do not exist in the inspected Tavi production host. They read only installed resources allowed by the trusted host session; multi-slot resolution does not compose pixels or grant entitlements.
+
+Use `node examples/developer/game-assets-demo.mjs` and `node tests/developer_contract_smoke.mjs` to develop and verify against a local fixture host. See `docs/developer-guide.adoc`. `rarity` remains optional game-specific metadata, not marketplace pricing or access control.
+
+== Proposed dependency readiness
+
+The optional `tavi.assets.dependencies/v1` host feature gates `client.dependencyStatus()` (wire method `assets.dependencies.status` with empty params). Requirements must come from the *verified installed extension declaration* and host-derived grants. This proposed operation is implemented only in the reference host; it is not implemented in production Tavi. See `docs/asset-dependencies.adoc`.
+
+== TaviX grant compatibility
+
+The host reference now requires a verified TaviX `tavix.asset-grants/v1` projection with per-pack capabilities and `canCustomize`, bound to its verified extension manifest/digest and current session. The SDK methods are unchanged; it does not expose grants or accept them from game code. The local game fixture grants only explicit subsets. See `docs/tavix-grant-integration.adoc` for the 32-capability-per-pack limit and recommended future grouped-resource review.

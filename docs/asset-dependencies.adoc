@@ -1,0 +1,69 @@
+= Shared asset dependency contract — Tavi Assets / TaviX / Tavi
+:toc:
+:sectnums:
+
+== Contract status
+
+TaviX 0.1.11 now has a source-validated optional extension manifest `assetDependencies` field and host-only `tavix.asset-grants/v1` projection. The Tavi Assets reference bridge implements their scoped semantics and manifest/request subset checking. Production Tavi feature support and grant issuance remain unverified. See `docs/tavix-grant-integration.adoc` for the current integration contract, security tests and 32-capability granularity limit.
+
+The existing `tavi.assets.requirements/v1` is a separate Tavi Assets reference for per-feature groupings and bundled fallbacks. It is not a TaviX manifest field and MUST NOT be presented as one. The reference service can derive readiness directly from verified TaviX dependencies where no trusted feature grouping is bound. The optional `tavi.assets.dependencies/v1` SDK feature / `assets.dependencies.status` method still require production Tavi host implementation.
+
+== Application declaration
+
+Use `contracts/tavi-assets-requirements-v1.schema.json` for the JSON shape. Examples are in `examples/developer/klondike-asset-requirements.json` and `examples/developer/companion-asset-requirements.json`.
+
+[source,json]
+----
+{
+  "schema": "tavi.assets.requirements/v1",
+  "applicationId": "org.tavi.example.klondike",
+  "features": [{
+    "id": "cosmetic-cards",
+    "required": [{"capability": "card.back", "version": {"min": "0.1.0", "maxExclusive": "2.0.0"}}],
+    "optional": [{"capability": "card.face.spades.ace"}],
+    "fallback": "bundled"
+  }]
+}
+----
+
+* Each feature is independent of the application's base ability to launch. `required` means *required for that feature*, not a mandate to lock out the entire game. Missing `required` dependencies set `ready=false` for that feature. A game with bundled graphics can still start and render its built-in assets.
+* `optional` dependencies do not affect feature readiness; absence is normal and must not produce false network/server errors.
+* `fallback: bundled` tells the game that its own original bundled resources can be used. It does not grant access to another pack. `fallback: none` means no promised fallback.
+* A dependency selects a semantic `capability`, optionally an exact `packId` and a half-open version range `[min,maxExclusive)`. An omitted `packId` allows any *granted, installed and verified* pack offering that capability. The reference resolver chooses the first matching pack by lexically sorted pack ID; a future user selection policy may override this only under a reviewed new contract.
+* Version comparisons are numeric triplets (`major.minor.patch`), never lexicographic; leading zeroes and arbitrary URLs/paths/permission requests are rejected.
+* Rarity and Gold price are not part of requirements. Cosmetic content must not be treated as gameplay advantage or price metadata by the generic resolver.
+
+== Host-owned resolution protocol
+
+. Validate the immutable TaviX extension's identity, source and package metadata using TaviX's reviewed rules. Extract TaviX `assetDependencies` declarations from that *verified package*, not from the `postMessage` caller or arbitrary local sidecar. Confirm `applicationId` equals the actual installed extension identity.
+. Tavi derives a session-bound grant for that application and account. Entitlements, purchase restrictions, per-variant rights and approved sources come from Tavi/LoopRD/Wallet policies, never from the dependency declaration itself.
+. Tavi Assets validates installed data-only packs and uses only the installed manifests filtered by granted pack IDs and capabilities. A pack present on disk but not granted, disabled, corrupt, incompatible, revoked or not installed is *not available* to the caller. The reference resolver accepts a prefiltered validated inventory and rechecks each pack-scoped TaviX grant; the real host must implement disabled/revoked account policy before calling it.
+. If a required feature dependency is unavailable, report `ready=false` for *that feature* and let the game select its bundled UI or disable that optional feature. Do not silently buy, download or install content, and do not convert missing optional catalog data into a network failure.
+. Reevaluate after trusted installation, updates, user preference changes, session/account changes and grant revocation; any future `assets.changed` event is only a proposal. Games must also tolerate hosts without events.
+. For a local/offline session, only previously installed, verified and *validly authorized under the host's offline entitlement policy* content may be returned. A local pack file is not proof of paid ownership.
+
+`assets.dependencies.status` takes `{}` and derives all requirements from the host's verified manifest entry. It returns `tavi.assets.dependency-status/v1`, one record per declared feature, with readiness and selected installed/granted pack IDs. It cannot take caller-supplied `requirements`, `grants`, `callerId`, `price`, path or arbitrary URLs. Clients must negotiate `tavi.assets.dependencies/v1` separately before requesting the method.
+
+== Permission and installation boundaries
+
+Extension declaration is *not* a permission grant or license. The Tavi host is the sole owner of app/session identity and permitted resources. Tavi Assets owns asset bytes, validation, preferences and resource lifecycle, not the TaviX manifest importer. TaviX 0.1.11 validates `assetDependencies` requests and a host-only `tavix.asset-grants/v1` projection. The real Tavi host still needs to adopt and bind both safely, and review collection-level scopes separately. **No existing TaviX package format is silently extended here.**
+
+Store prices, Gold purchases, reward credits, entitlement grants and purchase confirmations remain server-authoritative in LoopRD/Wallet; this contract never implements them. The protected free-Gold floor must remain protected. Local fixture grants are only fixtures and cannot model successful real purchases.
+
+== Integration work orders for other project maintainers
+
+* *Atrium:* Align SDK `games.installed.open` with Social's implemented `{params:{id,expectedVersion}}` shape, use the host's `tavix.installed-games/v1` registry only, and test authorized official-source launches/return navigation. Treat offline empty online catalogs as expected, not server connectivity errors. These are Atrium-owned changes, **not** changes in this ZIP.
+* *Klondike:* Send existing `storage.get/set` arguments as top-level TaviX request properties. Keep offline bundled cards and optional Assets support. Add Windows platform only after native checks. No game-owned wallet or asset registry.
+* *Tavi Social:* Embed the Tavi Assets-owned portable engine with real Windows/Android/web durable storage and verified session grants, then conditionally advertise `tavi.assets/v1` and `tavi.assets.dependencies/v1`. A developer-preview trust path must be explicitly approved and digest-pinned, not granted by a copied official ID.
+* *TaviX:* The 0.1.11 source validator supports explicit dependencies and host-grant projection. Review TA-023 capability grouping for 90-resource decks while preserving the strict `kind: app` envelope and source-approval boundaries.
+* *LoopRD/Wallet:* No changes here; ownership and currency flows wait for verified authoritative contracts.
+
+== Developer test and release gates
+
+[source,shell]
+----
+node tests/dependency_contract_smoke.mjs
+python tools/check.py
+----
+
+The reference host demonstrates resolution only. Native Tavi/Android/Windows integration, actual authenticated entitlements, official-source approvals, browser UX, and Structurizr CLI parsing all require independent acceptance. Publishing to GitHub is separately operator-gated.

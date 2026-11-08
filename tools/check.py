@@ -26,7 +26,7 @@ def main():
         if not node:
             print("Node.js unavailable: portable runtime and consumer SDK are unverified", flush=True)
             return 1
-        for script in ("tests/consumer_sdk_smoke.mjs", "tests/runtime_portable_smoke.mjs", "examples/portable-runtime-demo.mjs"):
+        for script in ("tests/consumer_sdk_smoke.mjs", "tests/runtime_portable_smoke.mjs", "tests/developer_contract_smoke.mjs", "tests/dependency_contract_smoke.mjs", "tests/tavix_scoped_grants_smoke.mjs", "examples/portable-runtime-demo.mjs", "examples/developer/game-assets-demo.mjs"):
             print(f"Running Node source check: {script}", flush=True)
             proc = subprocess.run([node, str(ROOT / script)], cwd=ROOT, check=False)
             if proc.returncode:

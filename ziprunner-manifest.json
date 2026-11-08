@@ -3,14 +3,14 @@
   "spec_version": "1.0.0",
   "project": {
     "key": "tavi-assets",
-    "version": "0.1.6",
-    "base_version": "0.1.4"
+    "version": "0.1.9",
+    "base_version": "0.1.8"
   },
   "update": {
-    "id": "TAVI-ASSETS-20261108-0116-PROTECTED-OVERLAY-REPAIR",
+    "id": "TAVI-ASSETS-20261108-0119-SCOPED-GRANTS",
     "kind": "source_update",
-    "created_at": "2026-11-08T00:55:00+00:00",
-    "summary": "Repair failed 0.1.5 Windows ZipRunner build by relocating portable-service source away from protected runtime/**. Preserve 0.1.4 as last stable base, TA-018 source intent, original Workboard decisions and all publication gates."
+    "created_at": "2026-11-08T11:13:35+01:00",
+    "summary": "Bounded TaviX 0.1.11 scoped grant compatibility repair; deny flat cross-pack rights, revalidate host-issued manifest-bound projection, filter metadata and add regression suite; producer-only source candidate."
   },
   "planned_work": [
     {
@@ -54,6 +54,30 @@
       "title": "Repair protected-path source overlay of portable service",
       "priority": "high",
       "acceptance_criteria": "Source portable_service/ not excluded by ZipRunner protected_paths, all references resolve after simulated protected overlay, source checks pass extracted ZIP; Windows build and operator decision independently required."
+    },
+    {
+      "id": "TA-020",
+      "title": "Shared game developer contract and reusable customization preview",
+      "priority": "high",
+      "acceptance_criteria": "Source SDK supports negotiated grant-limited cross-pack discovery and composition; optional rarity no purchase semantics; separate proposal schemas for bundles/storefront offers; runnable dev fixture host and test suite; evergreen README and changelog; operator acceptance and real host/payment integration separately gated."
+    },
+    {
+      "id": "TA-021",
+      "title": "Shared required and optional asset dependency contract for games",
+      "priority": "high",
+      "acceptance_criteria": "Validate versioned required/optional capability declarations and per-feature bundled fallback; test grant-scoped host-only readiness, numeric version boundaries and absence of purchase/entitlement effects; TaviX and Social adoption plus Windows/operator verification remain separate."
+    },
+    {
+      "id": "TA-022",
+      "title": "Enforce TaviX pack-scoped asset grant compatibility in portable host",
+      "priority": "high",
+      "acceptance_criteria": "Verified extension identity/version/digest and grant subset, per-pack resource and metadata checks, version bounds, customization and revocation; 12 regression scenarios, exact ZIP Windows acceptance and operator review separately."
+    },
+    {
+      "id": "TA-023",
+      "title": "Agree collection-level asset capabilities with TaviX",
+      "priority": "high",
+      "acceptance_criteria": "Specify and review safe collection-level permission or grouped resource contract allowing all 90 pack resources despite current 32-cap limit, without wildcard/prefix escalation; update TaviX and Tavi only after separate approval."
     }
   ],
   "done_work": [
@@ -118,6 +142,94 @@
           "description": "Exact failure reproduction and Windows operator acceptance criteria"
         }
       ]
+    },
+    {
+      "id": "TA-020",
+      "summary": "Source-reported developer contract and test harness implementation; independent Windows/operator acceptance pending.",
+      "evidence": [
+        {
+          "kind": "source",
+          "ref": "sdk/client.mjs",
+          "description": "Consumer SDK and new granted discovery/slot resolution calls"
+        },
+        {
+          "kind": "source",
+          "ref": "portable_service/service.mjs",
+          "description": "Trusted bridge enforces pack and capability grants for new methods"
+        },
+        {
+          "kind": "tests",
+          "ref": "tests/developer_contract_smoke.mjs",
+          "description": "Node cross-pack discovery, composition and fail-closed tests"
+        },
+        {
+          "kind": "documentation",
+          "ref": "docs/developer-guide.adoc",
+          "description": "Standalone developer guide and host/currency boundaries"
+        },
+        {
+          "kind": "documentation",
+          "ref": "README.md",
+          "description": "Evergreen root project entry point; release history moved to CHANGELOG.md"
+        },
+        {
+          "kind": "documentation",
+          "ref": "CHANGELOG.md",
+          "description": "Historical changes and integration limitations"
+        }
+      ]
+    },
+    {
+      "id": "TA-021",
+      "summary": "Source-only proposed dependency contract, resolver, feature-gated SDK and tests; TaviX/Social adoption and Windows verification pending.",
+      "evidence": [
+        {
+          "kind": "source",
+          "ref": "contracts/tavi-assets-requirements-v1.schema.json",
+          "description": "Versioned proposal declaration schema"
+        },
+        {
+          "kind": "source",
+          "ref": "portable_service/dependencies.mjs",
+          "description": "Host-only deterministic grant and version resolver"
+        },
+        {
+          "kind": "test",
+          "ref": "tests/dependency_contract_smoke.mjs",
+          "description": "Readiness, stale/ungranted/spoofed negative scenarios"
+        },
+        {
+          "kind": "documentation",
+          "ref": "docs/asset-dependencies.adoc",
+          "description": "Integration handoff and owned project boundaries"
+        }
+      ]
+    },
+    {
+      "id": "TA-022",
+      "summary": "Source-reported pack-scoped host reference implementation with TaviX 0.1.11 contract parity and negative regression tests; requires target/operator verification.",
+      "evidence": [
+        {
+          "kind": "source",
+          "ref": "portable_service/grants.mjs",
+          "description": "TaviX context and dependency request subset validator"
+        },
+        {
+          "kind": "source",
+          "ref": "portable_service/service.mjs",
+          "description": "Per-pack grant enforcement in host bridge"
+        },
+        {
+          "kind": "test",
+          "ref": "tests/tavix_scoped_grants_smoke.mjs",
+          "description": "12 scoped-grant negative and positive scenarios"
+        },
+        {
+          "kind": "documentation",
+          "ref": "docs/tavix-grant-integration.adoc",
+          "description": "Host integration, policy and resource grouping limitation"
+        }
+      ]
     }
   ],
   "todo_work": [
@@ -145,69 +257,120 @@
       "id": "TA-017",
       "status": "review",
       "next_action": "Verify earlier 0.1.4 metadata/SDK implementation and operator acceptance before closing; preserve original ID and history."
+    },
+    {
+      "id": "TA-023",
+      "status": "planned",
+      "next_action": "Review TaviX 32-capability limit with the TaviX/Social owner; choose reviewed typed collection/namespace scope for decks before enabling broad discovery; no implicit grant widening."
     }
   ],
   "validation": {
     "model_reported": "partial",
     "checks": [
       {
-        "id": "TA-018-SOURCE",
+        "id": "TA-021-PYTHON",
+        "status": "not_run",
+        "description": "Source Python+Node build to be executed for exact candidate",
+        "environment": "Linux container"
+      },
+      {
+        "id": "TA-021-NODE",
         "status": "passed",
-        "description": "Source-author verification executed: python tools/check.py (77 Python tests and Node consumer/service/demo checks); fresh exact ZIP extraction is verified separately.",
-        "environment": "Linux container; NOT native Windows ZipRunner"
+        "description": "Initial dependency reference tests 9/9 passed; exact ZIP recheck pending",
+        "environment": "Linux container Node 22"
       },
       {
-        "id": "TA-018-WINDOWS",
+        "id": "TA-021-WINDOWS",
         "status": "not_run",
-        "description": "0.1.6 native Windows ZipRunner build, overlay and post-update checks not yet observed."
+        "description": "Exact Windows ZipRunner verification not run"
       },
       {
-        "id": "TA-018-STRUCTURIZR",
+        "id": "TA-021-HOST",
         "status": "not_run",
-        "description": "Structurizr CLI parser check (CLI unavailable to author)"
+        "description": "Production TaviX/Tavi/LoopRD/Wallet adoption not implemented"
       },
       {
-        "id": "TA-019-OVERLAY",
+        "id": "TA-021-C4",
+        "status": "not_run",
+        "description": "Structurizr CLI parser not run"
+      },
+      {
+        "id": "TA-022-PYTHON",
         "status": "passed",
-        "description": "Author-side regression executed: tests/test_overlay_protected_paths.py checks protected-path source filtering and real Node runtime smoke under the filtered overlay.",
-        "environment": "Linux container; NOT native Windows ZipRunner"
+        "description": "91/91 Python tests and all Node scripts passed on source checkout; exact extracted ZIP recheck independently reported",
+        "environment": "Linux container; Python 3.13, Node 22"
       },
       {
-        "id": "TA-019-WINDOWS",
+        "id": "TA-022-NODE",
+        "status": "passed",
+        "description": "12/12 TaviX pack-scoped grant scenarios passed on source checkout; exact extracted ZIP recheck independently reported",
+        "environment": "Linux container Node 22"
+      },
+      {
+        "id": "TA-022-TAVIX-HOST",
         "status": "not_run",
-        "description": "Operator must independently verify Windows 0.1.6 build and preserved runtime/ folder."
+        "description": "Actual Tavi Social host integration and entitlement checks are not available in this producer package"
+      },
+      {
+        "id": "TA-022-WINDOWS",
+        "status": "not_run",
+        "description": "Native Windows ZipRunner build and operator acceptance pending"
+      },
+      {
+        "id": "TA-022-C4",
+        "status": "not_run",
+        "description": "Structurizr CLI parser not executed"
       }
     ]
   },
   "handover": {
-    "next_pass": "Import 0.1.6 candidate over failed 0.1.5 state (0.1.4 last accepted), verify Windows copy/build/post-update and unchanged protected runtime/**; then review TA-018/TA-019, TA-007/Tavi host remains future work.",
+    "next_pass": "Import exact 0.1.9 ZIP into canonical Windows ZipRunner for build/post-update and operator review; Tavi integrates verified scoped grant callback; TaviX/Social review TA-023 collection capability limit.",
     "risks": [
       "Portable Node reference stores a bounded whole-pack JSON snapshot and is NOT production binary storage",
       "Tavi 0.3.139 real host integration not performed",
       "Current SDK feature tavi.assets/v1 and TaviX dependency rules remain proposed; actual production APIs unknown",
       "JS and Python pack validators may have remaining corner-case parity differences",
-      "0.1.5 overlay excluded runtime/** as protected; local Windows source can contain 0.1.5 partial unaccepted files, so 0.1.6 must be verified independently. Do not delete protected directories or regenerate user state."
+      "0.1.5 overlay excluded runtime/** as protected; local Windows source can contain 0.1.5 partial unaccepted files, so 0.1.6 must be verified independently. Do not delete protected directories or regenerate user state.",
+      "Offer display schema and customization-bundle schema are only proposals; per-variant ownership is NOT yet enforced by live host. No real Gold purchases.",
+      "New JS cross-pack methods have no Python test-host equivalent; parity and actual host availability require future integration.",
+      "TaviX 0.1.10 does not implement this dependency field; do not insert into current production .tavix manifest without host/toolchain approval.",
+      "TaviX grants are explicit pack/capability only, max 32 per pack; full 90-resource three-deck example requires a separately reviewed grouping contract. No wildcard grant behavior is provided."
     ],
     "blockers": [
       "Tavi runtime native storage and authentication adapters unimplemented",
       "Windows/Android and operator acceptance pending",
       "No approved data-only TaviX distribution or real LoopRD/Wallet integration",
-      "Native Windows 0.1.6 build and operator acceptance not yet observed."
+      "Native Windows 0.1.6 build and operator acceptance not yet observed.",
+      "The current 0.1.7 ZIP has no native Windows acceptance or authorized Git publication.",
+      "Native Social 0.3.141 host dependency and asset runtime not implemented by this ZIP.",
+      "No production Tavi trusted context, entitlement revocation or session adapter acceptance; source fixture digest is NOT production trust."
     ]
   },
   "operator_actions": [
     {
-      "id": "TA-019-OP1",
-      "description": "Import exact 0.1.6 ZIP into canonical Windows ZipRunner project; verify portable_service/ files copied, python tools/check.py succeeds and original protected runtime/** unchanged."
+      "id": "TA-021-OP1",
+      "description": "Import exact 0.1.8 candidate and verify Windows build + post-update checks, source paths and unchanged protected state."
     },
     {
-      "id": "TA-019-OP2",
-      "description": "Review TA-018/TA-019 evidence, post-update receipt and Workboard reconciliation. Explicit operator acceptance and Git publication remain separate."
+      "id": "TA-021-OP2",
+      "description": "Review TaviX/Social integration contract and assign separate implementing teams; no automatic grants/purchases."
+    },
+    {
+      "id": "TA-021-OP3",
+      "description": "Record explicit operator acceptance before any publication, tag, push or release."
+    },
+    {
+      "id": "TA-022-OP1",
+      "description": "Import exact 0.1.9 into Windows ZipRunner; verify Python+Node receipt and scoped-grant regression."
+    },
+    {
+      "id": "TA-022-OP2",
+      "description": "Review TaviX v1 per-pack scope and collection capability limit; do not push/publish or approve until explicit operator decision."
     }
   ],
   "release": {
     "requested": false,
     "requires_operator_approval": true,
-    "notes": "Source-only; no remote push, release, tag or publication authorized."
+    "notes": "Developer source candidate only; no push, tag, publication or real-money integration authorized."
   }
 }

@@ -1,17 +1,72 @@
 {
-  "schema":"tavi.assets.portable-runtime-proposal/v1",
-  "status":"reference-implementation-not-production-integrated",
-  "owner":"tavi-assets",
-  "service":"portable_service/service.mjs",
-  "hostSideOnly":true,
-  "consumerSDK":"sdk/client.mjs",
-  "hostFeature":"tavi.assets/v1",
-  "installer":{"method":"install","input":"{manifest,files:<Uint8Array-by-path>,origin}","authorization":"Injected trusted host policy required and must return true; receives normalized manifestSha256 and host-vetted origin","exposedToExtensions":false},
-  "storage":{"interface":"read() + transact(callback)","atomicity":"Adapter must serialize and atomically commit each transaction or reject without modification","referenceMemory":"portable_service/storage.mjs","referenceNode":"portable_service/node-file-storage.mjs","productionWindowsAndroid":"not_implemented","largePackStreaming":"not_implemented"},
-  "preferences":{"precedence":["application","global","pack-default"],"globalWrite":"privileged Tavi Settings only","applicationWrite":"host-granted assets.preferences.set + user-consent policy"},
-  "extensionAccess":{"bridge":"portable_service/service.mjs: TrustedAssetHostBridge","session":"trusted host session object separately supplied","grant":"session-derived packs, capabilities, canCustomize, applicationId","forbiddenRequestFields":["callerId","grants","path","url","wallet","install"]},
-  "wallet":{"owner":"LoopRD/Wallet","scope":"not implemented or simulated by this runtime"},
-  "tavix":{"assetDependencies":"needs independently reviewed contract in TaviX","extensionPackaging":"existing .tavix extension format is not an asset-pack format"},
-  "compatibility":{"assetsPack":"tavi.assets.pack/v1","hostFeature":"tavi.assets/v1","productionTaviHost":"not_implemented"},
-  "operatorGate":{"gitPush":false,"publication":false,"operatorAcceptanceRequired":true}
+  "schema": "tavi.assets.portable-runtime-proposal/v1",
+  "status": "reference-implementation-not-production-integrated",
+  "owner": "tavi-assets",
+  "service": "portable_service/service.mjs",
+  "hostSideOnly": true,
+  "consumerSDK": "sdk/client.mjs",
+  "hostFeature": "tavi.assets/v1",
+  "installer": {
+    "method": "install",
+    "input": "{manifest,files:<Uint8Array-by-path>,origin}",
+    "authorization": "Injected trusted host policy required and must return true; receives normalized manifestSha256 and host-vetted origin",
+    "exposedToExtensions": false
+  },
+  "storage": {
+    "interface": "read() + transact(callback)",
+    "atomicity": "Adapter must serialize and atomically commit each transaction or reject without modification",
+    "referenceMemory": "portable_service/storage.mjs",
+    "referenceNode": "portable_service/node-file-storage.mjs",
+    "productionWindowsAndroid": "not_implemented",
+    "largePackStreaming": "not_implemented"
+  },
+  "preferences": {
+    "precedence": [
+      "application",
+      "global",
+      "pack-default"
+    ],
+    "globalWrite": "privileged Tavi Settings only",
+    "applicationWrite": "host-granted assets.preferences.set + user-consent policy"
+  },
+  "extensionAccess": {
+    "bridge": "portable_service/service.mjs: TrustedAssetHostBridge",
+    "session": "trusted host session object separately supplied",
+    "grant": "TaviX host-owned tavix.asset-grants/v1 projection bound to separately verified installed extension manifest + SHA-256 and trusted session; per-pack capabilities and canCustomize. Reject legacy flat grants.",
+    "forbiddenRequestFields": [
+      "callerId",
+      "grants",
+      "path",
+      "url",
+      "wallet",
+      "install"
+    ]
+  },
+  "wallet": {
+    "owner": "LoopRD/Wallet",
+    "scope": "not implemented or simulated by this runtime"
+  },
+  "tavix": {
+    "assetDependencies": "TaviX 0.1.11 source validator supports explicit per-pack requests; production Tavi session bridge pending",
+    "extensionPackaging": "existing .tavix extension format is not an asset-pack format",
+    "grantContract": "tavix.asset-grants/v1, 16 explicit packs max, 32 capabilities per pack"
+  },
+  "compatibility": {
+    "assetsPack": "tavi.assets.pack/v1",
+    "hostFeature": "tavi.assets/v1",
+    "productionTaviHost": "not_implemented"
+  },
+  "operatorGate": {
+    "gitPush": false,
+    "publication": false,
+    "operatorAcceptanceRequired": true
+  },
+  "dependencies": {
+    "code": "portable_service/dependencies.mjs",
+    "status": "local-reference-only",
+    "hostFeature": "tavi.assets.dependencies/v1",
+    "method": "assets.dependencies.status",
+    "declarations": "host-verified requirements only, not extension request params",
+    "authority": "readiness result cannot create entitlements, install content, or spend Gold"
+  }
 }

@@ -1,9 +1,32 @@
 {
-  "schema":"tavi.assets.tavix-dependency-proposal/v1",
-  "status":"proposed-for-TaviX-review-not-in-existing-tavix/1.0",
-  "ownerOfExtensionManifest":"tavix",
-  "ownerOfContent":"tavi-assets",
-  "exampleOnly":{"assetRequirements":[{"packId":"org.tavi.examples.storybook-decks","compatibility":{"min":"0.1.0","maxExclusive":"1.0.0"},"capabilities":["card.back"],"optional":false}]},
-  "semantics":"Host validates and approves declared pack requirements, checks entitlements and installation independently; a dependency is never proof of ownership or a permission grant",
-  "productionWireStatus":"unimplemented"
+  "schema": "tavi.assets.tavix-dependency-proposal/v1",
+  "status": "tavix-0.1.11-reviewed-source-contract; production-host-integration-pending",
+  "ownerOfExtensionManifest": "tavix",
+  "ownerOfContent": "tavi-assets",
+  "exampleOnly": {
+    "assetRequirements": [
+      {
+        "packId": "org.tavi.examples.storybook-decks",
+        "compatibility": {
+          "min": "0.1.0",
+          "maxExclusive": "1.0.0"
+        },
+        "capabilities": [
+          "card.back"
+        ],
+        "optional": false
+      }
+    ]
+  },
+  "semantics": "Host validates and approves declared pack requirements, checks entitlements and installation independently; a dependency is never proof of ownership or a permission grant",
+  "productionWireStatus": "unimplemented",
+  "requirementsSchema": "contracts/tavi-assets-requirements-v1.schema.json",
+  "exampleDeclarations": [
+    "examples/developer/klondike-asset-requirements.json",
+    "examples/developer/companion-asset-requirements.json"
+  ],
+  "hostStatusFeature": "tavi.assets.dependencies/v1",
+  "hostStatusMethod": "assets.dependencies.status",
+  "scope": "required/optional are feature-specific, no automatic purchase or application launch lockout",
+  "notes": "TaviX 0.1.11 implements optional extension manifest.assetDependencies and host-only tavix.asset-grants/v1. This Assets source does not edit TaviX or claim actual Tavi host support. The older tavi.assets.requirements/v1 application feature grouping remains a separate Assets reference declaration."
 }

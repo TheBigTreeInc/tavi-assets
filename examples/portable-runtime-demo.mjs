@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {AssetService,TrustedAssetHostBridge,MemoryAssetStorage} from '../portable_service/index.mjs';
+import {fixtureTavixContext} from '../developer/tavix-fixtures.mjs';
 import {createTaviAssetsClient} from '../sdk/client.mjs';
 const folder=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'storybook-decks');
 const manifest=JSON.parse(await fs.readFile(path.join(folder,'manifest.json'),'utf8'));
@@ -10,7 +11,7 @@ const files={};for(const name of Object.keys(manifest.files))files[name]=new Uin
 const service=new AssetService({storage:new MemoryAssetStorage(),authorizeInstall:async ({origin})=>origin==='example-only-approved'});
 await service.install({manifest,files,origin:'example-only-approved'});
 const session=Object.freeze({id:'trusted-demonstration-session'});
-const bridge=new TrustedAssetHostBridge(service,async s=>s===session?({applicationId:'org.tavi.demo.cardgame',packs:[manifest.id],capabilities:Object.keys(manifest.resources),canCustomize:true}):null);
+const bridge=new TrustedAssetHostBridge(service,async s=>s===session?fixtureTavixContext({applicationId:'org.tavi.demo.cardgame',packCapabilities:{[manifest.id]:['card.back',...Object.keys(manifest.resources).filter(c=>c.startsWith('card.face.joker.')),...Object.keys(manifest.resources).filter(c=>c.startsWith('card.face.spades.')).slice(0,13)]},canCustomize:true}):null);
 const consumer=createTaviAssetsClient({info:async()=>({features:['tavi.assets/v1'],api:'reference-only'}),request:(method,params)=>bridge.dispatch(session,method,params)});
 await consumer.connect();
 const decks=await consumer.listCollections(manifest.id,{kind:'deck'});

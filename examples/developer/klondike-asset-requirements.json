@@ -1,0 +1,8 @@
+{
+  "schema":"tavi.assets.requirements/v1",
+  "applicationId":"org.tavi.example.klondike",
+  "features":[
+    {"id":"cosmetic-cards","required":[{"capability":"card.back","version":{"min":"0.1.0","maxExclusive":"2.0.0"}}],"optional":[{"capability":"card.face.spades.ace"}],"fallback":"bundled"},
+    {"id":"table-theme","required":[],"optional":[{"capability":"table.surface"}],"fallback":"bundled"}
+  ]
+}

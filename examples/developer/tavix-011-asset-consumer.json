@@ -1,0 +1,24 @@
+{
+  "schema": "tavi.extension/v1",
+  "id": "example.org.asset-consumer",
+  "version": "0.1.0",
+  "name": "Card Asset Consumer",
+  "summary": "Developer fixture declaring scoped card assets; does not install or purchase packs.",
+  "publisher": "example-org",
+  "kind": "app",
+  "classification": {"type": "game", "categories": ["cards", "solitaire"]},
+  "hostApi": {"min": "1.0.0", "maxExclusive": "2.0.0"},
+  "entrypoints": {"panel": "ui/index.html"},
+  "contributions": [{"slot": "app.launcher", "id": "asset-consumer", "label": "Card Assets", "action": "openPanel"}],
+  "permissions": ["ui.panel", "assets.read", "assets.preferences.write"],
+  "assetDependencies": [
+    {
+      "packId": "org.tavi.cards.standard",
+      "compatibility": {"min": "0.1.0", "maxExclusive": "1.0.0"},
+      "capabilities": ["card.back", "card.front.ace-spades"],
+      "optional": false,
+      "requestCustomization": true
+    }
+  ],
+  "platforms": ["web", "windows", "android"]
+}

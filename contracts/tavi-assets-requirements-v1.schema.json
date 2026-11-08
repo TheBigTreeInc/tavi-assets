@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:tavi:assets:requirements:v1",
+  "title": "Tavi Assets application feature requirements (proposal for TaviX)",
+  "description": "Host-validated declarations. Does not authorize install, purchase, entitlement, or resource access.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "applicationId", "features"],
+  "properties": {
+    "schema": {"const": "tavi.assets.requirements/v1"},
+    "applicationId": {"$ref": "#/$defs/id"},
+    "features": {"type": "array", "minItems": 1, "maxItems": 32, "items": {"$ref": "#/$defs/feature"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,126}$", "maxLength": 127},
+    "capability": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,126}$", "maxLength": 127},
+    "version": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$", "maxLength": 64},
+    "range": {
+      "type": "object", "additionalProperties": false,
+      "required": ["min", "maxExclusive"],
+      "properties": {"min": {"$ref": "#/$defs/version"}, "maxExclusive": {"$ref": "#/$defs/version"}}
+    },
+    "dependency": {
+      "type": "object", "additionalProperties": false,
+      "required": ["capability"],
+      "properties": {
+        "capability": {"$ref": "#/$defs/capability"},
+        "packId": {"$ref": "#/$defs/id"},
+        "version": {"$ref": "#/$defs/range"}
+      }
+    },
+    "feature": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "required", "optional", "fallback"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "required": {"type": "array", "minItems": 0, "maxItems": 16, "items": {"$ref": "#/$defs/dependency"}},
+        "optional": {"type": "array", "minItems": 0, "maxItems": 16, "items": {"$ref": "#/$defs/dependency"}},
+        "fallback": {"enum": ["bundled", "none"]}
+      }
+    }
+  }
+}

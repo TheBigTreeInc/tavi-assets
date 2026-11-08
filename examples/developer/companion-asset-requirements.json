@@ -1,0 +1,7 @@
+{
+  "schema":"tavi.assets.requirements/v1",
+  "applicationId":"org.tavi.example.companion",
+  "features":[
+    {"id":"cave-decoration","required":[],"optional":[{"capability":"companion.furniture"},{"capability":"companion.background"}],"fallback":"bundled"}
+  ]
+}

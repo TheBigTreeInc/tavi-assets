@@ -5,6 +5,7 @@
  * Tavi has NOT implemented these proposed assets.* methods yet.
  */
 const FEATURE = 'tavi.assets/v1';
+const DEPENDENCIES_FEATURE = 'tavi.assets.dependencies/v1';
 
 export class AssetsUnavailableError extends Error {
   constructor(message = 'Tavi Assets host feature unavailable') {
@@ -18,13 +19,16 @@ export function createTaviAssetsClient(transport) {
     throw new TypeError('Session-bound host transport with info() and request() required');
   }
   let ready = false;
+  let supportsDependencies = false;
   async function connect() {
     const info = await transport.info();
     if (!info || !Array.isArray(info.features) || !info.features.includes(FEATURE)) {
       ready = false;
+      supportsDependencies = false;
       throw new AssetsUnavailableError();
     }
     ready = true;
+    supportsDependencies = info.features.includes(DEPENDENCIES_FEATURE);
     return {feature: FEATURE, api: info.api ?? null};
   }
   async function invoke(method, params) {
@@ -41,8 +45,17 @@ export function createTaviAssetsClient(transport) {
   };
   return Object.freeze({
     connect,
+    dependencyStatus: () => {
+      if (!supportsDependencies) throw new AssetsUnavailableError('Dependency status feature unavailable');
+      return invoke('assets.dependencies.status', {});
+    },
     describe: packId => invoke('assets.describe', {packId: id(packId)}),
     listObjects: (packId, filters = {}) => invoke('assets.objects.list', {...filters, packId: id(packId)}),
+    // Queries only the installed packs the trusted host grants to this session.
+    listPacks: (filters = {}) => invoke('assets.packs.list', filters),
+    discoverObjects: (filters = {}) => invoke('assets.objects.discover', filters),
+    // Resolves independent customization slots; artwork composition is game-owned.
+    resolveComposition: components => invoke('assets.composition.resolve', {components}),
     getObject: (packId, objectId) => invoke('assets.objects.get', {packId: id(packId), objectId}),
     listCollections: (packId, filters = {}) => invoke('assets.collections.list', {...filters, packId: id(packId)}),
     getCollection: (packId, collectionId) => invoke('assets.collections.get', {packId: id(packId), collectionId}),

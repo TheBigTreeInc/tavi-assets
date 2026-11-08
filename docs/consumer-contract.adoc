@@ -131,3 +131,11 @@ A separately owned reference implementation is available in `portable_service/se
 Variant precedence: application override, global user preference, pack default. Only the trusted first-party Settings UI can invoke the privileged global setter. Extension requests for `assets.preferences.set` may only change that requesting application's override after permission and host-user-consent checks. No payment, gold reward, paid ownership, download approval or arbitrary resource file path is a consumer SDK method.
 
 The Node-only filesystem adapter is a bounded test fixture, not production binary storage. Remote catalogs, native Android/Windows persistence, React/Vite/Tavi UI embedding, extension permission manifest review and signing are still pending.
+
+== Developer-friendly cross-pack operations (source reference)
+
+The portable JS service and SDK additionally implement proposed `assets.packs.list`, `assets.objects.discover` and `assets.composition.resolve`. These methods require host-resolved session grants and installed packs, never arbitrary library-wide search or caller-controlled identity. A composition response is simply a list of independently authorized byte resources for named slots; the game controls layout. Source runnable examples are in `examples/developer/` and the full onboarding guide is `docs/developer-guide.adoc`. Production Tavi host support is still absent.
+
+== Customization marketplace boundary
+
+Asset rarity is optional game-owned metadata; an absent rarity is not implicitly common. It must not determine prices or access. Proposed standalone customization bundle and storefront offer schemas are in `contracts/`; offer Gold display metadata is untrusted. Variant-level entitlements, server-authorized Wallet transactions and cross-device purchases remain outside this local developer contract.

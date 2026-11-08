@@ -133,8 +133,7 @@ export function validateManifest(m) {
     keys(obj,['kind','name','description','rarity','tags','attributes','resources','rulesRef','modifiers'],'object');
     assertCapability(obj.kind,'object kind');
     if(typeof obj.name!=='string'||!obj.name.trim()||obj.name.length>160||!tagsValid(obj.tags??[])) fail('bad object metadata');
-    const rarity=obj.rarity??'common';
-    if(!(Object.keys(rarities).length?Object.hasOwn(rarities,rarity):defaultRarities.has(rarity))) fail('unknown rarity');
+    if(obj.rarity!==undefined && !(Object.keys(rarities).length?Object.hasOwn(rarities,obj.rarity):defaultRarities.has(obj.rarity))) fail('unknown rarity');
     if(!Array.isArray(obj.resources??[])||(obj.resources??[]).length>32||new Set(obj.resources??[]).size!==(obj.resources??[]).length||(obj.resources??[]).some(r=>!Object.hasOwn(m.resources,r))) fail('unknown object resource');
     if(obj.rulesRef!==undefined) assertCapability(obj.rulesRef,'rules ref');
     if(obj.modifiers!==undefined)validateModifiers(obj.modifiers);

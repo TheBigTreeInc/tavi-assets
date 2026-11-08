@@ -1,0 +1,94 @@
+= Tavi Assets — Game developer integration guide
+:toc:
+:sectnums:
+
+== Purpose
+
+Tavi Assets is a shared content service, not a game engine and not a wallet. Games can reuse art, themes, collections, typed objects and variant selections, while retaining control over their own rules and UI. A single Tavi account will eventually grant access to installed/owned resources through Tavi's trusted host. The example host here is strictly local and synthetic.
+
+== What is usable today
+
+* `tavi.assets.pack/v1` is an implemented, data-only manifest and validator contract. `contracts/tavi-assets-pack-v1.schema.json` covers its JSON shape; Python and JavaScript implementations additionally check files, paths, hashes and references.
+* `tavi.assets/v1` names the **proposed** session-negotiated host feature. `sdk/client.mjs` and `sdk/index.d.ts` are source reference implementations. `portable_service/` handles requests in local tests. **Production Tavi does not yet implement this feature.**
+* Developers can run the same SDK against `developer/fixture-host.mjs` with explicit fixture assets, without account, Wallet, permissions UI, remote installation or real extensions.
+* Cross-pack metadata search and multi-slot resource resolution are implemented in the JavaScript reference service, but not yet in the Python demo dispatcher or native Tavi host. No same-machine process bridge is assumed.
+
+== Start here
+
+From the root of this source package, run:
+
+[source,shell]
+----
+node examples/developer/game-assets-demo.mjs
+node tests/developer_contract_smoke.mjs
+python tools/check.py
+----
+
+The example loads two *original, free* sample packs and resolves a card face from one and a card back from the other. The test host only returns a consumer client, never the privileged `AssetService` or session grant resolver.
+
+== API for consumers
+
+The game must call `await client.connect()` and verify `tavi.assets/v1` was negotiated before using assets. Every operation is an asynchronous named request over a host-supplied trusted transport. The caller never supplies its identity, storage location or permission grants.
+
+[cols="2,3,2",options="header"]
+|===
+|Consumer method |Purpose |Wire method
+|`describe(packId)` |Describe one allowed pack |`assets.describe`
+|`listPacks(filters?)` |Search installed packs granted to the caller |`assets.packs.list`
+|`listObjects(packId, filters?)` |Query typed objects within one allowed pack |`assets.objects.list`
+|`discoverObjects(filters?)` |Query typed objects across allowed installed packs |`assets.objects.discover`
+|`getObject(packId, objectId)` |Get one typed object |`assets.objects.get`
+|`listCollections(packId, filters?)` |Enumerate deck/collection metadata |`assets.collections.list`
+|`getCollection(packId, collectionId)` |Read one collection's object references |`assets.collections.get`
+|`preferences(packId)` |Read allowed, selected variants |`assets.preferences.get`
+|`select(packId, capability, variant)` |Request an app-scoped selection, subject to approval |`assets.preferences.set`
+|`resolve(packId, capability)` |Resolve one granted resource |`assets.resolve`
+|`resolveComposition(components)` |Resolve multiple independently authorized slots |`assets.composition.resolve`
+|===
+
+`listPacks` and `discoverObjects` accept bounded, optional filters; objects retain their `packId` and `version`. Discovery is limited to the authorized installed packs of the current session, **not the public purchase catalog**. `resolveComposition` receives a bounded list of `{slot,packId,capability}` and returns independent resources with those slot keys. It does *not* draw the card, blend artwork, apply game effects, persist a composite, or grant otherwise unavailable variants. A game decides how to use the results.
+
+[source,javascript]
+----
+const assets = createTaviAssetsClient(trustedTaviXTransport);
+await assets.connect(); // rejects if host does not advertise tavi.assets/v1
+const matching = await assets.discoverObjects({kind:'playing-card',tags:['suit.spades'],limit:20});
+const art = await assets.resolveComposition([
+  {slot:'face',packId:'org.tavi.examples.storybook-decks',capability:'card.face.spades.ace'},
+  {slot:'back',packId:'org.tavi.cards.standard',capability:'card.back'}
+]);
+----
+
+The transport in this example is conceptual: it must be a verified, trusted host SDK transport, not a caller-authored `postMessage` simulation. For a runnable local implementation, use `examples/developer/game-assets-demo.mjs`.
+
+== Metadata and customization
+
+Pack and object identifiers and semantic capabilities are stable contract references. `type`, `kind`, `tags`, and collections answer what an object *is* and what a game might be able to consume; applications may filter unknown object kinds. `rarity` is OPTIONAL and must only express a game-owned classification if a game specifically needs one. No generic marketplace sorting, pricing, buying eligibility or random rarity mechanics are inferred from it. `rulesRef` and bounded declarative modifiers are inert references that only an approved game rules engine may interpret.
+
+Global and application selections are separate: `application override -> global user preference -> pack default`. Multi-pack customizations must pass capability, availability and entitlement checks per resource. A `.json` bundle describes desired slots (`contracts/tavi-assets-customization-bundle-v1.schema.json`), not a paid grant or a new gameplay mechanic.
+
+== Storefront and currency boundaries
+
+The proposed `contracts/tavi-assets-store-offer-v1.schema.json` describes *untrusted display metadata*: human title, stable offer/entitlement IDs, contents and optional Gold price preview. It cannot authorize purchase or attest ownership. Source applications MUST NOT use it as a source of truth for wallet balance, price, purchases, protected free-Gold spendability, or variant-level entitlements. The live service must obtain authoritative signed/verified responses from LoopRD/Wallet, and the Tavi host must enforce per-variant grants before exposing paid variants. That work is not implemented in this developer package. There is no pay-to-win rule implied by a cosmetic's price, tags, or optional rarity.
+
+No real-money purchasing, locally fabricated purchase success, code execution from packs, or cross-extension private storage reads are permitted.
+
+== TaviX and application responsibilities
+
+TaviX currently has an extension distribution contract; `contracts/tavix-asset-dependencies-proposal-v1.json` is **not** a shipped dependency extension to that format. A game may design against this Assets consumer SDK today; do not assert the real Tavi host supports it without negotiation. A real integration requires Tavi to provide a secure TaviX transport and account/device storage adapters, while Tavi Assets retains the content engine and storefront ownership.
+
+== Local verification and limitations
+
+`node tests/developer_contract_smoke.mjs` is the standalone developer-level conformance harness. `python tools/check.py` executes the repository's broader Python/Node suite and checks source/Workboard contracts. Tests are reference-service proof only; they do not replace Windows/Android acceptance, a live TaviX host, server-authoritative purchases, license review, Structurizr CLI validation or an operator release decision.
+
+The Node storage adapter holds a bounded snapshot and is not suitable for production large assets. The example SVGs are intentionally tiny, original, static illustrations. Other projects should vendor a reviewed, pinned versioned SDK source artifact or depend on an operator-approved published package; a path to this GitHub repository alone is not a release channel.
+
+== Declaring required and optional assets (proposal)
+
+The versioned `tavi.assets.requirements/v1` declaration, independent local test host, and read-only dependency status are detailed in `docs/asset-dependencies.adoc`. See `examples/developer/klondike-asset-requirements.json`. The declaration must come from verified extension metadata once TaviX approves a binding; a game must not submit requirements as a way to request new grants.
+
+A separately negotiated `tavi.assets.dependencies/v1` host feature would allow `await assets.dependencyStatus()` for a trusted session. If it is unavailable, use bundled assets without attempting this method. This is currently implemented only in the local reference bridge and fixture host, **not** Social 0.3.141. Required content affects the declared optional *feature*, not base-game launch, and must never trigger unapproved installs or purchases.
+
+== Scoped TaviX grants and complete deck limitations
+
+The reference service now requires a host-only verified TaviX `tavix.asset-grants/v1` projection with exact pack/capability pairs. Its local `createFixtureGameHost` can accept `packCapabilities: {[packId]: [capability, ...]}`; `capabilities` is a convenience test-fixture input, never a production flat grant. Both install and authorization in this fixture are explicitly synthetic. The v1 TaviX dependency schema caps explicit capabilities at 32 per pack, while Ink & Ember contains 90 media capabilities. Consumer discovery therefore reflects only granted objects; it cannot expose all three full decks until a separately reviewed collection/group permission contract exists (TA-023). Do not use wildcard/prefix grants or bypass the host. See `docs/tavix-grant-integration.adoc` and `node tests/tavix_scoped_grants_smoke.mjs`.

@@ -8,6 +8,7 @@ import {MemoryAssetStorage} from '../portable_service/storage.mjs';
 import {NodeFileAssetStorage} from '../portable_service/node-file-storage.mjs';
 import {validatePack,AssetContractError} from '../portable_service/validation.mjs';
 import {createTaviAssetsClient} from '../sdk/client.mjs';
+import {fixtureTavixContext} from '../developer/tavix-fixtures.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 async function fixture(dir='cards-v1') {
   const folder=path.join(root,'examples',dir);
@@ -48,31 +49,31 @@ await test('application override > global preference > pack default and scope is
   const svc=new AssetService({storage:new MemoryAssetStorage(),authorizeInstall:async()=>true});await svc.install(v1);
   const pack=v1.manifest.id;
   await svc.setGlobalPreference(pack,'card.back','blue');
-  await svc.setApplicationPreference('game.one',pack,'card.back','green');
-  assert.equal((await svc.resolve(pack,'card.back','game.one')).selected,'green');
-  assert.equal((await svc.resolve(pack,'card.back','game.two')).selected,'blue');
-  assert.equal((await svc.resolve(pack,'card.front.ace-spades','game.one')).selected,null);
+  await svc.setApplicationPreference('org.example.game.one',pack,'card.back','green');
+  assert.equal((await svc.resolve(pack,'card.back','org.example.game.one')).selected,'green');
+  assert.equal((await svc.resolve(pack,'card.back','org.example.game.two')).selected,'blue');
+  assert.equal((await svc.resolve(pack,'card.front.ace-spades','org.example.game.one')).selected,null);
 });
 await test('host denies spoofed grants, paths, ungranted capabilities and unapproved customization',async()=>{
   const svc=new AssetService({storage:new MemoryAssetStorage(),authorizeInstall:async()=>true});await svc.install(v1);
   const pack=v1.manifest.id;const session={token:'not-from-wire'};
-  const bridge=new TrustedAssetHostBridge(svc,async trusted=>trusted===session?{applicationId:'game.one',packs:[pack],capabilities:['card.back'],canCustomize:true}:null);
+  const bridge=new TrustedAssetHostBridge(svc,async trusted=>trusted===session?fixtureTavixContext({applicationId:'org.example.game.one',packCapabilities:{[pack]:['card.back']},canCustomize:true}):null);
   await assert.rejects(bridge.dispatch({},'assets.describe',{packId:pack}),AssetContractError);
   await assert.rejects(bridge.dispatch(session,'assets.resolve',{packId:pack,capability:'card.front'}),AssetContractError);
   await assert.rejects(bridge.dispatch(session,'assets.resolve',{packId:pack,capability:'card.back',path:'../registry.json'}),AssetContractError);
-  await assert.rejects(bridge.dispatch(session,'assets.preferences.set',{packId:pack,capability:'card.back',variant:'green',callerId:'game.one'}),AssetContractError);
+  await assert.rejects(bridge.dispatch(session,'assets.preferences.set',{packId:pack,capability:'card.back',variant:'green',callerId:'org.example.game.one'}),AssetContractError);
   assert.deepEqual((await bridge.dispatch(session,'assets.describe',{packId:pack})).capabilities,['card.back']);
   await bridge.dispatch(session,'assets.preferences.set',{packId:pack,capability:'card.back',variant:'green'});
   assert.equal((await bridge.dispatch(session,'assets.resolve',{packId:pack,capability:'card.back'})).selected,'green');
   assert.equal((await svc.resolve(pack,'card.back')).selected,null);
-  const denied=new TrustedAssetHostBridge(svc,async()=>({applicationId:'game.one',packs:[pack],capabilities:['card.back'],canCustomize:false}));
+  const denied=new TrustedAssetHostBridge(svc,async()=>(fixtureTavixContext({applicationId:'org.example.game.one',packCapabilities:{[pack]:['card.back']},canCustomize:false})));
   await assert.rejects(denied.dispatch(session,'assets.preferences.set',{packId:pack,capability:'card.back',variant:'blue'}),AssetContractError);
 });
 await test('reference consumer SDK calls portable host dispatcher through injected transport',async()=>{
   const svc=new AssetService({storage:new MemoryAssetStorage(),authorizeInstall:async()=>true});await svc.install(story);
-  const trustedSession={};const bridge=new TrustedAssetHostBridge(svc,async s=>s===trustedSession?{applicationId:'game.one',packs:[story.manifest.id],capabilities:Object.keys(story.manifest.resources),canCustomize:false}:null);
+  const trustedSession={};const bridge=new TrustedAssetHostBridge(svc,async s=>s===trustedSession?fixtureTavixContext({applicationId:'org.example.game.one',packCapabilities:{[story.manifest.id]:['card.back','card.face.spades.ace',...Object.keys(story.manifest.resources).filter(c=>c.startsWith('card.face.joker.'))]},canCustomize:false}):null);
   const consumer=createTaviAssetsClient({info:async()=>({features:['tavi.assets/v1'],api:'1.0.0'}),request:(method,params)=>bridge.dispatch(trustedSession,method,params)});
-  await consumer.connect();const list=await consumer.listCollections(story.manifest.id,{kind:'deck'});assert.equal(list.items.length,3);
+  await consumer.connect();const list=await consumer.listCollections(story.manifest.id,{kind:'deck'});assert.equal(list.items.length,1);
   const jokers=await consumer.listObjects(story.manifest.id,{kind:'joker-card'});assert.equal(jokers.total,16);
   await assert.rejects(consumer.select(story.manifest.id,'card.back','ochre'),AssetContractError);
 });

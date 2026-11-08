@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TheBigTreeInc/tavi-assets/contracts/tavi-assets-customization-bundle-v1.schema.json",
+  "title": "Proposed data-only customization bundle: explicit pack/capability slots, no grant or pricing",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "name",
+    "slots"
+  ],
+  "properties": {
+    "schema": {
+      "const": "tavi.assets.customization-bundle/v1"
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "tags": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "slots": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slot",
+          "packId",
+          "capability"
+        ],
+        "properties": {
+          "slot": {
+            "$ref": "#/$defs/id"
+          },
+          "packId": {
+            "$ref": "#/$defs/id"
+          },
+          "capability": {
+            "$ref": "#/$defs/id"
+          },
+          "variant": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,126}$"
+    }
+  }
+}

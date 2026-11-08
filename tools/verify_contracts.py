@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 PROJECT = "tavi-assets"
-VERSION = "0.1.6"
+VERSION = "0.1.9"
 ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$", re.ASCII)
 ALLOWED_PRIORITIES = {"critical", "high", "medium", "low"}
 
@@ -76,6 +76,12 @@ def check_required_tasks(wb):
             "portable runtime implementation evidence must be supplied")
     require("TA-019" in {item["id"] for item in wb["implemented"]},
             "Windows protected-path overlay repair evidence must be supplied")
+    require("TA-022" in {item["id"] for item in wb["implemented"]}, "missing scoped grant repair evidence")
+    require("TA-023" in {item["id"] for item in wb["remaining"]}, "missing TaviX grouping review")
+    require("TA-021" in {item["id"] for item in wb["implemented"]},
+            "shared dependency proposal implementation evidence must be supplied")
+    require("TA-020" in {item["id"] for item in wb["implemented"]},
+            "developer contract implementation evidence must be supplied")
     require("TA-010" in {item["id"] for item in wb["remaining"]}, "0.1.3 recovery still awaiting Windows acceptance")
     require("TA-016" in {item["id"] for item in wb["remaining"]},
             "original source intake review must remain open")
@@ -115,14 +121,14 @@ def check_contracts(root):
             "unexpected recipe version/build")
     require(recipe.get("delete_missing") is False and not recipe.get("post_build_mechanisms"),
             "unsafe source overlay/release recipe")
-    require('version = "0.1.6"' in (root / "pyproject.toml").read_text(encoding="utf-8"),
+    require('version = "0.1.9"' in (root / "pyproject.toml").read_text(encoding="utf-8"),
             "Python package version mismatch")
     manifest = read_json(root / "ziprunner-manifest.json")
     require(manifest.get("schema") == "ziprunner.update-manifest/v1", "wrong supplemental schema")
     require(manifest.get("project", {}).get("key") == PROJECT and
             manifest.get("project", {}).get("version") == VERSION and
-            manifest.get("project", {}).get("base_version") == "0.1.4", "supplemental identity mismatch")
-    require(manifest.get("update", {}).get("id") == "TAVI-ASSETS-20261108-0116-PROTECTED-OVERLAY-REPAIR", "update identity mismatch")
+            manifest.get("project", {}).get("base_version") == "0.1.8", "supplemental identity mismatch")
+    require(manifest.get("update", {}).get("id") == "TAVI-ASSETS-20261108-0119-SCOPED-GRANTS", "update identity mismatch")
     planned = [item["id"] for item in manifest["planned_work"]]
     done = [item["id"] for item in manifest["done_work"]]
     todo = [item["id"] for item in manifest["todo_work"]]
@@ -188,10 +194,27 @@ def check_contracts(root):
     require("TA-018" in {t["id"] for t in tasks}, "missing portable runtime verification plan")
     require("TA-019" in {t["id"] for t in tasks}, "missing protected overlay repair verification plan")
     require((root / "tests" / "test_overlay_protected_paths.py").is_file(), "missing overlay regression")
+    for file in ("README.md", "CHANGELOG.md", "docs/developer-guide.adoc", "developer/fixture-host.mjs", "examples/developer/game-assets-demo.mjs", "tests/developer_contract_smoke.mjs", "tests/test_developer_contract.py", "contracts/tavi-assets-customization-bundle-v1.schema.json", "contracts/tavi-assets-store-offer-v1.schema.json"):
+        require((root / file).is_file(), f"missing game developer contract content: {file}")
+        require(not protected_source_path(file, patterns), f"developer source protected by ZipRunner: {file}")
+    req = read_json(root / "contracts/tavi-assets-consumer-v1.json")
+    expected = {"assets.packs.list", "assets.objects.discover", "assets.composition.resolve"}
+    require(expected.issubset({item.get("method") for item in req.get("requests", [])}), "new SDK methods missing contract declaration")
+    require(expected.issubset({item.get("properties",{}).get("method",{}).get("const") for item in read_json(root / "contracts/tavi-assets-host-request-v1.schema.json").get("oneOf", [])}), "new host methods missing request schemas")
+    require("TA-020" in {t["id"] for t in tasks}, "missing developer contract acceptance plan")
     for source in ("portable_service/service.mjs", "portable_service/validation.mjs", "portable_service/storage.mjs", "portable_service/node-file-storage.mjs", "portable_service/index.d.ts", "portable_service/README.adoc", "portable_service/package.json", "tests/runtime_portable_smoke.mjs", "contracts/tavi-assets-portable-runtime-v1.json", "contracts/tavix-asset-dependencies-proposal-v1.json"):
         require(not protected_source_path(source, patterns),
                 f"portable service is blocked by ZipRunner protected paths: {source}")
         require((root / source).is_file(), f"missing portable runtime source: {source}")
+    for source in ("contracts/tavi-assets-requirements-v1.schema.json", "portable_service/dependencies.mjs", "tests/dependency_contract_smoke.mjs", "tests/test_asset_dependencies.py", "docs/asset-dependencies.adoc", "examples/developer/klondike-asset-requirements.json"):
+        require((root / source).is_file(), f"missing dependency contract source: {source}")
+        require(not protected_source_path(source, patterns), f"dependency source hidden by protected path: {source}")
+    assert "TA-021" in {t["id"] for t in tasks}, "missing dependency acceptance plan"
+    assert "assets.dependencies.status" in {r.get("method") for r in req.get("requests", [])}, "missing dependency operation"
+    for source in ("portable_service/grants.mjs", "developer/tavix-fixtures.mjs", "tests/tavix_scoped_grants_smoke.mjs", "docs/tavix-grant-integration.adoc", "contracts/tavi-assets-tavix-grant-adapter-v1.json"):
+        require((root / source).is_file() and not protected_source_path(source, patterns),
+                f"TaviX scoped grants source unavailable: {source}")
+    assert "TA-022" in {t["id"] for t in tasks}, "missing TaviX grant acceptance plan"
     return f"ZipRunner source contracts verified: {len(work_ids)} Workboard IDs, {len(checks)} planned checks"
 
 
