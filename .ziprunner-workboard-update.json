@@ -1,8 +1,8 @@
 {
   "schema": "ziprunner.workboard-update.v1",
   "project": "tavi-assets",
-  "version": "0.1.9",
-  "summary": "Source candidate TA-022: repair TaviX 0.1.11 pack-scoped grant validation across all portable asset operations; enforce host-derived verified extension identity/digest and per-pack capabilities, versions and customization; constrain discoverable metadata; add focused regressions and conformance documentation. Preserve earlier review IDs and separate gates. TA-023 records the open >32-resource capability grouping decision. No Tavi or TaviX repository modified.",
+  "version": "0.1.11",
+  "summary": "TAVIA developer submissions and LoopRD registry BLOB ingestion/management candidate; no live deploy, automatic publication or account-auth bridge.; 0.1.11 repairs Windows 0.1.10 build failure from optional SQLAlchemy test import; all approval gates remain pending.; 0.1.11 repairs Windows 0.1.10 build failure from optional SQLAlchemy test import; all approval gates remain pending.",
   "implemented": [
     {
       "id": "TA-018",
@@ -54,6 +54,17 @@
         "Import exact 0.1.9 ZIP into canonical Windows ZipRunner; capture actual Python+Node build log and non-gating post-update receipt including 12 scoped-grant scenarios.",
         "Verify pack A card.back grant plus pack B card.face grant does not grant card.back from B; repeat for compositions, metadata, preferences, stale versions, revoked grants, spoofed identity and digest.",
         "Review verified manifest/host-only grant callback, updated TypeScript SDK contract, C4 Level 3 model, dependency docs, and source integration limitations; do not infer acceptance or a successful live Tavi bridge."
+      ]
+    },
+    {
+      "id": "TA-024",
+      "title": "TAVIA archive ingestion and LoopRD registry candidate",
+      "summary": "Data-only developer TAVIA builder/import validator, LoopRD descriptor with SQLite BLOB storage, management views, stage/finalize/catalog/revoke operations and negative tests. Service-only permissions and dry-run default, with admin-account bridge documented but not activated.",
+      "operator_checks": [
+        "Validate exact ZIP on Windows and run source checks",
+        "Review LoopRD generated descriptor and schema migration in a disposable environment",
+        "Prove admin account authorization bridge before live DAPI publishing",
+        "Approve or reject promotion and live ingestion independently"
       ]
     }
   ],
@@ -139,6 +150,12 @@
       "id": "TA-023",
       "title": "Agree collection-level asset capabilities with TaviX",
       "summary": "TaviX 0.1.11 caps explicit capabilities at 32 per pack; Ink & Ember has 90 distinct resources. Agree a reviewed capability-group/collection access semantics and host subset behavior so games can use complete decks without unbounded manifest grants. No wildcard or implicit prefix grants in this source candidate.",
+      "priority": "high"
+    },
+    {
+      "id": "TA-025",
+      "title": "Bind Tavi ecosystem admin account to LoopRD registry approval",
+      "summary": "Implement production verified-session and server-side ecosystemAdmin entitlement verification, short-lived scoped delegation for ZipRunner, management actions, and account audit trail. Never persist admin credentials or auto-publish.",
       "priority": "high"
     }
   ]

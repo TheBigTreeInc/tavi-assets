@@ -1,7 +1,7 @@
 {
   "schema": "ziprunner.verification-plan/v1",
   "project": "tavi-assets",
-  "version": "0.1.9",
+  "version": "0.1.11",
   "tasks": [
     {
       "id": "TA-010",
@@ -252,6 +252,32 @@
           ]
         }
       ]
+    },
+    {
+      "id": "TA-024",
+      "criteria": [
+        {
+          "id": "TA-024-AC1",
+          "description": "Validate data-only TAVIA and staging, immutable BLOB store, independent publish/revoke with negative auth tests.",
+          "mode": "automated",
+          "checks": [
+            "TA-024-T1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TA-025",
+      "criteria": [
+        {
+          "id": "TA-025-AC1",
+          "description": "Verify real admin-account bridge in LoopRD with scoped credentials and audit; not implemented by this ZIP.",
+          "mode": "manual",
+          "checks": [
+            "TA-025-M1"
+          ]
+        }
+      ]
     }
   ],
   "checks": [
@@ -499,6 +525,20 @@
       "stage": "acceptance",
       "description": "Review safe resource grouping proposal with TaviX",
       "instructions": "Assess per-pack 32-capability limit against 90-resource sample and agree a bounded, reviewed grouping policy. Do not grant wildcard/prefix rights in the current schema."
+    },
+    {
+      "id": "TA-024-T1",
+      "kind": "automated",
+      "stage": "build",
+      "description": "TAVIA LoopRD registry SQLite staging authorization and traversal regression",
+      "test_ref": "tests/test_tavia_looprd.py"
+    },
+    {
+      "id": "TA-025-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Live verified Tavi admin-account LoopRD entitlement and scoped delegated token wiring",
+      "instructions": "Require a real signed-in Tavi ecosystemAdmin account; recheck server-side Social entitlement every privileged action; verify session revocation and never embed credentials in client or source."
     }
   ]
 }

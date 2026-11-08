@@ -1,0 +1,7 @@
+= Tavi Assets 0.1.11 — Windows import repair
+
+The uploaded Windows ZipRunner 0.1.10 build failed while importing tests/test_tavia_looprd.py because SQLAlchemy is not installed in the regular Python 3.13 environment. The LoopRD production service uses SQLAlchemy, but the local verification script does not need it installed.
+
+The 0.1.11 test-only SQLite adapter executes the same handler's SQL statements using sqlite3, without relaxing authorization or modifying the generated LoopRD handler. Test both the SQLAlchemy and no-site-packages (`python -S tools/check.py`) paths.
+
+Operator: import ZIP; run Windows build, confirm tests/test_tavia_looprd.py runs (not skipped); review real LoopRD DAPI adapter separately; preserve runtime/private state and all approval gates.

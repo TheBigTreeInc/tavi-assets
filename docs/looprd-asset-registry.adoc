@@ -1,0 +1,34 @@
+= LoopRD-backed Tavi Assets registry (0.1.10 candidate)
+
+== Roles and authority
+
+Tavi Assets owns the pack/ingestion contract and validator. LoopRD owns durable SQLite metadata, immutable BLOBs, publication audit and DAPI management resources. Tavi clients see catalog entries and verified resources, never `.tavia` submissions.
+
+Use the existing *Tavi ecosystem administrator account* as the human approval identity. Social 0.3.145 already has a server-side `SocialAccount.ecosystemAdmin` entitlement and `account_ecosystem_admin()` checker, which must be rechecked on every privileged action; `developerEnabled` alone is not an administrator. An account number or a claim supplied in the request body is never evidence of admin status.
+
+The current service API intentionally **does not accept Tavi login cookies or account tokens directly**. It accepts LoopRD-verified service principals with separately scoped `assets:ingest` or `assets:publish` permissions. Before live operator UI activation, the Social/LoopRD integration must translate a *currently authenticated* Tavi admin account, verified against the authoritative account entitlement, into a short-lived, audience-restricted operator authorization with a server-side audit subject. Do not accept a client-provided `isAdmin` flag, expose an admin token to `.tavix` applications, or reuse a persistent admin password in ZipRunner. The standalone component does not itself verify Tavi sessions.
+
+== Controlled workflow
+
+. A developer creates a `.tavia` with `python tools/tavia.py build DIR OUT.tavia`. It contains only the existing validated pack manifest and data resources.
+. ZipRunner post-run checks the exact candidate locally using `python tools/ziprunner-tavia-postrun.py PACK.tavia`. With no approval it performs only dry-run validation. This optional script is *not* wired as an automatic post-build mechanism.
+. The approved operator authorizes *staging* of an exact file SHA-256. A short-lived LoopRD `assets:ingest` capability may be handed to the job by the host secret manager. ZipRunner sends chunks to the DAPI `/admin` handler; only an unpublished `ready` version results.
+. An administrator inspects the version and audit metadata via `management.data` or an authorized operator panel.
+. A *separate* admin action uses `assets:publish` to publish. The ingestion job must never call `publish` or `revoke`.
+. Client catalog reads return only published versions; revoked versions fail access. Public packs are currently free. Server-side ownership, paid download gating, synchronized cache invalidation and publisher trust need dedicated future work.
+
+== Database and deployment
+
+`looprd/generate.py` emits `looprd/looprd.yaml` using LoopRD's `looprd/v1` descriptor conventions and Python handler source. Tables include `AssetPackVersion`, content-addressed `AssetBlob`, `AssetPackResource`, `AssetUploadChunk` and `AssetPublicationAudit`. The management views are deliberately read-only; publication transitions use auditable operations. The SQLite schema is additive, but integration into a live LoopRD deployment requires reviewing migration numbers and existing namespaces with the Social team. No DAPI endpoint or migration is deployed by this source ZIP.
+
+`tools/tavia.py stage --url URL PATH` dry-runs, while `--execute` requires `LOOPRD_ASSETS_INGEST_TOKEN`; the token must be furnished by trusted orchestration, never placed in a repository, package, command-line argument or client file. The path is host-configured, not automatically derived from untrusted `.tavia` metadata.
+
+== Required integration QA
+
+* Verify a real admin account and recheck entitlement after revocation. Reject a developer-only or ordinary account.
+* Validate forbidden paths, extra files, overlarge resources, mismatched chunk hashes and unapproved actors.
+* Stage then inspect: the catalog must remain empty. Publish after independent operator approval, then revoke and confirm subsequent reads fail.
+* Verify Windows ZipRunner post-run receipts and SQLite migration on a disposable LoopRD environment.
+* Ensure existing Tavi Assets 0.1.9 scoped-grant checks remain intact; LoopRD publication does not grant an app access by itself.
+
+For an explicitly approved stage, the operator creates a JSON receipt with `action: stage`, `approvedSha256` set to the exact file digest, and a reviewed HTTPS `endpoint`. Run `python tools/ziprunner-tavia-postrun.py PACK.tavia --execute --approval-receipt RECEIPT.json` with a short-lived scoped token in `LOOPRD_ASSETS_INGEST_TOKEN`. No auto-publish operation exists. The receipt itself is not a cryptographic administrator approval; the server must enforce token authorization independently.

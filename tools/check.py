@@ -15,6 +15,7 @@ from verify_contracts import check_contracts
 
 def main():
     print(check_contracts(ROOT), flush=True)
+    subprocess.run([sys.executable, str(ROOT / "looprd" / "generate.py"), "--check"], cwd=ROOT, check=True)
     validate(ROOT / "examples" / "cards-v1")
     validate(ROOT / "examples" / "cards-v2")
     validate(ROOT / "examples" / "storybook-decks")

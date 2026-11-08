@@ -1,3 +1,17 @@
+## 0.1.11 — Windows ZipRunner source test dependency repair
+
+- Fixed the `ModuleNotFoundError: No module named sqlalchemy` in `tests/test_tavia_looprd.py` on stock Windows Python.
+- Test harness now runs real LoopRD SQL statements against stdlib SQLite when SQLAlchemy is not installed; full SQLAlchemy path remains unchanged when it is available.
+- Production LoopRD handler, DAPI source, schemas and permissions are unchanged. No auto-deploy or live ingestion added.
+- Existing release/approval gates remain open.
+
+## 0.1.10 — developer TAVIA and LoopRD registry candidate
+
+- Added data-only `.tavia` builder/validator and staged LoopRD database BLOB ingestion implementation.
+- Added generated LoopRD service descriptor, audited publish/revoke transitions, management metadata views and offline tests.
+- Kept live admin-account integration and LoopRD deployment gated; Tavi ecosystem admin approval requires authoritative verified-session bridge.
+- No registry publication, GitHub push, production migration or wallet transaction performed.
+
 # Changelog
 
 Implementation history for source candidates. This document is not a record of release approval or production deployment; exact build receipts and operator decisions are tracked by ZipRunner.

@@ -4,7 +4,7 @@
 
 The system separates **content** (artwork, media, typed objects and collections), **application behavior** (game rules), **presentation** (storefront), and **authority** (Tavi sessions, LoopRD entitlements and Wallet transactions).
 
-> **Integration status:** This repository contains locally testable Python and JavaScript reference implementations and proposed host contracts. It does **not** yet provide production `assets.*` methods in Tavi, a published TaviX asset distribution contract, or real Gold purchasing. The SDK can be used today with the included explicit local fixture host; production access requires approved host integration.
+> **Integration status:** LoopRD registry and `.tavia` are candidate source workflows, not deployed; Tavi admin-account bridging still requires authorization and operator acceptance.  This repository contains locally testable Python and JavaScript reference implementations and proposed host contracts. It does **not** yet provide production `assets.*` methods in Tavi, a published TaviX asset distribution contract, or real Gold purchasing. The SDK can be used today with the included explicit local fixture host; production access requires approved host integration.
 
 ## What the project provides
 

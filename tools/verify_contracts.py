@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 PROJECT = "tavi-assets"
-VERSION = "0.1.9"
+VERSION = "0.1.11"
 ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$", re.ASCII)
 ALLOWED_PRIORITIES = {"critical", "high", "medium", "low"}
 
@@ -121,14 +121,14 @@ def check_contracts(root):
             "unexpected recipe version/build")
     require(recipe.get("delete_missing") is False and not recipe.get("post_build_mechanisms"),
             "unsafe source overlay/release recipe")
-    require('version = "0.1.9"' in (root / "pyproject.toml").read_text(encoding="utf-8"),
+    require('version = "0.1.11"' in (root / "pyproject.toml").read_text(encoding="utf-8"),
             "Python package version mismatch")
     manifest = read_json(root / "ziprunner-manifest.json")
     require(manifest.get("schema") == "ziprunner.update-manifest/v1", "wrong supplemental schema")
     require(manifest.get("project", {}).get("key") == PROJECT and
             manifest.get("project", {}).get("version") == VERSION and
-            manifest.get("project", {}).get("base_version") == "0.1.8", "supplemental identity mismatch")
-    require(manifest.get("update", {}).get("id") == "TAVI-ASSETS-20261108-0119-SCOPED-GRANTS", "update identity mismatch")
+            manifest.get("project", {}).get("base_version") == "0.1.9", "supplemental identity mismatch")
+    require(manifest.get("update", {}).get("id") == "TAVI-ASSETS-20261108-0111-WINDOWS-SQLALCHEMY-TEST-REPAIR", "update identity mismatch")
     planned = [item["id"] for item in manifest["planned_work"]]
     done = [item["id"] for item in manifest["done_work"]]
     todo = [item["id"] for item in manifest["todo_work"]]
