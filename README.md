@@ -73,6 +73,8 @@ Asset packs are data-only and verified with content hashes, safe paths, allowed 
 
 The proposed `tavi.assets/v1` host feature requires explicit negotiation and a trusted session-bound transport. Unknown features and unsupported methods must fail closed. A game can prototype immediately against the fixture host but should **not** assume the live Tavi or TaviX runtime provides these calls yet. The Node file adapter is reference-only and not production Windows/Android storage.
 
+For the deployment handoff to the LoopRD owner, use [`looprd/INTEGRATION.adoc`](looprd/INTEGRATION.adoc). The registry administration CLI (`tools/looprd-registry.py`) supports scoped inspection, audited publication/revocation with an exact-manifest approval receipt, and verified resource retrieval. These do not substitute for Social's missing Tavi admin delegation bridge.
+
 ## Development, verification and publication
 
 `python tools/check.py` is the configured ZipRunner build command. Tests exercise the Python engine, JavaScript SDK and portable runtime; exact Windows, browser, Android, Structurizr CLI and operator acceptance require their own evidence. Source ZIPs include the required Workboard delta and verification plan. Build success never substitutes for operator approval.

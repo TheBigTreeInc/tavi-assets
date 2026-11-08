@@ -117,6 +117,9 @@ def _sql(session_factory, op, payload):
             actor=payload.get('_verified_actor','unknown')
             db.execute(sa.text('INSERT INTO "AssetPublicationAudit" (packId,version,action,actor,created) VALUES (:id,:v,:op,:actor,:now)'),{'id':pid,'v':v,'op':op,'actor':actor,'now':now})
             db.commit();return {'ok':True,'status':target}
+        if op == 'audit':
+            rows=db.execute(sa.text('SELECT packId,version,action,actor,created FROM "AssetPublicationAudit" ORDER BY id DESC LIMIT 200')).mappings().all()
+            return {'ok':True,'events':[dict(x) for x in rows]}
         if op == 'inspect':
             rows=db.execute(sa.text('SELECT packId,version,status,manifestSha256,created FROM "AssetPackVersion" ORDER BY created DESC LIMIT 200')).mappings().all()
             return {'ok':True,'versions':[dict(x) for x in rows]}
@@ -127,11 +130,13 @@ def _dispatch(ctx):
     body=getattr(ctx,'body',None)
     if not isinstance(body,dict):return {'ok':False,'reason':'bad_request'}
     op=body.get('op')
-    if op not in {'catalog','resource','begin','chunk','finalize','publish','revoke','inspect'}:return {'ok':False,'reason':'unsupported_operation'}
+    if op not in {'catalog','resource','begin','chunk','finalize','publish','revoke','inspect','audit'}:return {'ok':False,'reason':'unsupported_operation'}
     if op in {'catalog','resource'} and not (getattr(getattr(ctx,'principal',None),'scopes',None) and 'assets:read' in ctx.principal.scopes):
         return {'ok':False,'reason':'read_auth_required'}
-    if op in {'begin','chunk','finalize','inspect'} and not _service(ctx,'assets:ingest'):
+    if op in {'begin','chunk','finalize'} and not _service(ctx,'assets:ingest'):
         return {'ok':False,'reason':'service_auth_required'}
+    if op in {'inspect','audit'} and not (_service(ctx,'assets:publish') or _service(ctx,'assets:ingest')):
+        return {'ok':False,'reason':'operator_auth_required'}
     if op in {'publish','revoke'} and not _service(ctx,'assets:publish'):
         return {'ok':False,'reason':'publisher_approval_required'}
     payload=dict(body)

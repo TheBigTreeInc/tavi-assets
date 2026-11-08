@@ -99,6 +99,17 @@ class TaviaLoopRDTests(unittest.TestCase):
         self.assertFalse(self.call('begin',kind='user',manifest=self.m)['ok'])
         self.assertFalse(self.call('publish',packId=self.m['id'],version=self.m['version'])['ok'])
         self.assertFalse(self.call('catalog',scopes=())['ok'])
+    def test_operator_inspection_and_audit_scope(self):
+        self.upload()
+        self.assertFalse(self.call('inspect',scopes=('assets:read',))['ok'])
+        self.assertTrue(self.call('inspect',scopes=('assets:publish',))['ok'])
+        self.assertFalse(self.call('audit',kind='user',scopes=('assets:publish',))['ok'])
+        self.assertEqual(self.call('audit',scopes=('assets:publish',))['events'],[])
+        self.assertTrue(self.call('publish',scopes=('assets:publish',),packId=self.m['id'],version=self.m['version'])['ok'])
+        audit=self.call('audit',scopes=('assets:publish',))['events']
+        self.assertEqual(audit[0]['action'],'publish')
+        self.assertEqual(audit[0]['actor'],'test-uploader')
+
     def test_stage_publish_read_revoke(self):
         result=self.upload();self.assertEqual(result,{'ok':True,'status':'ready'})
         self.assertEqual(self.call('catalog',scopes=('assets:read',))['packs'],[])
@@ -118,7 +129,11 @@ class TaviaLoopRDTests(unittest.TestCase):
         self.assertFalse(self.call('chunk',packId=self.m['id'],version=self.m['version'],name='bad',offset=0,contentBase64='YQ==')['ok'])
     def test_descriptor_contract_and_management(self):
         d=g.descriptor();self.assertIn('management.data',d['requires']);self.assertEqual(d['database']['backend'],'sqlite')
-        self.assertEqual(d['database']['schemaVersion'],1)
+        self.assertEqual(d['database']['schemaVersion'],2026110901)
+        self.assertGreaterEqual(d['database']['migrations'][0]['version'],2)
+        for name,resource in d['resources'].items():
+            self.assertIn('fields',resource, name)
+            self.assertEqual(resource['fields'],d['models'][resource['model']]['fields'])
         self.assertIn('asset-versions',d['management']['resources'])
         self.assertFalse('create' in d['resources']['asset-versions']['operations'])
         import subprocess

@@ -1,5 +1,3 @@
-# Tavi Assets 0.1.11 — Windows ZipRunner dependency repair
+# Tavi Assets 0.1.13 — LoopRD descriptor specification repair
 
-Corrects the observed Windows `ModuleNotFoundError: No module named sqlalchemy` when importing the new LoopRD registry integration tests. The source test harness runs the exact LoopRD SQL against stdlib SQLite when SQLAlchemy is unavailable, while actual LoopRD uses SQLAlchemy unchanged. No production DB or authorization changes.
-
-Version 0.1.11, base 0.1.10 (failed Windows build), latest accepted baseline 0.1.9. Operator approval and real Windows build remain required. Protected configuration/runtime and publishing gates preserved. No push, tag, release, credentials or automatic online upload.
+Fixes the reported LoopRD `specification_invalid` response by supplying per-resource `fields` maps and migrating away from version 1 to 2026110901. This is a source candidate, not an online deployment. Validate the migration identifier with the target LoopRD instance before applying; preserve database state and all operator, account-auth and publication approvals. Tavi ecosystem admin delegation remains unimplemented on the Social side.

@@ -42,3 +42,10 @@ TA-021 adds `tavi.assets.requirements/v1` and a host-scoped readiness reference,
 == Scoped grants compatibility (TA-022)
 
 TA-022 is source-reported only: the portable host reference now validates TaviX 0.1.11 per-pack projections against the host's verified manifest identity/version/digest and requested scope; object/collection metadata, composition, preferences and dependency readiness respect the same pack-specific grants. Negative regression `tests/tavix_scoped_grants_smoke.mjs` covers the original cross-pack escalation. Native Windows, production Tavi session+entitlement callbacks, operator acceptance and Git publication are *not* asserted. TA-023 (planned/high) records the need for a reviewed grouping policy because the TaviX v1 32-capabilities-per-pack limit cannot expose all 90 assets from the multi-deck example. Original tickets, status and operator decisions must not be rewritten. See `docs/tavix-grant-integration.adoc` and `docs/QA_0.1.9.adoc`.
+
+
+=== 0.1.13 integration note
+
+* TA-025 remains open: Social-owned verified ecosystemAdmin-to-scoped LoopRD service capability, with expiry and audit.
+* TA-026 (candidate): Operator-facing LoopRD inspect, audit, exact-manifest publish/revoke receipt and resource verification; source tests required; live DAPI/Windows acceptance remains open.
+* TA-023 collection capabilities and TA-012 Windows/operator approval remain open.

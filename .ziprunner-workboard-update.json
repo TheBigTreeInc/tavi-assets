@@ -1,8 +1,8 @@
 {
   "schema": "ziprunner.workboard-update.v1",
   "project": "tavi-assets",
-  "version": "0.1.11",
-  "summary": "TAVIA developer submissions and LoopRD registry BLOB ingestion/management candidate; no live deploy, automatic publication or account-auth bridge.; 0.1.11 repairs Windows 0.1.10 build failure from optional SQLAlchemy test import; all approval gates remain pending.; 0.1.11 repairs Windows 0.1.10 build failure from optional SQLAlchemy test import; all approval gates remain pending.",
+  "version": "0.1.13",
+  "summary": "0.1.13 fixes LoopRD specification_invalid by declaring both resource field mappings and assigning the initial registry migration an approved-review-required version 2026110901. Earlier registry management and security gates remain unchanged.",
   "implemented": [
     {
       "id": "TA-018",
@@ -65,6 +65,26 @@
         "Review LoopRD generated descriptor and schema migration in a disposable environment",
         "Prove admin account authorization bridge before live DAPI publishing",
         "Approve or reject promotion and live ingestion independently"
+      ]
+    },
+    {
+      "id": "TA-026",
+      "title": "LoopRD asset registry operator tooling and deployment handoff",
+      "summary": "Source-tested inspect/audit reads, bounded resource download with SHA-256 verification, exact-manifest action receipts and reviewed component documentation. Live DAPI integration remains unverified.",
+      "operator_checks": [
+        "Run 0.1.13 extracted source tests on Windows ZipRunner and verify audit visibility and receipt rejection.",
+        "Import generated LoopRD descriptor into disposable realm and verify DAPI/auth/schema without altering Social data.",
+        "Require separate verified Tavi admin delegation and operator approval before any production upload or publish."
+      ]
+    },
+    {
+      "id": "TA-027",
+      "title": "Repair LoopRD asset registry descriptor validation",
+      "summary": "Source generator now emits fields for each management resource and uses 2026110901 for initial migration rather than version 1; migration must be independently collision-checked and accepted on target LoopRD instance.",
+      "operator_checks": [
+        "Submit the generated looprd/looprd.yaml to LoopRD specification validator and confirm missing fields and invalid migration-number errors are resolved.",
+        "Review target LoopRD migration ledger and verify version 2026110901 is safe before applying; do not execute a migration as part of source verification.",
+        "Run exact source ZIP on Windows ZipRunner; verify 108 Python tests, Node checks and both declared resource fields; preserve credentials, runtime state and publication gates."
       ]
     }
   ],

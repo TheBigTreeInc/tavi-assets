@@ -3,14 +3,14 @@
   "spec_version": "1.0.0",
   "project": {
     "key": "tavi-assets",
-    "version": "0.1.11",
-    "base_version": "0.1.9"
+    "version": "0.1.13",
+    "base_version": "0.1.12"
   },
   "update": {
-    "id": "TAVI-ASSETS-20261108-0111-WINDOWS-SQLALCHEMY-TEST-REPAIR",
+    "id": "TAVI-ASSETS-20261109-013-LOOPRD-SPEC-REPAIR",
     "kind": "source_update",
-    "created_at": "2026-11-08T16:23:00+01:00",
-    "summary": "Repair Windows source build: LoopRD registry integration tests execute against stdlib SQLite when SQLAlchemy is not installed; production LoopRD handler unchanged."
+    "created_at": "2026-11-09T00:00:00+01:00",
+    "summary": "Fix LoopRD rejected registry descriptor: resource fields and safe migration version candidate; preserve ingestion and separate publication approval."
   },
   "planned_work": [
     {
@@ -86,6 +86,18 @@
     {
       "id": "TA-025",
       "title": "Bind Tavi admin account to LoopRD registry approval"
+    },
+    {
+      "id": "TA-026",
+      "title": "LoopRD registry operator management integration",
+      "priority": "high",
+      "acceptance_criteria": "Scoped inspect/audit; verify downloaded resources; exact-manifest publication approval; isolated LoopRD migration plus Social bridge acceptance required."
+    },
+    {
+      "id": "TA-027",
+      "title": "Repair LoopRD asset registry descriptor validation",
+      "priority": "high",
+      "acceptance_criteria": "Both management resources declare fields and target LoopRD accepts migration version after operator collision review."
     }
   ],
   "done_work": [
@@ -215,7 +227,7 @@
     },
     {
       "id": "TA-022",
-      "summary": "Source-reported pack-scoped host reference implementation with TaviX 0.1.11 contract parity and negative regression tests; requires target/operator verification.",
+      "summary": "Source-reported pack-scoped host reference implementation with TaviX 0.1.13 contract parity and negative regression tests; requires target/operator verification.",
       "evidence": [
         {
           "kind": "source",
@@ -271,6 +283,53 @@
           "kind": "source",
           "ref": "tools/ziprunner-tavia-postrun.py",
           "description": "Optional dry-run post-run validation with exact-digest receipt gating"
+        }
+      ]
+    },
+    {
+      "id": "TA-026",
+      "summary": "Source-tested registry operator CLI with local approval guard and audited LoopRD read APIs.",
+      "evidence": [
+        {
+          "kind": "source",
+          "ref": "tools/looprd-registry.py",
+          "description": "Operator registry transport and explicit approval receipt"
+        },
+        {
+          "kind": "source",
+          "ref": "looprd/handler.py",
+          "description": "Scope-checked audit endpoint"
+        },
+        {
+          "kind": "test",
+          "ref": "tests/test_looprd_registry_operator.py",
+          "description": "Negative tests for receipt, endpoint and binary digest"
+        },
+        {
+          "kind": "documentation",
+          "ref": "looprd/INTEGRATION.adoc",
+          "description": "Deployment-owned integration and admin authorization contract"
+        }
+      ]
+    },
+    {
+      "id": "TA-027",
+      "summary": "Fixed generated per-resource fields mappings and bumped initial migration version to 2026110901; added descriptor regression tests.",
+      "evidence": [
+        {
+          "kind": "source",
+          "ref": "looprd/generate.py",
+          "description": "LoopRD descriptor generator fixes"
+        },
+        {
+          "kind": "test",
+          "ref": "tests/test_tavia_looprd.py",
+          "description": "Resource fields and migration version regression assertions"
+        },
+        {
+          "kind": "documentation",
+          "ref": "docs/QA_0.1.13.adoc",
+          "description": "Target validation and migration collision review gates"
         }
       ]
     }
@@ -370,7 +429,7 @@
     ]
   },
   "handover": {
-    "next_pass": "Import exact 0.1.9 ZIP into canonical Windows ZipRunner for build/post-update and operator review; Tavi integrates verified scoped grant callback; TaviX/Social review TA-023 collection capability limit.",
+    "next_pass": "Run exact 0.1.13 ZIP via Windows ZipRunner; LoopRD owner imports isolated component into disposable instance and verifies DAPI/schema; Social owner implements verified admin broker (TA-025); operator approves stage/publish separately.",
     "risks": [
       "Portable Node reference stores a bounded whole-pack JSON snapshot and is NOT production binary storage",
       "Tavi 0.3.139 real host integration not performed",
@@ -379,7 +438,7 @@
       "0.1.5 overlay excluded runtime/** as protected; local Windows source can contain 0.1.5 partial unaccepted files, so 0.1.6 must be verified independently. Do not delete protected directories or regenerate user state.",
       "Offer display schema and customization-bundle schema are only proposals; per-variant ownership is NOT yet enforced by live host. No real Gold purchases.",
       "New JS cross-pack methods have no Python test-host equivalent; parity and actual host availability require future integration.",
-      "TaviX 0.1.11 does not implement this dependency field; do not insert into current production .tavix manifest without host/toolchain approval.",
+      "TaviX 0.1.13 does not implement this dependency field; do not insert into current production .tavix manifest without host/toolchain approval.",
       "TaviX grants are explicit pack/capability only, max 32 per pack; full 90-resource three-deck example requires a separately reviewed grouping contract. No wildcard grant behavior is provided."
     ],
     "blockers": [

@@ -1,0 +1,85 @@
+= LoopRD deployment handoff — Tavi Assets 0.1.13
+
+Status: *candidate, not deployed or accepted*. This directory is intended for the LoopRD owner to review/import through its existing component/migration workflow. Do not apply schema changes automatically as part of a ZipRunner source build.
+
+== Importable source
+
+* `looprd/looprd.yaml` is generated from `looprd/generate.py` and includes the canonical Tavi Assets Python pack validator plus `looprd/handler.py`. Verify freshness with `python looprd/generate.py --check`.
+* Component: `tavi-assets`, descriptor `looprd/v1`, release `0.1.13`; separate component-owned SQLite migration namespace, schema version 1. LoopRD deployment tooling must confirm namespace isolation; *do not append schema version 1 to the Social database schema 13*.
+* Requires `auth.verified`, `management.data`, `service.contracts`, `reports.bugs`. Runtime requires LoopRD's Python SQLAlchemy and Starlette support; these are server dependencies, not local ZipRunner requirements.
+* Tables: `AssetPackVersion`, `AssetBlob`, `AssetPackResource`, `AssetUploadChunk`, `AssetPublicationAudit`. Content is SHA-256 addressed and held in SQLite BLOBs. Size caps and validation are enforced at the server; backups/quotas/production load testing remain operator responsibilities.
+
+== DAPI endpoints
+
+The paths below are relative to the deployed component's LoopRD DAPI base. Exact external URL is deployment-owned and must be supplied by the LoopRD operator.
+
+[cols="1,1,3",options="header"]
+|===
+|Path |Verified scope |Request `op`
+|POST `/catalog` |`assets:read` |`catalog` (published manifest catalog), `resource` (bounded base64 chunks)
+|POST `/admin` |`assets:ingest`, verified service principal |`begin`, `chunk`, `finalize`; `inspect` and `audit`
+|POST `/admin` |`assets:publish`, verified service principal |`publish`, `revoke`; `inspect` and `audit`
+|===
+
+DAPI authenticates the bearer at the trusted LoopRD boundary. No token, `isAdmin`, username or publisher authority in the body is accepted. `catalog`/`resource` still need a verified `assets:read` scope. A production Tavi browser/client must obtain that scope through the approved host integration; never embed service tokens inside `.tavix` applications.
+
+The `management.data` read-only resources `asset-versions` and `asset-audit` allow the operator to inspect status and publication history. Status mutations remain in the audited handler and are *not* offered as direct table edits, to prevent bypass of validation, immutable pack versions and audit entries.
+
+== Tavi admin authorization — integration required in Social
+
+An ordinary Tavi session is *not* a registry service credential. Social currently owns the verified `ecosystemAdmin` entitlement. The Social owner must implement a trusted API that:
+
+. Verifies the *current* authenticated Social account and authoritative `ecosystemAdmin` database row for each approval; fail closed on revoked/expired sessions.
+. Binds an approval to action (`stage` vs `publish`/`revoke`), exact `.tavia` SHA-256 for staging or exact pack ID, version and manifest SHA-256 for publication, plus actor and expiry.
+. Issues short-lived, audience-restricted LoopRD capabilities for only the approved operation (ingest vs publish). Never hand generic ecosystem-admin privileges or permanent passwords to ZipRunner or extension code.
+. Audits the actor and rejects replay / stale approvals. If the LoopRD deployment cannot provision an appropriate service principal, do *not* turn on remote staging.
+
+This source does not implement Social's verified-session broker; it is an explicit integration blocker (TA-025). The local receipt controls in the operator scripts provide additional accidental-operation safety, *not* an authentication or cryptographic authorization boundary.
+
+== Operator commands
+
+Generate and inspect a developer submission (never user-facing):
+
+[source,shell]
+----
+python tools/tavia.py build examples/cards-v1 cards.tavia
+python tools/ziprunner-tavia-postrun.py cards.tavia
+----
+
+To stage after explicit approval, use an out-of-repository JSON receipt containing `action:stage`, `approvedSha256:<exact archive SHA-256>`, and `endpoint:<approved HTTPS /admin URL>`. A trusted host injects `LOOPRD_ASSETS_INGEST_TOKEN` only for that job:
+
+[source,shell]
+----
+python tools/ziprunner-tavia-postrun.py cards.tavia --execute --approval-receipt /private/stage-approval.json
+----
+
+Inspect publication candidates and audit records (using the appropriate short-lived scoped token):
+
+[source,shell]
+----
+python tools/looprd-registry.py inspect --url https://YOUR-LOOPRD-INSTANCE/APPROVED-DAPI/admin
+python tools/looprd-registry.py audit --url https://YOUR-LOOPRD-INSTANCE/APPROVED-DAPI/admin
+----
+
+Publish (or revoke) requires an independent *exact-manifest* receipt in a private file containing `action`, `packId`, `version`, `manifestSha256`, `endpoint`. Supply `LOOPRD_ASSETS_PUBLISH_TOKEN` through trusted runtime injection. Without `--execute`, the tool only prints a dry-run plan. The script checks the candidate's current server status and receipt, then submits the scoped transition. Server-side approval and audit remain mandatory in the final deployment.
+
+[source,shell]
+----
+python tools/looprd-registry.py publish --url https://YOUR-LOOPRD-INSTANCE/APPROVED-DAPI/admin --pack-id org.tavi.cards.standard --version 1.0.0 --approval-receipt /private/publish-approval.json --execute
+----
+
+A catalog read uses `LOOPRD_ASSETS_READ_TOKEN` and the approved `/catalog` endpoint. Resources can be downloaded by the operator in verified SHA-256 chunks with the `resource` operation. The production Tavi Store should integrate this protocol into its existing asset-cache and grant pipeline, rather than loading `.tavia` itself.
+
+== Deployment and acceptance gates
+
+. Review descriptor and migrations against the target LoopRD version and existing component namespace; back up the target DB.
+. Deploy into a disposable LoopRD instance first; validate exact DAPI principal shape, `ctx.session_factory`, SQLAlchemy and handler compilation.
+. Verify public/catalog scopes, stage+finalize, empty catalog until publication, inspected digests, admin approval, audit, resource hashes, revocation.
+. Verify Tavi 0.3.150 consumer cache persistence and account separation, with no extension exposure to service credentials.
+. Run Windows ZipRunner/operator acceptance; approve independently before any Git push, production migration or publication.
+
+No live LoopRD, Tavi admin session or production DAPI was available to this source build.
+
+== Specification validation 0.1.13
+
+`resources.*.fields` explicitly declares the exposed model fields. The initial asset registry migration uses version `2026110901`, separate from the Social application database schema revision; verify this number does not collide with actual LoopRD component migration history before approving deployment. No live database has been migrated by this source package.

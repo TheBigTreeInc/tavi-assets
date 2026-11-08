@@ -1,7 +1,7 @@
 {
   "schema": "ziprunner.verification-plan/v1",
   "project": "tavi-assets",
-  "version": "0.1.11",
+  "version": "0.1.13",
   "tasks": [
     {
       "id": "TA-010",
@@ -278,6 +278,30 @@
           ]
         }
       ]
+    },
+    {
+      "id": "TA-026",
+      "criteria": [
+        {
+          "id": "TA-026-C1",
+          "description": "Operator commands fail closed and provide read-only inspection",
+          "checks": [
+            "TA-026-T1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TA-027",
+      "criteria": [
+        {
+          "id": "TA-027-C1",
+          "description": "Descriptor management resources include fields and migration version uses 2026110901",
+          "checks": [
+            "TA-027-T1"
+          ]
+        }
+      ]
     }
   ],
   "checks": [
@@ -539,6 +563,20 @@
       "stage": "acceptance",
       "description": "Live verified Tavi admin-account LoopRD entitlement and scoped delegated token wiring",
       "instructions": "Require a real signed-in Tavi ecosystemAdmin account; recheck server-side Social entitlement every privileged action; verify session revocation and never embed credentials in client or source."
+    },
+    {
+      "id": "TA-026-T1",
+      "kind": "command",
+      "command": "python tools/check.py",
+      "test_ref": "tests/test_looprd_registry_operator.py",
+      "description": "Registry operator negative authorization and digest checks"
+    },
+    {
+      "id": "TA-027-T1",
+      "kind": "automated",
+      "command": "python tools/check.py",
+      "expected": "test_descriptor_contract_and_management passes, 108 tests",
+      "status": "not_run"
     }
   ]
 }

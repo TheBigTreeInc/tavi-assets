@@ -41,18 +41,20 @@ def descriptor():
         'actor':{'type':'string','maxLength':128,'required':True},
         'created':{'type':'integer','required':True}}},
     }
-    return {'apiVersion':'looprd/v1','component':'tavi-assets','release':'0.1.11','api':{'version':'v1'},
+    return {'apiVersion':'looprd/v1','component':'tavi-assets','release':'0.1.13','api':{'version':'v1'},
        'requires':['auth.verified','management.data','service.contracts','reports.bugs'],
        'auth':{'mode':'database','scopes':['assets:read','assets:ingest','assets:publish']},
-       'database':{'backend':'sqlite','schemaVersion':1,'migrations':[{'version':1,'statements':schema()}]},
+       'database':{'backend':'sqlite','schemaVersion':2026110901,'migrations':[{'version':2026110901,'statements':schema()}]},
        'limits':{'requestsPerMinute':600,'burstPerSecond':12,'maxInFlight':12},
        'models':models,
        'resources':{
           'asset-versions':{'model':'AssetPackVersion','path':'/operator-asset-versions','operations':['list','get'],
               'permissions':{'list':['assets:publish'],'get':['assets:publish']},
+              'fields':models['AssetPackVersion']['fields'],
               'projection':['id','packId','version','status','manifestSha256','created']},
           'asset-audit':{'model':'AssetPublicationAudit','path':'/operator-asset-audit','operations':['list','get'],
               'permissions':{'list':['assets:publish'],'get':['assets:publish']},
+              'fields':models['AssetPublicationAudit']['fields'],
               'projection':['id','packId','version','action','actor','created']},
         },
        'management':{'resources':{

@@ -1,3 +1,17 @@
+## 0.1.13 — LoopRD specification validation repair
+
+- Add explicit `fields` to both operator resources in the generated LoopRD descriptor.
+- Use migration namespace version 2026110901 rather than reserved/too-low 1; review against target LoopRD migration history before deployment.
+- Cover both invariants in a source regression test; keep authorization and publication gates unchanged.
+- No production deployment, schema execution or account bridge.
+
+## 0.1.13 — LoopRD integration/operator tooling candidate
+
+- Extended the versioned LoopRD registry descriptor with scoped operator audit inspection and preserved immutable pack/data-only validation.
+- Added a no-dependency operator CLI for staging inspection, audit views, exact-manifest receipt-gated publish/revoke, and SHA-256-verified chunk downloads.
+- Added isolated negative tests for URL/token handling, write approvals, audit access, digest and download integrity.
+- Added LoopRD deployment handoff documenting separate schema ownership, Social admin broker requirement and disposable-instance acceptance gates. No live endpoint, database or publication was changed.
+
 ## 0.1.11 — Windows ZipRunner source test dependency repair
 
 - Fixed the `ModuleNotFoundError: No module named sqlalchemy` in `tests/test_tavia_looprd.py` on stock Windows Python.
