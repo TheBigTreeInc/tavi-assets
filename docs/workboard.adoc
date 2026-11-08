@@ -22,3 +22,11 @@ The canonical operator Workboard remains authoritative; this producer only repor
 * `engineering-review-preview-a88be80a` [medium / suggested] — original scope unknown, leave to operator.
 
 No manual status or release approvals are encoded by the source update.
+
+== 0.1.5 portable runtime pass — TA-018
+
+Source implementation reported: `TA-018` now provides a portable JavaScript host-side asset service, storage adapter interface, host authorization boundary and scoped preferences, plus strict source checks. Exact verification plan: `ziprunner-verification-plan.json` (`TA-018-T1`, `TA-018-M1`); source tests: `tests/runtime_portable_smoke.mjs`. No independent Windows, Android or operator acceptance is inferred. Preserve existing `define-next-pass`, `TA-016`, `TA-010`, `TA-017` review history and `TA-012` gate. Follow-up `TA-007` and `TA-008` need verified real Tavi and TaviX contracts; `TA-009` remains server-authoritative only.
+
+== 0.1.6 protected overlay repair — TA-019
+
+TA-019 is source-reported as an implemented bug repair, NOT operator Done. Repro: 0.1.5 Windows ZipRunner copy skipped `runtime/**` per protected paths and `python tools/check.py` rejected missing evidence. Correction: move privileged JS implementation to `portable_service/` without changing the runtime exclusion, and add filtered-overlay regressions. Source evidence and operator checks in `.ziprunner-workboard-update.json`; original statuses/IDs including `define-next-pass`, `TA-010`, `TA-012`, `TA-016`, TA-017 and TA-018 remain subject to operator control.

@@ -31,3 +31,9 @@ Native Tavi latest host contract, LoopRD entitlement endpoints, current Wallet p
 == 0.1.4 universal content metadata and SDK proposal
 
 The verified, local Python source now validates typed `objects` and `collections` with declared rarity/tag taxonomies and owned media capabilities; `HostAssetService` exposes per-pack metadata and per-capability resource access under explicit host-owned grants. The reference `sdk/client.mjs` makes no direct `postMessage` calls; it requires an injected authenticated host transport and negotiated `tavi.assets/v1` feature. This **does not establish actual Tavi or TaviX support**. See `docs/consumer-contract.adoc` and `contracts/tavi-assets-consumer-v1.json` for proposed method names and message shapes. No other project's source was changed in this pass.
+
+== 0.1.5 source-only portable runtime reference
+
+See `portable_service/README.adoc`, `contracts/tavi-assets-portable-runtime-v1.json` and `docs/QA_0.1.5.adoc`. Tavi Assets now also owns a reference JavaScript ES-module service, storage interface and strict `TrustedAssetHostBridge`, in addition to the Python engine. Tavi is expected to provide vetted **native** storage/identity/session/approval adapters and first-party navigation/settings integration, not to reimplement content management.
+
+`contracts/tavix-asset-dependencies-proposal-v1.json` is an **unapproved proposal** for TaviX's dependency declarations. No existing TaviX 1.0 runtime compatibility or publisher trust is claimed. Currency, paid ownership and rewards remain authoritative only in LoopRD/Wallet; no money-minting capability exists in the asset bridge.

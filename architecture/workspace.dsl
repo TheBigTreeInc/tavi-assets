@@ -1,11 +1,11 @@
-workspace "Tavi Assets" "0.1.4 source-backed asset object graph and consumer SDK proposal" {
+workspace "Tavi Assets" "0.1.5 source-backed portable asset service, with reference storage adapters" {
     model {
         user = person "Tavi user / local reviewer" "Previews and customizes offline sample content."
         tavi = softwareSystem "Tavi" "Trusted host and extension session boundary; asset bridge is not yet integrated."
         tavix = softwareSystem "TaviX" "Reviewed extension packaging; no data-only Tavi Assets distribution contract implemented."
         looprd = softwareSystem "LoopRD / Wallet" "Server-authoritative entitlements and purchases; production integration not implemented."
         apps = softwareSystem "Companion / Atrium / Klondike" "Future authorized asset consumers; not integrated."
-        assets = softwareSystem "Tavi Assets" "Offline data-only pack management and local storefront preview." {
+        assets = softwareSystem "Tavi Assets" "Data-only pack management, portable JS reference service and local preview; no production Tavi host bridge." {
             engine = container "Asset Core" "Validate, stage, activate and resolve local packs." "Python: src/tavi_assets/core.py" {
                 metadataValidator = component "Typed Object Graph Validator" "metadata.validate_metadata(): validates kinds, tags, rarity taxonomy, item resource references, object descriptions and collection membership without executable effects." "Python: src/tavi_assets/metadata.py"
                 validator = component "Pack Validator" "validate(), _inside(), _check_magic(), _svg_is_safe(): checks source structure, file hashes, allowed types and SVG." "Python"
@@ -32,6 +32,13 @@ workspace "Tavi Assets" "0.1.4 source-backed asset object graph and consumer SDK
                 client = component "Typed Asset Consumer" "createTaviAssetsClient(): negotiate tavi.assets/v1 via injected host.info and send named assets.* requests only when feature exists." "JavaScript: sdk/client.mjs"
                 fakeHost = component "Mock Transport in SDK Tests" "tests/consumer_sdk_smoke.mjs emulates host info/requests; not an actual extension host." "Node.js test fixture"
             }
+            portableRuntime = container "Portable Asset Service Reference" "Tavi Assets-owned JS implementation; not yet embedded into any Tavi client." "JavaScript ES modules: portable_service/" {
+                portableValidator = component "Portable Pack Validator" "validation.validatePack(): validates bounded data-only manifest/media, SVG allowlist and SHA-256 hashes before approved activation and resource delivery." "JavaScript: portable_service/validation.mjs"
+                portableService = component "Embeddable Asset Service" "AssetService: privileged install/update/uninstall, metadata queries, preference precedence and resource resolution." "JavaScript: portable_service/service.mjs"
+                portableBridge = component "Trusted Host Bridge Proposal" "TrustedAssetHostBridge: session-bound caller grants and strict assets.* method dispatch; no production postMessage hookup." "JavaScript: portable_service/service.mjs"
+                memoryAdapter = component "Memory Storage Adapter" "MemoryAssetStorage: serializes atomic in-process transaction tests; no restart persistence across processes." "JavaScript: portable_service/storage.mjs"
+                nodeAdapter = component "Node File Storage Reference" "NodeFileAssetStorage: 8 MiB single-snapshot atomic replace with fail-closed lock; development only, not a Windows/Android production storage layer." "Node: portable_service/node-file-storage.mjs"
+            }
             device = container "Managed Device Files" "Registry JSON, versioned checked pack directories and preferences; local developer data." "Filesystem"
         }
 
@@ -57,6 +64,12 @@ workspace "Tavi Assets" "0.1.4 source-backed asset object graph and consumer SDK
         grants -> resolver "Resolves granted semantic resources" "Python calls"
         discovery -> registry "Requests validated active pack manifest through AssetManager.manifest_for" "Python calls"
         client -> fakeHost "Uses injected mock info/request transport in test suite" "Node.js mock calls"
+        portableBridge -> portableService "Authorized metadata, application override, and resource requests" "In-process JavaScript calls"
+        portableService -> portableValidator "Checks manifest, media and SHA-256 before activation and resource reads" "JavaScript calls"
+        portableService -> memoryAdapter "Atomic in-memory state transactions in tests" "StorageAdapter interface"
+        portableService -> nodeAdapter "Atomic bounded snapshot transactions in Node-only tests" "StorageAdapter interface"
+        nodeAdapter -> device "Writes reference snapshot; not used by Python engine" "Node filesystem, reference-only"
+        fakeHost -> portableBridge "Session-bound in-process reference test" "Node.js smoke fixture"
         http -> browser "Returns UI, catalog state and previews" "HTTP loopback"
     }
     views {
@@ -81,6 +94,10 @@ workspace "Tavi Assets" "0.1.4 source-backed asset object graph and consumer SDK
             autoLayout lr
         }
         component hostAdapter "HostAdapterL3" {
+            include *
+            autoLayout lr
+        }
+        component portableRuntime "PortableRuntimeL3" {
             include *
             autoLayout lr
         }

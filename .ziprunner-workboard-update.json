@@ -1,17 +1,27 @@
 {
   "schema": "ziprunner.workboard-update.v1",
   "project": "tavi-assets",
-  "version": "0.1.4",
-  "summary": "TA-017 typed asset object/collection metadata contract, proposed negotiated consumer SDK, three-deck and 16-joker example, author-side validation and C4 model updates. Existing operator tickets and release gates remain open.",
+  "version": "0.1.6",
+  "summary": "Repair failed Windows 0.1.5 overlay of TA-018: source portable service wrongly located under protected runtime/**; move it to portable_service/ without weakening protected paths; add cross-platform overlay/evidence regression. No native Windows build or approval claimed.",
   "implemented": [
     {
-      "id": "TA-017",
-      "title": "Universal typed asset metadata and consumer SDK contract",
-      "summary": "Implemented pack objects/collections/taxonomy validation, style/tags/rarity, source-level metadata host adapter, proposed feature-negotiated JS/TypeScript SDK, full three-deck + 16 joker example, storefront inspection, security and integration tests. No production Tavi host methods or gameplay effects.",
+      "id": "TA-018",
+      "title": "Embeddable portable Tavi Assets service reference",
+      "summary": "Source-reported TA-018 portable JavaScript reference service relocated to portable_service/ so ZipRunner overlays source without touching protected runtime/**; references, TypeScript module and Node smoke tests retained. Production host/storage and operator acceptance remain pending.",
       "operator_checks": [
-        "Import the exact 0.1.4 ZIP into the canonical project and capture executed Python and optional Node test receipts; verify 0.1.4 manifest and Workboard identity.",
-        "Inspect original three deck collections and 16 jokers in the offline preview, filter by kind/rarity, select an alternative card back and verify restart persistence.",
-        "Review sdk/client.mjs, JSON Schemas, docs/consumer-contract.adoc, host metadata privacy/grants, C4 changes and proposed Tavi boundaries; operator acceptance separately, no automatic publication."
+        "Run exact 0.1.6 ZIP via canonical Windows ZipRunner and confirm python tools/check.py passes; attach receipt for exact candidate, not 0.1.5.",
+        "Confirm portable_service/service.mjs and its companion modules copied, while existing runtime/** and private project state are unchanged.",
+        "Review TA-018 source, C4 and proposed contracts; do not mark Done without independent operator acceptance."
+      ]
+    },
+    {
+      "id": "TA-019",
+      "title": "Repair protected-path source overlay of portable service",
+      "summary": "Address observed 0.1.5 Windows build_failed: runtime/** in project.zr intentionally protects runtime state and filtered out new source modules; relocate all reference JS service source to portable_service/, repair references/manifests and test a protected-path-filtered overlay. This does not modify installed Windows configuration or actual runtime state.",
+      "operator_checks": [
+        "Import the exact 0.1.6 candidate into canonical tavi-assets; check copied portable_service files and passing Python/Node build with an actual Windows ZipRunner build receipt.",
+        "Run or inspect tests/test_overlay_protected_paths.py and verify source evidence files remain after a simulated overlay honoring runtime/**.",
+        "Confirm no active runtime/** data, secrets, configs, Workboard operator decisions, Git history or approvals were modified; accept or reject TA-019 separately."
       ]
     }
   ],
@@ -85,6 +95,12 @@
       "id": "TA-010",
       "title": "Interrupted staging recovery and native Windows locking",
       "summary": "0.1.3 recovery source implemented but native Windows locking and operator acceptance still pending; do not infer Done.",
+      "priority": "high"
+    },
+    {
+      "id": "TA-017",
+      "title": "Universal typed asset metadata and consumer SDK contract",
+      "summary": "Previously reported in 0.1.4; still requires independent Windows/operator acceptance before any Done transition.",
       "priority": "high"
     }
   ]

@@ -57,3 +57,11 @@ The canonical Structurizr DSL is `docs/architecture/workspace.dsl`; `architectur
 * `catalog.py` and `preview.py` expose a local metadata-inspection endpoint; the storefront shows pack collections, type/rarity filters and example object artwork.
 * `sdk/client.mjs` and `sdk/index.d.ts` are proposed transport-injected consumers that refuse asset calls without a negotiated `tavi.assets/v1` feature. Node test mocks provide the only transport actually verified.
 * C4 Level 3 `AssetCoreL3` includes the typed metadata validator; `HostAdapterL3` includes granted object discovery; `ConsumerSdkL3` models the reference SDK and fake transport. There is no C4 relationship implying production Tavi calls occur. Structurizr CLI has not been executed until proven otherwise.
+
+== 0.1.5 C4 change: portable JS asset service
+
+The `PortableRuntimeL3` component view in `docs/architecture/workspace.dsl` adds a portable manifest/media validator, privileged `AssetService`, trusted host dispatcher, in-memory storage adapter and Node-only bounded persistence adapter. This code is source-owned by Tavi Assets, not Tavi. Relationships between the consumer SDK mock and dispatcher are exercised only by Node test fixtures. Tavi's eventual storage, authentication/session, and Settings adapters are external unimplemented boundaries; production coupling is not claimed. Structurizr CLI parser was not available in the author environment; validate independently before acceptance.
+
+== 0.1.6 C4 source-location correction — TA-019
+
+`Portable Asset Service Reference` and its Level 3 components have source files under `portable_service/`, not `runtime/`. This is a code and packaging path correction, not a new operational runtime boundary. The protected `runtime/**` path remains reserved for local/device runtime state. Structurizr CLI parse has not been executed in the author environment.

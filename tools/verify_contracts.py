@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 PROJECT = "tavi-assets"
-VERSION = "0.1.4"
+VERSION = "0.1.6"
 ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$", re.ASCII)
 ALLOWED_PRIORITIES = {"critical", "high", "medium", "low"}
 
@@ -72,12 +72,32 @@ def check_required_tasks(wb):
             "original operator Workboard ticket must remain for review")
     require("TA-012" in {item["id"] for item in wb["remaining"]},
             "Windows/operator acceptance task must remain open")
-    require("TA-017" in {item["id"] for item in wb["implemented"]},
-            "universal metadata/SDK implementation evidence must be supplied")
+    require("TA-018" in {item["id"] for item in wb["implemented"]},
+            "portable runtime implementation evidence must be supplied")
+    require("TA-019" in {item["id"] for item in wb["implemented"]},
+            "Windows protected-path overlay repair evidence must be supplied")
     require("TA-010" in {item["id"] for item in wb["remaining"]}, "0.1.3 recovery still awaiting Windows acceptance")
     require("TA-016" in {item["id"] for item in wb["remaining"]},
             "original source intake review must remain open")
 
+
+
+
+def protected_source_path(path, patterns):
+    """Case-insensitive Windows-compatible approximation of a configured overlay filter.
+
+    This is author-side prevention only, not a replacement for the real ZipRunner
+    path policy/Windows acceptance.
+    """
+    from fnmatch import fnmatchcase
+    from pathlib import PurePosixPath, PureWindowsPath
+    if not isinstance(path, str) or not path or "\\" in path:
+        return True
+    posix = PurePosixPath(path)
+    win = PureWindowsPath(path)
+    if posix.is_absolute() or win.is_absolute() or win.drive or any(p in ("", ".", "..") for p in path.split("/")):
+        return True
+    return any(fnmatchcase(path.casefold(), pattern.casefold()) for pattern in patterns)
 
 def check_contracts(root):
     root = Path(root)
@@ -95,14 +115,14 @@ def check_contracts(root):
             "unexpected recipe version/build")
     require(recipe.get("delete_missing") is False and not recipe.get("post_build_mechanisms"),
             "unsafe source overlay/release recipe")
-    require('version = "0.1.4"' in (root / "pyproject.toml").read_text(encoding="utf-8"),
+    require('version = "0.1.6"' in (root / "pyproject.toml").read_text(encoding="utf-8"),
             "Python package version mismatch")
     manifest = read_json(root / "ziprunner-manifest.json")
     require(manifest.get("schema") == "ziprunner.update-manifest/v1", "wrong supplemental schema")
     require(manifest.get("project", {}).get("key") == PROJECT and
             manifest.get("project", {}).get("version") == VERSION and
-            manifest.get("project", {}).get("base_version") == "0.1.3", "supplemental identity mismatch")
-    require(manifest.get("update", {}).get("id") == "TAVI-ASSETS-20261107-0114", "update identity mismatch")
+            manifest.get("project", {}).get("base_version") == "0.1.4", "supplemental identity mismatch")
+    require(manifest.get("update", {}).get("id") == "TAVI-ASSETS-20261108-0116-PROTECTED-OVERLAY-REPAIR", "update identity mismatch")
     planned = [item["id"] for item in manifest["planned_work"]]
     done = [item["id"] for item in manifest["done_work"]]
     todo = [item["id"] for item in manifest["todo_work"]]
@@ -112,12 +132,16 @@ def check_contracts(root):
     require(set(planned).issubset(work_ids), "supplemental task missing from workboard update")
     require(manifest.get("release", {}).get("requires_operator_approval") is True and
             manifest.get("release", {}).get("requested") is False, "source publication must be gated")
+    patterns = recipe.get("protected_paths")
+    require(isinstance(patterns, list) and "runtime/**" in patterns,
+            "runtime private state protection must remain active")
     for item in manifest["done_work"]:
         require(item.get("evidence"), "reported implementation needs source evidence")
         for ev in item["evidence"]:
             path = ev.get("ref")
-            require(isinstance(path, str) and not path.startswith("/") and ".." not in Path(path).parts and
-                    (root / path).is_file(), "missing implementation evidence file")
+            require(not protected_source_path(path, patterns),
+                    f"implementation evidence excluded by ZipRunner protected paths: {path!r}")
+            require((root / path).is_file(), f"missing implementation evidence file: {path!r}")
 
     plan = read_json(root / "ziprunner-verification-plan.json")
     require(plan.get("schema") == "ziprunner.verification-plan/v1" and
@@ -153,7 +177,7 @@ def check_contracts(root):
     dsl_path = root / "docs" / "architecture" / "workspace.dsl"
     require(dsl_path.is_file(), "missing canonical Structurizr model")
     dsl = dsl_path.read_text(encoding="utf-8")
-    for name in ("AssetCoreL3", "CatalogL3", "StorefrontL3", "HostAdapterL3", "ConsumerSdkL3", "component ", "Stage Recovery", "Typed Object Graph Validator"):
+    for name in ("AssetCoreL3", "CatalogL3", "StorefrontL3", "HostAdapterL3", "ConsumerSdkL3", "PortableRuntimeL3", "component ", "Stage Recovery", "Typed Object Graph Validator"):
         require(name in dsl, f"C4 model missing {name}")
     require(dsl == (root / "architecture" / "workspace.dsl").read_text(encoding="utf-8"),
             "duplicate model paths have drifted")
@@ -161,7 +185,13 @@ def check_contracts(root):
         require(isinstance(read_json(root / source), dict), "invalid machine-readable contract")
     for source in ("sdk/client.mjs", "sdk/index.d.ts", "docs/consumer-contract.adoc", "tests/test_metadata.py"):
         require((root / source).is_file(), f"missing universal consumer source: {source}")
-    require("TA-017" in {t["id"] for t in tasks}, "missing universal consumer verification plan")
+    require("TA-018" in {t["id"] for t in tasks}, "missing portable runtime verification plan")
+    require("TA-019" in {t["id"] for t in tasks}, "missing protected overlay repair verification plan")
+    require((root / "tests" / "test_overlay_protected_paths.py").is_file(), "missing overlay regression")
+    for source in ("portable_service/service.mjs", "portable_service/validation.mjs", "portable_service/storage.mjs", "portable_service/node-file-storage.mjs", "portable_service/index.d.ts", "portable_service/README.adoc", "portable_service/package.json", "tests/runtime_portable_smoke.mjs", "contracts/tavi-assets-portable-runtime-v1.json", "contracts/tavix-asset-dependencies-proposal-v1.json"):
+        require(not protected_source_path(source, patterns),
+                f"portable service is blocked by ZipRunner protected paths: {source}")
+        require((root / source).is_file(), f"missing portable runtime source: {source}")
     return f"ZipRunner source contracts verified: {len(work_ids)} Workboard IDs, {len(checks)} planned checks"
 
 

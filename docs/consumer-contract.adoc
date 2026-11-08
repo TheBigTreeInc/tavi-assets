@@ -123,3 +123,11 @@ To make *many custom jokers* possible without shipping JavaScript, individual ob
 ----
 
 Sixteen original jokers in `examples/storybook-decks/manifest.json` now contain distinct sample modifier blocks as **inert configuration**. Balancing, stacking order, timing, event semantics, player protections, randomness, interactions and which gameplay mode can consume them must be specified by the consuming game and approved in its own rules engine. In particular, `rulesRef` is still an opaque fallback mapping and is not automatically executed.
+
+== 0.1.5 embeddable reference service (host-side only)
+
+A separately owned reference implementation is available in `portable_service/service.mjs` with `portable_service/index.d.ts`. The approved Tavi host is expected to own the secure runtime session, grant resolver and storage adapter. The `sdk/client.mjs` consumer stays restricted and transport-injected. The host-side service object is not to be injected into a third-party extension. Method names from `tavi.assets/v1` remain proposed until actual Tavi support and approval.
+
+Variant precedence: application override, global user preference, pack default. Only the trusted first-party Settings UI can invoke the privileged global setter. Extension requests for `assets.preferences.set` may only change that requesting application's override after permission and host-user-consent checks. No payment, gold reward, paid ownership, download approval or arbitrary resource file path is a consumer SDK method.
+
+The Node-only filesystem adapter is a bounded test fixture, not production binary storage. Remote catalogs, native Android/Windows persistence, React/Vite/Tavi UI embedding, extension permission manifest review and signing are still pending.

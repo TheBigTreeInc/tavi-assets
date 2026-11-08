@@ -1,7 +1,7 @@
 {
   "schema": "ziprunner.zr/v1",
   "project_key": "tavi-assets",
-  "label": "Tavi Assets \u2014 local data-only asset management",
+  "label": "Tavi Assets — local data-only asset management",
   "match": [
     "tavi-assets-*-ziprunner.zip"
   ],
@@ -37,5 +37,5 @@
   "require_clean_git_before_overlay": false,
   "mechanisms_require_build_success": true,
   "post_build_mechanisms": [],
-  "version": "0.1.4"
+  "version": "0.1.6"
 }

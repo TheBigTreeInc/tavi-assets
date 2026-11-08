@@ -1,0 +1,21 @@
+= QA 0.1.5 — portable service groundwork
+
+== Bounded scope
+
+`TA-018`: Implement a transport-independent JS reference asset service owned by Tavi Assets; storage abstraction, explicit host authorization, per-app/global preferences and restricted session-bound request bridge; parity smoke against the Python sample packs; docs, C4 and ZipRunner source/verification updates. Do not implement Tavi's extension host, mobile storage adapter, Wallet APIs, or change the production storefront.
+
+== Verifiable acceptance criteria
+
+. `node tests/runtime_portable_smoke.mjs` verifies three-deck / 16-joker content, digest and SVG rejection, install approval default-deny, update rollback, persistence on Node reference adapter, app/global fallback and untrusted session rejection.
+. `python tools/check.py` runs existing Python suite, versioned manifest tests and JS portable_service/consumer smoke. Capture actual exit status and log for extracted ZIP.
+. Verify `docs/architecture/workspace.dsl` models Portable Runtime components and does not misattribute Tavi internals.
+. Independently review the node snapshot adapter limits and strict policy before designing Windows/Android production binary storage. No browser/mobile/runtime acceptance is claimed.
+. Verify TaviX asset dependency proposal remains labeled proposed and unchanged production TaviX extension contract.
+
+== Current evidence and restrictions
+
+Author-side Linux source checks only; native Windows and Structurizr CLI checks must be separately executed and recorded by ZipRunner. No Git push workflow can exist before separately approved push. Existing Workboard `define-next-pass` and `TA-016` reviews must not be closed by this delivery. `TA-012` remains open. `TA-017` source was previously reported; operator acceptance remains pending.
+
+== Follow-up integration
+
+`TA-007`: Tavi host adapter/extension session and approved storage; `TA-008`: TaviX data-only asset dependency/distribution rules; `TA-009`: LoopRD/Wallet server authority; `TA-012`: Windows operator verification. Prepare a Klondike free-pack demo after host integration, not before.

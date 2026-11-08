@@ -1,7 +1,7 @@
 {
   "schema": "ziprunner.verification-plan/v1",
   "project": "tavi-assets",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "tasks": [
     {
       "id": "TA-010",
@@ -106,6 +106,56 @@
           "mode": "manual",
           "checks": [
             "TA-017-M1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TA-018",
+      "criteria": [
+        {
+          "id": "TA-018-AC-1",
+          "description": "Install only after host approval, validate data and SHA256, preserve previous pack on failed update, and persist preferences.",
+          "mode": "automated",
+          "checks": [
+            "TA-018-T1"
+          ]
+        },
+        {
+          "id": "TA-018-AC-2",
+          "description": "Reject spoofed sessions and private paths; scope resource access to approved caller and capability.",
+          "mode": "automated",
+          "checks": [
+            "TA-018-T1"
+          ]
+        },
+        {
+          "id": "TA-018-AC-3",
+          "description": "Operator independently approves Windows storage and host integration requirements; validate C4 model.",
+          "mode": "manual",
+          "checks": [
+            "TA-018-M1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TA-019",
+      "criteria": [
+        {
+          "id": "TA-019-AC-1",
+          "description": "Source modules and evidence stay visible after ZipRunner protected path filtering; no weakening of runtime/** rule.",
+          "mode": "automated",
+          "checks": [
+            "TA-019-T1"
+          ]
+        },
+        {
+          "id": "TA-019-AC-2",
+          "description": "Canonical Windows ZipRunner build passes exact 0.1.6 package with protected runtime state unchanged.",
+          "mode": "manual",
+          "checks": [
+            "TA-019-M1"
           ]
         }
       ]
@@ -222,6 +272,48 @@
       "stage": "acceptance",
       "description": "Operator validates new three-deck/joker metadata UX and reviewed cross-project ownership",
       "instructions": "On Windows inspect card pack, 3 deck types, 16 custom jokers and rarity filters in local preview; review host feature and schema proposals; confirm no claims of game effects, ownership or production integration; record acceptance separately."
+    },
+    {
+      "id": "TA-018-T1",
+      "kind": "automated",
+      "stage": "functional",
+      "description": "Portable JS pack and host service smoke scenarios",
+      "runner_ref": "node tests/runtime_portable_smoke.mjs",
+      "test_ref": "tests/runtime_portable_smoke.mjs",
+      "assertions": [
+        "The sample 3 deck / 16 jokers pack validates and is discoverable",
+        "Unapproved installation and unsafe resources reject without activation",
+        "Preference fallback and Node test persistence across restart",
+        "Restricted host methods deny request fields, unauthorized sessions, and ungranted capability"
+      ]
+    },
+    {
+      "id": "TA-018-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Windows and host-owned storage acceptance gate",
+      "instructions": "Import exact 0.1.5 ZIP; verify Windows build and post-update checks; review snapshot adapter size/locking limitations, Tavi native storage requirements, C4 CLI and confirm no real Tavi/Wallet integration is claimed."
+    },
+    {
+      "id": "TA-019-T1",
+      "kind": "automated",
+      "stage": "functional",
+      "description": "Simulate protected-path-filtered overlay and check available implementation evidence",
+      "runner_ref": "python tools/check.py",
+      "test_ref": "tests/test_overlay_protected_paths.py",
+      "assertions": [
+        "runtime/** remains protected",
+        "portable_service source is outside protected globs",
+        "source contract succeeds when protected paths are filtered out",
+        "all source references are package-contained"
+      ]
+    },
+    {
+      "id": "TA-019-M1",
+      "kind": "manual",
+      "stage": "acceptance",
+      "description": "Exact native Windows overlay acceptance",
+      "instructions": "Import exact 0.1.6; capture build log showing copied portable_service/ files then 0 exit from python tools/check.py; inspect existing runtime/** state preserved; verify post-update and review operator Workboard separately. Do not push."
     }
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "schema":"tavi.assets.tavix-dependency-proposal/v1",
+  "status":"proposed-for-TaviX-review-not-in-existing-tavix/1.0",
+  "ownerOfExtensionManifest":"tavix",
+  "ownerOfContent":"tavi-assets",
+  "exampleOnly":{"assetRequirements":[{"packId":"org.tavi.examples.storybook-decks","compatibility":{"min":"0.1.0","maxExclusive":"1.0.0"},"capabilities":["card.back"],"optional":false}]},
+  "semantics":"Host validates and approves declared pack requirements, checks entitlements and installation independently; a dependency is never proof of ownership or a permission grant",
+  "productionWireStatus":"unimplemented"
+}

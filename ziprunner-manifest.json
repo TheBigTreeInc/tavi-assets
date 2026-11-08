@@ -3,14 +3,14 @@
   "spec_version": "1.0.0",
   "project": {
     "key": "tavi-assets",
-    "version": "0.1.4",
-    "base_version": "0.1.3"
+    "version": "0.1.6",
+    "base_version": "0.1.4"
   },
   "update": {
-    "id": "TAVI-ASSETS-20261107-0114",
+    "id": "TAVI-ASSETS-20261108-0116-PROTECTED-OVERLAY-REPAIR",
     "kind": "source_update",
-    "created_at": "2026-11-07T23:18:23+01:00",
-    "summary": "Producer TA-017 typed object/collection metadata, host adapter and transport-injected consumer SDK with 3 deck and joker sample. No production Tavi integration or publication."
+    "created_at": "2026-11-08T00:55:00+00:00",
+    "summary": "Repair failed 0.1.5 Windows ZipRunner build by relocating portable-service source away from protected runtime/**. Preserve 0.1.4 as last stable base, TA-018 source intent, original Workboard decisions and all publication gates."
   },
   "planned_work": [
     {
@@ -42,32 +42,80 @@
       "title": "Universal typed asset metadata and consumer SDK contract",
       "priority": "high",
       "acceptance_criteria": "Validated typed object graph with stable pack-scoped IDs, tags, rarities, collections, no executable behavior; approved consumer API and SDK contract, fixture examples, source tests; native Windows and operator review separately."
+    },
+    {
+      "id": "TA-018",
+      "title": "Embeddable portable Tavi Assets service reference",
+      "priority": "high",
+      "acceptance_criteria": "Host-side JS validated install/update/read library; required approval callback, atomic storage adapter boundary, global/application preference precedence, restricted session-bound requests, sample cross-runtime tests, C4 documentation; native platform, operator and TaviX approvals separately pending."
+    },
+    {
+      "id": "TA-019",
+      "title": "Repair protected-path source overlay of portable service",
+      "priority": "high",
+      "acceptance_criteria": "Source portable_service/ not excluded by ZipRunner protected_paths, all references resolve after simulated protected overlay, source checks pass extracted ZIP; Windows build and operator decision independently required."
     }
   ],
   "done_work": [
     {
-      "id": "TA-017",
-      "summary": "Source implementation complete with source-level tests; independently unverified by target operator.",
+      "id": "TA-018",
+      "summary": "Source-only portable runtime implementation awaiting independent build and operator acceptance.",
       "evidence": [
         {
           "kind": "source",
-          "ref": "src/tavi_assets/metadata.py",
-          "description": "Typed graph validation"
+          "ref": "portable_service/service.mjs",
+          "description": "Privileged service and restricted host dispatcher"
         },
         {
           "kind": "source",
-          "ref": "sdk/client.mjs",
-          "description": "Transport-injected negotiated reference SDK"
+          "ref": "portable_service/validation.mjs",
+          "description": "Manifest/hash/media validation"
+        },
+        {
+          "kind": "source",
+          "ref": "portable_service/storage.mjs",
+          "description": "Storage adapter contract and memory reference"
+        },
+        {
+          "kind": "source",
+          "ref": "portable_service/node-file-storage.mjs",
+          "description": "Bounded node filesystem reference"
         },
         {
           "kind": "tests",
-          "ref": "tests/test_metadata.py",
-          "description": "Object graph and authorization tests"
+          "ref": "tests/runtime_portable_smoke.mjs",
+          "description": "Data-only pack and session tests"
         },
         {
           "kind": "documentation",
-          "ref": "docs/consumer-contract.adoc",
-          "description": "Consumer contract and game rules boundary"
+          "ref": "docs/QA_0.1.5.adoc",
+          "description": "Bounded implementation/verification limits"
+        }
+      ]
+    },
+    {
+      "id": "TA-019",
+      "summary": "Source-only repair of observed Windows build failure; filtered overlay regression added. Awaiting exact native Windows verification.",
+      "evidence": [
+        {
+          "kind": "tests",
+          "ref": "tests/test_overlay_protected_paths.py",
+          "description": "Cross-platform regression emulates the protected-path overlay and checks source evidence files"
+        },
+        {
+          "kind": "source",
+          "ref": "portable_service/service.mjs",
+          "description": "Relocated privileged portable asset service, never placed under protected runtime/**"
+        },
+        {
+          "kind": "source",
+          "ref": "tools/verify_contracts.py",
+          "description": "Checks that source evidence and portable service are not in protected paths"
+        },
+        {
+          "kind": "documentation",
+          "ref": "docs/QA_0.1.6.adoc",
+          "description": "Exact failure reproduction and Windows operator acceptance criteria"
         }
       ]
     }
@@ -92,53 +140,74 @@
       "id": "TA-010",
       "status": "review",
       "next_action": "Independent Windows lock and recovery acceptance still pending; do not infer Done from 0.1.3 author source checks."
+    },
+    {
+      "id": "TA-017",
+      "status": "review",
+      "next_action": "Verify earlier 0.1.4 metadata/SDK implementation and operator acceptance before closing; preserve original ID and history."
     }
   ],
   "validation": {
     "model_reported": "partial",
     "checks": [
       {
-        "id": "TA-017-SOURCE",
-        "status": "not_run",
-        "description": "Run exact ZIP extracted source: python tools/check.py"
+        "id": "TA-018-SOURCE",
+        "status": "passed",
+        "description": "Source-author verification executed: python tools/check.py (77 Python tests and Node consumer/service/demo checks); fresh exact ZIP extraction is verified separately.",
+        "environment": "Linux container; NOT native Windows ZipRunner"
       },
       {
-        "id": "TA-017-WINDOWS",
+        "id": "TA-018-WINDOWS",
         "status": "not_run",
-        "description": "Native Windows ZipRunner exact candidate acceptance"
+        "description": "0.1.6 native Windows ZipRunner build, overlay and post-update checks not yet observed."
       },
       {
-        "id": "TA-017-C4",
+        "id": "TA-018-STRUCTURIZR",
         "status": "not_run",
-        "description": "Structurizr CLI parser validation"
+        "description": "Structurizr CLI parser check (CLI unavailable to author)"
+      },
+      {
+        "id": "TA-019-OVERLAY",
+        "status": "passed",
+        "description": "Author-side regression executed: tests/test_overlay_protected_paths.py checks protected-path source filtering and real Node runtime smoke under the filtered overlay.",
+        "environment": "Linux container; NOT native Windows ZipRunner"
+      },
+      {
+        "id": "TA-019-WINDOWS",
+        "status": "not_run",
+        "description": "Operator must independently verify Windows 0.1.6 build and preserved runtime/ folder."
       }
     ]
   },
   "handover": {
-    "next_pass": "Import exact 0.1.4 into canonical ZipRunner on Windows; check build/post-update and Deck/Joker UI then negotiate actual Tavi host methods/permissions under TA-007.",
+    "next_pass": "Import 0.1.6 candidate over failed 0.1.5 state (0.1.4 last accepted), verify Windows copy/build/post-update and unchanged protected runtime/**; then review TA-018/TA-019, TA-007/Tavi host remains future work.",
     "risks": [
-      "Proposed SDK cannot call a production Tavi Assets host yet",
-      "Gameplay rule references are opaque and require game-owned implementation",
-      "No external distributor trust or entitlement enforcement for local CLI"
+      "Portable Node reference stores a bounded whole-pack JSON snapshot and is NOT production binary storage",
+      "Tavi 0.3.139 real host integration not performed",
+      "Current SDK feature tavi.assets/v1 and TaviX dependency rules remain proposed; actual production APIs unknown",
+      "JS and Python pack validators may have remaining corner-case parity differences",
+      "0.1.5 overlay excluded runtime/** as protected; local Windows source can contain 0.1.5 partial unaccepted files, so 0.1.6 must be verified independently. Do not delete protected directories or regenerate user state."
     ],
     "blockers": [
-      "Native Windows and operator acceptance outstanding",
-      "Actual Tavi and TaviX host/source contracts not approved"
+      "Tavi runtime native storage and authentication adapters unimplemented",
+      "Windows/Android and operator acceptance pending",
+      "No approved data-only TaviX distribution or real LoopRD/Wallet integration",
+      "Native Windows 0.1.6 build and operator acceptance not yet observed."
     ]
   },
   "operator_actions": [
     {
-      "id": "TA-017-OP1",
-      "description": "Verify exact 0.1.4 ZIP and source tests on Windows; capture build/post-update receipts"
+      "id": "TA-019-OP1",
+      "description": "Import exact 0.1.6 ZIP into canonical Windows ZipRunner project; verify portable_service/ files copied, python tools/check.py succeeds and original protected runtime/** unchanged."
     },
     {
-      "id": "TA-017-OP2",
-      "description": "Review typed metadata and host API proposal, UI and Structurizr model; keep release gated"
+      "id": "TA-019-OP2",
+      "description": "Review TA-018/TA-019 evidence, post-update receipt and Workboard reconciliation. Explicit operator acceptance and Git publication remain separate."
     }
   ],
   "release": {
     "requested": false,
     "requires_operator_approval": true,
-    "notes": "Source only. No push/tag/publication, no production integration approved."
+    "notes": "Source-only; no remote push, release, tag or publication authorized."
   }
 }

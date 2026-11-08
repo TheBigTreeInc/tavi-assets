@@ -1,0 +1,26 @@
+= QA 0.1.6 — Repair ZipRunner protected-path source overlay
+:toc:
+
+== Exact observed failure
+
+Windows ZipRunner attempted `tavi-assets-0.1.5-ziprunner.zip` and reported `build_failed` at `python tools/check.py`: `tools/verify_contracts.py` raised `missing implementation evidence file`. The 0.1.5 package contained `runtime/service.mjs` and related source, but `project.zr` intentionally protects `runtime/**`, preventing that subtree from being overlaid. The original 0.1.5 build did *not* establish a Windows success or operator acceptance. Last stable archive was 0.1.4.
+
+== Bounded code correction — TA-019
+
+* Relocate the reference service source into `portable_service/`, outside ZipRunner's protected `runtime/**` directory.
+* Preserve the protected paths (including `runtime/**`, private state, config, credentials), existing project identity, build command and operator gates.
+* Update all JS module imports, source evidence refs, contracts, AsciiDoc, TypeScript type paths, and Structurizr C4 Level 3 source descriptions.
+* Add tests that emulate filtering protected paths during overlay, proving that the source contract still validates and missing/unprotected evidence is detected.
+* Preserve TA-018 implementation evidence; TA-019 is a distinct repair bug. Both await operator verification.
+
+== Operator acceptance — not yet performed
+
+. Import exact 0.1.6 ZIP into the canonical `tavi-assets` project, note source copy operations for `portable_service/`, and attach `python tools/check.py` stdout/exit 0.
+. Verify pre-existing `runtime/**`, `.tavi-assets/**`, Git tree and private configuration are unchanged. Do not attempt to delete or overwrite protected state.
+. Run the recorded post-update check separately and capture actual evidence; do not infer support from the existence of the descriptor.
+. Review Workboard IDs, operator-controlled `define-next-pass` and `TA-016`, as well as TA-018/TA-019, and obtain independent human acceptance before any push or release.
+. Structurizr CLI validation and real Tavi/Android/Windows service integration remain unverified.
+
+== Not in this repair
+
+No production host methods, cross-device persistence, approved remote catalog, wallet, entitlements, TaviX package deployment, or publication. No additional third-party permission is granted.

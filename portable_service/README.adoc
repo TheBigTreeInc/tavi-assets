@@ -1,0 +1,41 @@
+= Tavi Assets — portable embeddable runtime reference 0.1.6
+:toc:
+
+== Ownership and status
+
+This is a **Tavi Assets-owned** JavaScript ES module implementation of a limited asset service. It can run in Node 22 or a secure WebView/browser with `crypto.subtle`, `TextDecoder`, `btoa` and `atob`. It is independent of Python; the Python engine/storefront is retained and still tested. It is *not* installed or hosted by any version of Tavi in this package.
+
+Tavi must provide trusted storage and identity adapters, settings/navigation integration, extension-sandbox session identity and installation approval. Tavi must NOT duplicate the asset registry, pack validator or preferences engine. The host-side `AssetService` and `TrustedAssetHostBridge` are privileged and must never be handed to an extension. The existing `sdk/client.mjs` is the *unprivileged* consumer SDK exposed to a permitted TaviX game.
+
+== Host-owned lifecycle API
+
+[source,js]
+----
+import {AssetService,TrustedAssetHostBridge} from './portable_service/index.mjs';
+import {MemoryAssetStorage} from './portable_service/index.mjs';
+
+const service = new AssetService({
+  storage: new MemoryAssetStorage(), // demo only: non-persistent
+  authorizeInstall: async ({packId,version,origin}) => false // default-deny until host verifies policy
+});
+// Tavi constructs the trusted session context; extension cannot choose identity/grants.
+const bridge = new TrustedAssetHostBridge(service, async trustedSession => null);
+----
+
+An approved host supplies `{manifest, files: Record<string, Uint8Array>, origin}` from a vetted source. `AssetService.install()` verifies identity, content hash, media signatures and conservative SVG markup, calls an injected host authorization policy (including the normalized manifest SHA-256 and host-vetted source identity) and activates via an atomic storage transaction. All installed resources are reverified on read in this reference; no arbitrary file paths or install method are exposed via `assets.*`.
+
+`portable_service/storage.mjs` provides a memory test adapter; `portable_service/node-file-storage.mjs` provides a bounded **Node-only** persistent reference adapter using one atomic-replace snapshot. Its 8 MiB limit, in-memory Base64 transport and fail-closed crash lock are **not** production-grade for larger packs, recoverable updates or mobile storage. Native device adapters for Windows and Android and IndexedDB/browser storage are unimplemented; the host should supply a secure, storage-atomic adapter with efficient binary blob storage. It must preserve user/private state and keep entitlements separately authoritative in LoopRD.
+
+== Selection and updates
+
+Preference precedence is `application override -> global preference -> pack default`. The `setGlobalPreference()` operation is trusted-host Settings only; `assets.preferences.set` writes an application override, with host-granted customize permission and host-owned user consent. Variant values unknown to a new pack version fall back while leaving previously stored preferences intact. The same version may not be silently replaced by different bytes. Updates are checked before activation; failures leave the previous version intact.
+
+The runtime does not implement discovery, background fetching, approval policy, publisher signatures, TaviX asset dependencies, a production first-party storefront UI module, cross-device sync, or wallet operations. A game's opaque card-rule references are **never executed** by this engine.
+
+== Security and conformance scope
+
+Test with `node tests/runtime_portable_smoke.mjs`. The source ZipRunner build `python tools/check.py` runs both Python and Node checks and validates the source contract. No UI/browser render, Android, Windows, Tavi end-to-end or Structurizr CLI result can be inferred from these tests. Stronger manifest/metadata parity, large-media and platform sandbox analysis remain pre-production requirements.
+
+== Developer demonstration
+
+Run `node examples/portable-runtime-demo.mjs` from the source root. The demo installs the free *Ink & Ember* fixture through the explicit *local test* approval callback, queries its three decks and sixteen jokers through the existing consumer SDK, chooses an Indigo card back and reports media type. It is not a Tavi or TaviX production host session and never accesses Wallet.

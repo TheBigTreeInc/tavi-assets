@@ -1,1 +1,13 @@
-{"name":"@tavi/assets-consumer-contract","version":"0.1.4","private":true,"type":"module","exports":{".":{"types":"./index.d.ts","default":"./client.mjs"}},"description":"Source-only proposed Tavi Assets consumer contract; requires approved Tavi host implementation"}
+{
+  "name": "@tavi/assets-consumer-contract",
+  "version": "0.1.6",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./client.mjs"
+    }
+  },
+  "description": "Source-only proposed Tavi Assets consumer contract; requires approved Tavi host implementation"
+}

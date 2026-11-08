@@ -8,3 +8,7 @@ This folder is the **source of truth for Tavi Assets' data contracts**; other pr
 * `tavi-assets-host-proposal-v1.json`: earlier minimal describe/resolve proposal, retained for lineage; superseded in breadth by the full consumer contract, not a production API.
 
 `sdk/client.mjs` + `sdk/index.d.ts` are reference consumers. See `docs/consumer-contract.adoc` for precise interpretation and `docs/QA_0.1.4.adoc` for non-accepted real-host dependencies. Neither machine-readable metadata nor this source ZIP authorizes publication or in-game dynamic code execution.
+
+== 0.1.5 portable service and dependency proposal
+
+`contracts/tavi-assets-portable-runtime-v1.json` documents the Tavi Assets-owned host-side runtime interface and storage/permission separation. `contracts/tavix-asset-dependencies-proposal-v1.json` is an unapproved proposal for declaring asset dependencies in TaviX, **not** a change to the currently deployed `tavix/1.0` wire/package contract. Neither file grants currency access or paid entitlement; LoopRD/Wallet remain separate authoritative services.
