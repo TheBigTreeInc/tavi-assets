@@ -2,7 +2,7 @@
 {
   "apiVersion": "looprd/v1",
   "component": "tavi-assets",
-  "release": "0.1.14",
+  "release": "0.1.15",
   "api": {
     "version": "v1"
   },
@@ -127,37 +127,6 @@
           "assets:publish"
         ]
       },
-      "fields": {
-        "id": {
-          "type": "integer",
-          "primaryKey": true,
-          "generated": true
-        },
-        "packId": {
-          "type": "string",
-          "maxLength": 127,
-          "required": true
-        },
-        "version": {
-          "type": "string",
-          "maxLength": 64,
-          "required": true
-        },
-        "status": {
-          "type": "string",
-          "maxLength": 16,
-          "required": true
-        },
-        "manifestSha256": {
-          "type": "string",
-          "maxLength": 64,
-          "required": true
-        },
-        "created": {
-          "type": "integer",
-          "required": true
-        }
-      },
       "projection": [
         "id",
         "packId",
@@ -182,37 +151,6 @@
           "assets:publish"
         ]
       },
-      "fields": {
-        "id": {
-          "type": "integer",
-          "primaryKey": true,
-          "generated": true
-        },
-        "packId": {
-          "type": "string",
-          "maxLength": 127,
-          "required": true
-        },
-        "version": {
-          "type": "string",
-          "maxLength": 64,
-          "required": true
-        },
-        "action": {
-          "type": "string",
-          "maxLength": 16,
-          "required": true
-        },
-        "actor": {
-          "type": "string",
-          "maxLength": 128,
-          "required": true
-        },
-        "created": {
-          "type": "integer",
-          "required": true
-        }
-      },
       "projection": [
         "id",
         "packId",
@@ -227,11 +165,51 @@
     "resources": {
       "asset-versions": {
         "label": "Asset packs and publication status",
-        "titleField": "packId"
+        "titleField": "packId",
+        "fields": {
+          "id": {
+            "label": "ID"
+          },
+          "packId": {
+            "label": "Pack ID"
+          },
+          "version": {
+            "label": "Version"
+          },
+          "status": {
+            "label": "Status"
+          },
+          "manifestSha256": {
+            "label": "Manifest SHA-256"
+          },
+          "created": {
+            "label": "Created"
+          }
+        }
       },
       "asset-audit": {
         "label": "Asset publication audit",
-        "titleField": "packId"
+        "titleField": "packId",
+        "fields": {
+          "id": {
+            "label": "ID"
+          },
+          "packId": {
+            "label": "Pack ID"
+          },
+          "version": {
+            "label": "Version"
+          },
+          "action": {
+            "label": "Action"
+          },
+          "actor": {
+            "label": "Actor"
+          },
+          "created": {
+            "label": "Created"
+          }
+        }
       }
     },
     "actions": {}

@@ -1,0 +1,20 @@
+= Tavi Assets 0.1.15 — LoopRD resource fields placement repair QA
+
+== Observed failure
+
+Live LoopRD diagnostics for 0.1.14 show `specification_invalid` with missing `management.resources.*.fields` and forbidden `resources.*.fields` (top-level). The earlier oversized migration `MemoryError` is historical; live cause was not conclusively established.
+
+== Source checks
+
+* Every top-level `resources` entry has no `fields` key.
+* Every `management.resources` entry has a read-only `fields` map keyed exactly to its corresponding projection, using label descriptors.
+* Initial component-local database migration remains version 2, schema unchanged.
+* Run `python tools/check.py`, `python looprd/generate.py --check` and exact extracted-ZIP verification.
+
+== Required deployment acceptance
+
+. Validate against the real LoopRD  specification validator. Local source checks do not claim to implement its complete schema.
+. Confirm `loaded=true` in diagnostic snapshot with no new load failure before database migration.
+. Review component migration ledger, back up database and approve migrations separately; never overwrite existing data.
+. Verify read-only management views, authenticated admin delegation and resource access after a reviewed deployment.
+. Run Windows ZipRunner; retain independent operator approval and publication gates.

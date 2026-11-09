@@ -53,3 +53,9 @@ TA-022 is source-reported only: the portable host reference now validates TaviX 
 === 0.1.14 LoopRD load mitigation
 
 * TA-027 follow-up: replace an oversized migration version with sequential version 2. The LoopRD `MemoryError` is not confirmed resolved until a live server retry. Existing deployment, Windows and operator gates remain open.
+
+=== 0.1.15 LoopRD specification field placement repair (TA-028)
+
+* Follow-up to live `specification_invalid` on 0.1.14: move read-only metadata field descriptors from forbidden `resources.*.fields` to required `management.resources.*.fields`. Retain source model declarations and resource projections.
+* Registry schema, component-local migration 2, permissions, admin delegation gate and publication controls are unchanged.
+* Actual LoopRD specification validation, Windows ZipRunner, migration ledger review and operator acceptance remain open. See `docs/QA_0.1.15.adoc`.

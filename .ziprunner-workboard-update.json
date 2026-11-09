@@ -1,8 +1,8 @@
 {
   "schema": "ziprunner.workboard-update.v1",
   "project": "tavi-assets",
-  "version": "0.1.14",
-  "summary": "0.1.14 repairs a suspected LoopRD load MemoryError by replacing the oversized initial migration ID 2026110901 with sequential version 2. Preserve registry schema, scoped permissions and pending operator/deployment gates.",
+  "version": "0.1.15",
+  "summary": "0.1.15 fixes LoopRD resource field placement: top-level resource definitions cannot include fields, whereas management.resources entries require read-only fields maps; initial migration version 2 retained. Exact authoritative LoopRD validation and operator deployment remain pending.",
   "implemented": [
     {
       "id": "TA-018",
@@ -85,6 +85,16 @@
         "Submit the generated looprd/looprd.yaml to LoopRD specification validator and confirm missing fields and invalid migration-number errors are resolved.",
         "Review target LoopRD migration ledger and verify version 2026110901 is safe before applying; do not execute a migration as part of source verification.",
         "Run exact source ZIP on Windows ZipRunner; verify 108 Python tests, Node checks and both declared resource fields; preserve credentials, runtime state and publication gates."
+      ]
+    },
+    {
+      "id": "TA-028",
+      "title": "Correct LoopRD management field descriptor placement",
+      "summary": "Reproduced LoopRD 0.1.14 specification_invalid: fields required in management.resources but forbidden in top-level resources. Moved read-only display field maps to management.resources; preserved projections, scopes, handler code, BLOB schema and migration version 2.",
+      "operator_checks": [
+        "Submit generated descriptor to authoritative LoopRD specification validator; verify no resource fields errors and loaded=true before any migration.",
+        "Confirm migrations and protected user data are unchanged and admin/account delegation remains gated.",
+        "Run exact source ZIP in Windows ZipRunner, confirm Python/Node tests and review independently before acceptance."
       ]
     }
   ],

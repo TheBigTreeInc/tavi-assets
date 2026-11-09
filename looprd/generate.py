@@ -41,7 +41,7 @@ def descriptor():
         'actor':{'type':'string','maxLength':128,'required':True},
         'created':{'type':'integer','required':True}}},
     }
-    return {'apiVersion':'looprd/v1','component':'tavi-assets','release':'0.1.14','api':{'version':'v1'},
+    return {'apiVersion':'looprd/v1','component':'tavi-assets','release':'0.1.15','api':{'version':'v1'},
        'requires':['auth.verified','management.data','service.contracts','reports.bugs'],
        'auth':{'mode':'database','scopes':['assets:read','assets:ingest','assets:publish']},
        'database':{'backend':'sqlite','schemaVersion':2,'migrations':[{'version':2,'statements':schema()}]},
@@ -50,16 +50,16 @@ def descriptor():
        'resources':{
           'asset-versions':{'model':'AssetPackVersion','path':'/operator-asset-versions','operations':['list','get'],
               'permissions':{'list':['assets:publish'],'get':['assets:publish']},
-              'fields':models['AssetPackVersion']['fields'],
               'projection':['id','packId','version','status','manifestSha256','created']},
           'asset-audit':{'model':'AssetPublicationAudit','path':'/operator-asset-audit','operations':['list','get'],
               'permissions':{'list':['assets:publish'],'get':['assets:publish']},
-              'fields':models['AssetPublicationAudit']['fields'],
               'projection':['id','packId','version','action','actor','created']},
         },
        'management':{'resources':{
-          'asset-versions':{'label':'Asset packs and publication status','titleField':'packId'},
-          'asset-audit':{'label':'Asset publication audit','titleField':'packId'}},
+          'asset-versions':{'label':'Asset packs and publication status','titleField':'packId',
+             'fields':{key:{'label':{'id':'ID','packId':'Pack ID','version':'Version','status':'Status','manifestSha256':'Manifest SHA-256','created':'Created'}[key]} for key in ('id','packId','version','status','manifestSha256','created')}},
+          'asset-audit':{'label':'Asset publication audit','titleField':'packId',
+             'fields':{key:{'label':{'id':'ID','packId':'Pack ID','version':'Version','action':'Action','actor':'Actor','created':'Created'}[key]} for key in ('id','packId','version','action','actor','created')}}},
           'actions':{}},
        'handlers':[
           {'path':'/catalog','method':'POST','kind':'python','scopes':['assets:read'],'source':source,

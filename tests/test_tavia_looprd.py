@@ -133,8 +133,13 @@ class TaviaLoopRDTests(unittest.TestCase):
         self.assertEqual(d['database']['migrations'][0]['version'],2)
         self.assertLess(d['database']['migrations'][0]['version'],1000)
         for name,resource in d['resources'].items():
-            self.assertIn('fields',resource, name)
-            self.assertEqual(resource['fields'],d['models'][resource['model']]['fields'])
+            self.assertNotIn('fields',resource, name)
+            self.assertIn(name,d['management']['resources'])
+            fields=d['management']['resources'][name]['fields']
+            self.assertEqual(set(fields),set(resource['projection']))
+            for field in fields.values():
+                self.assertTrue(field['label'])
+                self.assertNotIn('editable',field)
         self.assertIn('asset-versions',d['management']['resources'])
         self.assertFalse('create' in d['resources']['asset-versions']['operations'])
         import subprocess

@@ -1,11 +1,11 @@
-= LoopRD deployment handoff — Tavi Assets 0.1.14
+= LoopRD deployment handoff — Tavi Assets 0.1.15
 
 Status: *candidate, not deployed or accepted*. This directory is intended for the LoopRD owner to review/import through its existing component/migration workflow. Do not apply schema changes automatically as part of a ZipRunner source build.
 
 == Importable source
 
 * `looprd/looprd.yaml` is generated from `looprd/generate.py` and includes the canonical Tavi Assets Python pack validator plus `looprd/handler.py`. Verify freshness with `python looprd/generate.py --check`.
-* Component: `tavi-assets`, descriptor `looprd/v1`, release `0.1.14`; separate component-owned SQLite migration namespace, initial migration version 2. LoopRD deployment tooling must confirm namespace isolation; *do not append schema version 1 to the Social database schema 13*.
+* Component: `tavi-assets`, descriptor `looprd/v1`, release `0.1.15`; separate component-owned SQLite migration namespace, initial migration version 2. LoopRD deployment tooling must confirm namespace isolation; *do not append schema version 1 to the Social database schema 13*.
 * Requires `auth.verified`, `management.data`, `service.contracts`, `reports.bugs`. Runtime requires LoopRD's Python SQLAlchemy and Starlette support; these are server dependencies, not local ZipRunner requirements.
 * Tables: `AssetPackVersion`, `AssetBlob`, `AssetPackResource`, `AssetUploadChunk`, `AssetPublicationAudit`. Content is SHA-256 addressed and held in SQLite BLOBs. Size caps and validation are enforced at the server; backups/quotas/production load testing remain operator responsibilities.
 
@@ -82,4 +82,4 @@ No live LoopRD, Tavi admin session or production DAPI was available to this sour
 
 == Specification validation 0.1.13
 
-`resources.*.fields` explicitly declares the exposed model fields. The initial asset registry migration uses sequential version `2` to avoid the oversized version identifier in 0.1.13. It is scoped to the `tavi-assets` component and is not Social schema version 2; verify the target component migration ledger before applying. The reported `MemoryError` requires a live retry to confirm resolution. No live database has been migrated by this source package.
+`management.resources.*.fields` contains read-only UI field descriptors; top-level `resources.*` must not contain `fields`. The initial asset registry migration uses sequential version `2` to avoid the oversized version identifier in 0.1.13. It is scoped to the `tavi-assets` component and is not Social schema version 2; verify the target component migration ledger before applying. The reported `MemoryError` requires a live retry to confirm resolution. No live database has been migrated by this source package.

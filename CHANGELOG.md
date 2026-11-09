@@ -1,3 +1,9 @@
+## 0.1.15 — LoopRD management resource field placement correction
+
+- Repair 0.1.14 `specification_invalid`: top-level `resources` reject `fields`; LoopRD `management.resources` require them. Map read-only management display fields to existing resource projections.
+- Preserve migration 2, BLOB tables, API handlers, permissions, registry content, installed state and human publication gates.
+- Add negative/positive descriptor placement regression; authoritative LoopRD validation and live load remain pending.
+
 ## 0.1.14 — LoopRD load MemoryError mitigation (candidate)
 
 - Replace initial `tavi-assets` migration version `2026110901` with sequential version `2` in the canonical LoopRD generator and descriptor; preserve both management resource fields.

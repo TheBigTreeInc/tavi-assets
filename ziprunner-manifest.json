@@ -3,7 +3,7 @@
   "spec_version": "1.0.0",
   "project": {
     "key": "tavi-assets",
-    "version": "0.1.14",
+    "version": "0.1.15",
     "base_version": "0.1.13"
   },
   "update": {
