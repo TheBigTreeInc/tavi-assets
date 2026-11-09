@@ -129,8 +129,9 @@ class TaviaLoopRDTests(unittest.TestCase):
         self.assertFalse(self.call('chunk',packId=self.m['id'],version=self.m['version'],name='bad',offset=0,contentBase64='YQ==')['ok'])
     def test_descriptor_contract_and_management(self):
         d=g.descriptor();self.assertIn('management.data',d['requires']);self.assertEqual(d['database']['backend'],'sqlite')
-        self.assertEqual(d['database']['schemaVersion'],2026110901)
-        self.assertGreaterEqual(d['database']['migrations'][0]['version'],2)
+        self.assertEqual(d['database']['schemaVersion'],2)
+        self.assertEqual(d['database']['migrations'][0]['version'],2)
+        self.assertLess(d['database']['migrations'][0]['version'],1000)
         for name,resource in d['resources'].items():
             self.assertIn('fields',resource, name)
             self.assertEqual(resource['fields'],d['models'][resource['model']]['fields'])

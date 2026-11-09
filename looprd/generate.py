@@ -41,10 +41,10 @@ def descriptor():
         'actor':{'type':'string','maxLength':128,'required':True},
         'created':{'type':'integer','required':True}}},
     }
-    return {'apiVersion':'looprd/v1','component':'tavi-assets','release':'0.1.13','api':{'version':'v1'},
+    return {'apiVersion':'looprd/v1','component':'tavi-assets','release':'0.1.14','api':{'version':'v1'},
        'requires':['auth.verified','management.data','service.contracts','reports.bugs'],
        'auth':{'mode':'database','scopes':['assets:read','assets:ingest','assets:publish']},
-       'database':{'backend':'sqlite','schemaVersion':2026110901,'migrations':[{'version':2026110901,'statements':schema()}]},
+       'database':{'backend':'sqlite','schemaVersion':2,'migrations':[{'version':2,'statements':schema()}]},
        'limits':{'requestsPerMinute':600,'burstPerSecond':12,'maxInFlight':12},
        'models':models,
        'resources':{

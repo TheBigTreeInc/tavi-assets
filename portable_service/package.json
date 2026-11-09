@@ -1,6 +1,6 @@
 {
   "name": "@tavi/assets-runtime",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "private": true,
   "type": "module",
   "description": "Source-only host-side Tavi Assets service reference, not a published runtime",

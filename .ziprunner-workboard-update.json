@@ -1,8 +1,8 @@
 {
   "schema": "ziprunner.workboard-update.v1",
   "project": "tavi-assets",
-  "version": "0.1.13",
-  "summary": "0.1.13 fixes LoopRD specification_invalid by declaring both resource field mappings and assigning the initial registry migration an approved-review-required version 2026110901. Earlier registry management and security gates remain unchanged.",
+  "version": "0.1.14",
+  "summary": "0.1.14 repairs a suspected LoopRD load MemoryError by replacing the oversized initial migration ID 2026110901 with sequential version 2. Preserve registry schema, scoped permissions and pending operator/deployment gates.",
   "implemented": [
     {
       "id": "TA-018",

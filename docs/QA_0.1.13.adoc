@@ -1,6 +1,6 @@
 = Tavi Assets 0.1.13 — LoopRD descriptor QA
 
 * Verify both `resources` include non-empty `fields` definitions matching their declared models.
-* Verify migration version `2026110901` is accepted by LoopRD and does not conflict with previously applied migrations. Do not execute migrations without separate operator approval.
+* Verify migration version `2` (superseded 0.1.13 proposal) is accepted by LoopRD and does not conflict with previously applied migrations. Do not execute migrations without separate operator approval.
 * Confirm the DAPI admin bridge, publication authorization and ZIPRunner dry-run defaults are unchanged.
 * Run `python tools/check.py` in the exact ZipRunner overlay on Windows, and record success or failure.

@@ -84,3 +84,6 @@ For the deployment handoff to the LoopRD owner, use [`looprd/INTEGRATION.adoc`](
 ## License and contribution boundaries
 
 The repository does not yet contain an approved top-level open-source license. Public visibility alone does not grant redistribution rights. Use original or explicitly licensed art in example packs, document dependencies and ownership, and request review before proposing distribution of third-party content or changing published contracts.
+
+
+**LoopRD integration note (0.1.14):** The generated registry descriptor uses a component-local migration version `2` instead of the oversized `2026110901` value. Validate against the target LoopRD migration ledger before deployment; this change does not imply successful live loading or production publication.

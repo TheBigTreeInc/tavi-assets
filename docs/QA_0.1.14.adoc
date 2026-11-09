@@ -1,0 +1,19 @@
+= Tavi Assets 0.1.14 — LoopRD MemoryError repair QA
+
+== Observed failure
+
+LoopRD diagnostics for `tavi-assets` report `load: MemoryError` after 0.1.13 changed its first migration version to `2026110901`. The previous `specification_invalid` error was historical. A very large migration index is a plausible but not independently confirmed cause of allocation failure.
+
+== Source checks
+
+* Generated descriptor has `resources.*.fields` for both management views.
+* Initial `database.migrations[0].version == 2` and `database.schemaVersion == 2`.
+* Python tests, Node tests, ZIP extraction and `python looprd/generate.py --check`.
+
+== Required live/operator acceptance
+
+. Import descriptor into a disposable LoopRD target and verify `loaded=true` and no `MemoryError` (or capture complete server traceback if it persists).
+. Confirm `tavi-assets` component-local migration version 2 does not collide with existing component migration history; do not reset or mutate a live database to force it.
+. Back up database, apply migration only after operator approval.
+. Test authenticated catalog/admin endpoints, exact archive approval, publication and revocation; Tavi admin delegation is not implemented by this source repair.
+. Independently confirm Windows ZipRunner acceptance and release authorization.

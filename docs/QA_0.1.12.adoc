@@ -5,7 +5,7 @@ Source-only candidate. Added tested read-only registry status/audit, operator-si
 * Run `python tools/check.py` and `python looprd/generate.py --check` from extracted candidate.
 * Verify all registry tests pass using stdlib SQLite adapter (no pip installation needed on Windows ZipRunner).
 * Verify `tools/looprd-registry.py publish` defaults to dry-run, `--execute` without matching exact-manifest receipt refuses mutation and HTTP endpoints are rejected.
-* Confirm `looprd/looprd.yaml` component release 0.1.13 and schema 2026110901 (0.1.13 correction) are *separate from* Social's schema 2026110901 (0.1.13 correction)3. Protect local runtime files and secrets.
+* Confirm `looprd/looprd.yaml` component release 0.1.12 and its component-local migration are *separate from* Social's schema 13. Protect local runtime files and secrets.
 * LoopRD owner: import into disposable instance, verify verified service scopes, DAPI handler context, SQLite migrations, audit, revocation and catalog retrieval before production deployment.
 * Social owner: implement TA-025 verified ecosystem-admin session/entitlement to short-lived service authorization; do not accept caller-supplied `isAdmin`.
 * Operator: separately approve build, stage, publish and any release. Neither ZipRunner post-run nor source build uploads or publishes by default.

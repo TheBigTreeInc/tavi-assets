@@ -1,3 +1,9 @@
+## 0.1.14 — LoopRD load MemoryError mitigation (candidate)
+
+- Replace initial `tavi-assets` migration version `2026110901` with sequential version `2` in the canonical LoopRD generator and descriptor; preserve both management resource fields.
+- Regression check exact version and bounded sequential number; document that the reported server `MemoryError` needs live validation, and that the component migration ledger must be checked before DB changes.
+- No actual LoopRD schema execution or deployment, no new administrative authority, no asset publication or Git push.
+
 ## 0.1.13 — LoopRD specification validation repair
 
 - Add explicit `fields` to both operator resources in the generated LoopRD descriptor.

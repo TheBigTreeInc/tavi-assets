@@ -49,3 +49,7 @@ TA-022 is source-reported only: the portable host reference now validates TaviX 
 * TA-025 remains open: Social-owned verified ecosystemAdmin-to-scoped LoopRD service capability, with expiry and audit.
 * TA-026 (candidate): Operator-facing LoopRD inspect, audit, exact-manifest publish/revoke receipt and resource verification; source tests required; live DAPI/Windows acceptance remains open.
 * TA-023 collection capabilities and TA-012 Windows/operator approval remain open.
+
+=== 0.1.14 LoopRD load mitigation
+
+* TA-027 follow-up: replace an oversized migration version with sequential version 2. The LoopRD `MemoryError` is not confirmed resolved until a live server retry. Existing deployment, Windows and operator gates remain open.

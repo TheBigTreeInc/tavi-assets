@@ -2,7 +2,7 @@
 {
   "apiVersion": "looprd/v1",
   "component": "tavi-assets",
-  "release": "0.1.13",
+  "release": "0.1.14",
   "api": {
     "version": "v1"
   },
@@ -22,10 +22,10 @@
   },
   "database": {
     "backend": "sqlite",
-    "schemaVersion": 2026110901,
+    "schemaVersion": 2,
     "migrations": [
       {
-        "version": 2026110901,
+        "version": 2,
         "statements": [
           "CREATE TABLE \"AssetPackVersion\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"packId\" TEXT NOT NULL, \"version\" TEXT NOT NULL, \"status\" TEXT NOT NULL, \"manifest\" TEXT NOT NULL, \"manifestSha256\" TEXT NOT NULL, \"created\" INTEGER NOT NULL, UNIQUE (\"packId\",\"version\"))",
           "CREATE TABLE \"AssetBlob\" (\"digest\" TEXT PRIMARY KEY, \"content\" BLOB NOT NULL, \"byteSize\" INTEGER NOT NULL, \"created\" INTEGER NOT NULL)",
