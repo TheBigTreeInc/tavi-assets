@@ -87,3 +87,7 @@ The repository does not yet contain an approved top-level open-source license. P
 
 
 **LoopRD integration note (0.1.15):** The generated registry descriptor uses a component-local migration version `2` instead of the oversized `2026110901` value. Validate against the target LoopRD migration ledger before deployment; this change does not imply successful live loading or production publication.
+
+## Source and knowledge continuity
+
+See `AGENTS.md` for project-specific development boundaries, `registry/project-memory.json` for sourced durable facts, and `docs/RECONCILIATION_2026-11-13.md` for Library/registry disposition. These documents do not imply live publication or operator acceptance.

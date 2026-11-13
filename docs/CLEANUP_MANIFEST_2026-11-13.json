@@ -1,0 +1,51 @@
+{
+  "schema": "tavi-assets.cleanup/v1",
+  "date": "2026-11-13",
+  "baseline_zip": "tavi-assets-0.1.15-ziprunner.zip",
+  "baseline_sha256": "84bcdf6dcabe39c9298a28b19b1adf09ce0ac8e8748cd92e7b4fa1ebe6313f86",
+  "actions": [
+    {
+      "family": "assets-engine",
+      "path": "tavi-assets-0.1.15-ziprunner.zip",
+      "action": "retain_canonical_baseline",
+      "status": "completed_local_evidence_only"
+    },
+    {
+      "family": "assets-engine",
+      "path": "tavi-assets-0.1.16-ziprunner.zip",
+      "action": "propose_candidate",
+      "status": "pending_acceptance"
+    },
+    {
+      "family": "asset-studio",
+      "path": "asset-studio-source-014-retry.zip",
+      "action": "retain_separate_candidate",
+      "status": "no_move"
+    },
+    {
+      "family": "asset-pack",
+      "path": "tavi-registry-test-cards-0.1.0.tavia",
+      "action": "retain_test_input",
+      "status": "no_move"
+    },
+    {
+      "family": "older-engine-zips",
+      "path": "tavi-assets-0.1.0..0.1.14",
+      "action": "archive_after_exact_hash_and_completeness_review",
+      "status": "proposed_not_moved"
+    },
+    {
+      "family": "shared-catalog",
+      "path": "/registry/catalog.json",
+      "action": "request_steward_registration",
+      "status": "blocked_approval"
+    },
+    {
+      "family": "library",
+      "path": "/tavi-assets/",
+      "action": "inventory_complete_pending_hash_verified_archiving",
+      "status": "provider_listing_recovered_older_files_unmoved"
+    }
+  ],
+  "deletion_candidates": []
+}

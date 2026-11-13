@@ -1,0 +1,32 @@
+{
+  "schema": "tavi-assets.project-memory/v1",
+  "project_key": "tavi-assets",
+  "canonical_project_id": "d0fe2552-0ae9-4162-b8e1-68c174d14a3a",
+  "id_status": "historical_handoff_unverified_against_live_repository",
+  "repository": "https://github.com/TheBigTreeInc/tavi-assets",
+  "repository_status": "user_supplied_not_live_verified",
+  "source_version": "0.1.15",
+  "reconciliation_candidate": "0.1.16",
+  "last_operator_confirmed": "LoopRD component loads on 0.1.15",
+  "last_operator_confirmed_date": "2026-11-09",
+  "release_status": "not_verified_published",
+  "facts": [
+    {
+      "fact": "Tavi Assets owns data-only packs, SDK, portable service, LoopRD component and asset contracts",
+      "source": "README.md; contracts/README.adoc",
+      "status": "source_verified"
+    },
+    {
+      "fact": "Tavi/Social owns storefront and trusted host; Asset Studio is a separate TaviX app",
+      "source": "docs/integrations.adoc; user project decisions",
+      "status": "documented"
+    },
+    {
+      "fact": "Live ingestion, publication, Gold pricing and end-to-end Tavi storefront acceptance are not established",
+      "source": "docs/QA_0.1.15.adoc; operator discussion",
+      "status": "pending_acceptance"
+    }
+  ],
+  "review_status": "proposed",
+  "review_after": "2026-11-20"
+}

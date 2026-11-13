@@ -1,7 +1,7 @@
 {
   "schema": "ziprunner.verification-plan/v1",
   "project": "tavi-assets",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "tasks": [
     {
       "id": "TA-010",
@@ -296,7 +296,7 @@
       "criteria": [
         {
           "id": "TA-027-C1",
-          "description": "Descriptor management resources include fields and historical 0.1.13 migration version used 2026110901; 0.1.15 uses sequential version 2",
+          "description": "Descriptor management resources include fields and historical 0.1.13 migration version used 2026110901; 0.1.16 uses sequential version 2",
           "checks": [
             "TA-027-T1"
           ]

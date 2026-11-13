@@ -1,3 +1,7 @@
+## 0.1.16 — 2026-11-13 (reconciliation candidate)
+
+- Added owner-scoped agent instructions, project memory, reconciliation and cleanup manifest. No runtime/contract behavior changed.
+
 ## 0.1.15 — LoopRD management resource field placement correction
 
 - Repair 0.1.14 `specification_invalid`: top-level `resources` reject `fields`; LoopRD `management.resources` require them. Map read-only management display fields to existing resource projections.

@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 PROJECT = "tavi-assets"
-VERSION = "0.1.15"
+VERSION = "0.1.16"
 ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$", re.ASCII)
 ALLOWED_PRIORITIES = {"critical", "high", "medium", "low"}
 
@@ -121,7 +121,7 @@ def check_contracts(root):
             "unexpected recipe version/build")
     require(recipe.get("delete_missing") is False and not recipe.get("post_build_mechanisms"),
             "unsafe source overlay/release recipe")
-    require('version = "0.1.15"' in (root / "pyproject.toml").read_text(encoding="utf-8"),
+    require('version = "0.1.16"' in (root / "pyproject.toml").read_text(encoding="utf-8"),
             "Python package version mismatch")
     manifest = read_json(root / "ziprunner-manifest.json")
     require(manifest.get("schema") == "ziprunner.update-manifest/v1", "wrong supplemental schema")

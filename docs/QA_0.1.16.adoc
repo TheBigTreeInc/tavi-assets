@@ -1,0 +1,3 @@
+= Tavi Assets 0.1.16 reconciliation candidate QA
+
+Source baseline 0.1.15; documentation/metadata changes only. Run `python tools/check.py` against extracted ZIP. Windows ZipRunner, GitHub and live LoopRD acceptance remain pending.

@@ -1,8 +1,8 @@
 {
   "schema": "ziprunner.workboard-update.v1",
   "project": "tavi-assets",
-  "version": "0.1.15",
-  "summary": "0.1.15 fixes LoopRD resource field placement: top-level resource definitions cannot include fields, whereas management.resources entries require read-only fields maps; initial migration version 2 retained. Exact authoritative LoopRD validation and operator deployment remain pending.",
+  "version": "0.1.16",
+  "summary": "0.1.16 fixes LoopRD resource field placement: top-level resource definitions cannot include fields, whereas management.resources entries require read-only fields maps; initial migration version 2 retained. Exact authoritative LoopRD validation and operator deployment remain pending.",
   "implemented": [
     {
       "id": "TA-018",
