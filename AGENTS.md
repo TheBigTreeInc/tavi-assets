@@ -13,3 +13,6 @@ Read `README.md`, `docs/workboard.adoc`, `docs/looprd-asset-registry.adoc`, `doc
 
 ## Continuation
 0.1.15 is the last source version with user-confirmed LoopRD component loading, not end-to-end registry acceptance. 0.1.16 is a documentation/knowledge reconciliation candidate, not an authorized release. Asset Studio 0.1.4 is a separate unaccepted app candidate; native `.tavia` picker and backend admin path remain unproven.
+
+## 0.1.18 content repository direction
+Maintain `packs/`, `schematics/`, `schemas/` and the public source-controlled index; TaviX Studio remains the only authoring UI. Do not alter Studio/TaviX code or treat a catalog approvalReference as server authorization. No private/purchased binaries in public Git.

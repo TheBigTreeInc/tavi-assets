@@ -1,7 +1,7 @@
 {
   "schema": "ziprunner.verification-plan/v1",
   "project": "tavi-assets",
-  "version": "0.1.16",
+  "version": "0.1.18",
   "tasks": [
     {
       "id": "TA-010",
@@ -302,6 +302,27 @@
           ]
         }
       ]
+    },
+    {
+      "id": "TA-030",
+      "criteria": [
+        {
+          "id": "TA-030-AC-1",
+          "description": "Source-only public asset catalog and portable blueprint package are verifiable without existing Studio modifications.",
+          "mode": "automated",
+          "checks": [
+            "TA-030-AUTO"
+          ]
+        },
+        {
+          "id": "TA-030-AC-2",
+          "description": "Native Windows, Studio compatibility and publishing gates independently reviewed.",
+          "mode": "manual",
+          "checks": [
+            "TA-030-MANUAL"
+          ]
+        }
+      ]
     }
   ],
   "checks": [
@@ -577,6 +598,20 @@
       "command": "python tools/check.py",
       "expected": "test_descriptor_contract_and_management passes, 108 tests",
       "status": "not_run"
+    },
+    {
+      "id": "TA-030-AUTO",
+      "kind": "automated",
+      "test_ref": "tests/test_repository_index.py",
+      "assertions": [
+        "Blueprint ZIP format, hashes, paths, manifest and content schema checked",
+        "Public catalog excludes drafts and rejects restricted or digest-mismatched artifacts"
+      ]
+    },
+    {
+      "id": "TA-030-MANUAL",
+      "kind": "manual",
+      "instructions": "Use the exact extracted source ZIP on the native Windows ZipRunner project, review version/CI receipts and public catalog publication controls; independently approve before push/release."
     }
   ]
 }

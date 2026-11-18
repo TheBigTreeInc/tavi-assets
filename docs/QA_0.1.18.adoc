@@ -1,0 +1,34 @@
+= Tavi Assets 0.1.18 — public repository source verification
+
+== Candidate identity
+
+* Project key: `tavi-assets`; historically registered canonical ID: `d0fe2552-0ae9-4162-b8e1-68c174d14a3a`.
+* Source base: 0.1.17 unaccepted candidate; GitHub main observed as 0.1.16 at start of pass.
+* Ownership: Tavi Assets only; no TaviX, TaviX Studio, Tavi/Social, live LoopRD or public release mutation.
+
+== Bounded implementation
+
+* Versioned `tavi.assets.blueprint-package/v1` ZIP and local author-side create/inspect functionality.
+* TAVIB contains opaque `tavix.studio.asset-blueprint/v1` JSON payload; TaviX Studio semantic compatibility is NOT operator-verified.
+* Root approved-public source (`catalog.source.json`) and deterministic generated public index (`catalog.json`) with separate schemas.
+* Fail-closed `.tavia` validation using canonical Tavi Assets archive inspector; draft/restricted exclusion, exact SHA-256 pin, path, ID/version and approvalReference validation.
+* No actual approved binaries included; no trusted admin or real publication API enabled.
+
+== Executable local QA
+
+[source,shell]
+----
+python tools/check.py
+python -m unittest discover -s tests -p test_repository_index.py -v
+python tools/asset_repository.py catalog-check
+----
+
+Record precise test counts and output against the exact extracted ZIP, never substitute a prior candidate report. The dedicated tests include archive path traversal, symlink, extra executable entry, mismatched hashes, invalid schema, bad IDs, changed archives, duplicate source records, stale generated index, restricted content and draft omission. JavaScript smoke checks are inherited from the existing project and must remain green.
+
+== Required separately gated acceptance
+
+. Recipient Windows ZipRunner must import 0.1.18, run `python tools/check.py`, and attach the exact ZIP/build/post-update receipt.
+. TaviX Studio owner must confirm that the blueprint payload version and public-index contract are compatible with the Studio's expected authoring/import UX; no acceptance assumed.
+. LoopRD operator must independently accept account and publication authorization, signed provenance/immutable hosting, entitlements and private delivery before enabling live upload.
+. Operator must inspect `docs/architecture/workspace.dsl` and validate with Structurizr CLI when available (parser validation not established here).
+. Git push/CI/source publish, TAVIB/TAVIA publication and release require explicit separate approval. These checks do not mark the Workboard Done automatically.

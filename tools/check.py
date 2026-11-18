@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from tavi_assets.catalog import Catalog
+from tavi_assets.repository_index import verify_index
 from tavi_assets.core import validate
 from verify_contracts import check_contracts
 
@@ -20,6 +21,7 @@ def main():
     validate(ROOT / "examples" / "cards-v2")
     validate(ROOT / "examples" / "storybook-decks")
     Catalog(ROOT / "examples")
+    verify_index(ROOT)
     suite = unittest.defaultTestLoader.discover(str(ROOT / "tests"), pattern="test_*.py")
     result = unittest.TextTestRunner(verbosity=2).run(suite)
     if result.wasSuccessful():

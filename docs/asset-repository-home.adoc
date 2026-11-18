@@ -1,0 +1,93 @@
+= Tavi Assets — public content home (0.1.18 candidate)
+:toc:
+
+== Purpose and ownership
+
+The existing `TheBigTreeInc/tavi-assets` repository is the *single Tavi Assets-owned public source home* for approved `.tavia` asset packages and `.tavib` design blueprints. It also retains its existing pack engine, SDK, LoopRD adapter, contracts and QA. `TheBigTreeInc/assets` remains a separate character/portrait library and is NOT the target of these catalog changes.
+
+* *TaviX Studio* is the intended single user-facing creator, editor, previewer and submission interface. This pass does NOT modify, build or execute Studio or TaviX. Studio must negotiate these packaging contracts before live import is considered working.
+* *Tavi Assets* defines package, blueprint-envelope, index and validation formats. This source contains **offline developer tooling**, not another UI application.
+* *LoopRD* is the authority for admin identity, staging, publication, Gold offers, entitlements and private paid-pack downloads. An on-disk `approvalReference` is only review provenance; it is NOT a signed authorization or proof that an admin approved a release.
+* *Tavi* is a consumer/host: downloads authorized published pack bytes, verifies hashes and retains one shared device-local copy per content digest. Tavi is not a content publication front end. Games access installed content via approved host grants.
+
+== Source paths
+
+[cols="1,3",options="header"]
+|===
+|Path |Responsibility
+|`packs/<pack-id>/<version>/package.tavia` |Public approved immutable `.tavia` archive
+|`schematics/<blueprint-id>/<version>/blueprint.json` |Optional human-readable Studio blueprint source; never required by users
+|`schematics/<blueprint-id>/<version>/blueprint.tavib` |Public approved portable blueprint archive
+|`schemas/tavib.v1.schema.json` |TAVIB manifest v1 schema
+|`schemas/catalog-source.v1.schema.json` |Repository editorial source record schema
+|`schemas/catalog.v1.schema.json` |Generated public index schema
+|`catalog.source.json` |Reviewed source records; drafts not visible in public index
+|`catalog.json` |Deterministic generated *public discovery index*, not entitlement API
+|`tools/asset_repository.py` |Local CLI build/inspect/generate/check; never authenticates or uploads
+|===
+
+The existing `examples/catalog.json` uses `tavi.assets.catalog/v1` and remains a **fixture for the offline store preview**. To avoid a breaking collision, this new generated public repository catalog uses `tavi.assets.repository-index/v1` at the root. Studio must explicitly agree to read the new schema. The portrait library's `package-inventory.json` is independent and is not replaced or copied here.
+
+== TAVIB archive contract
+
+A `.tavib` file is a ZIP with deterministic paths and timestamps. It contains:
+
+----
+manifest.json
+blueprint.json
+README.md               (optional UTF-8 designer guidance)
+previews/example.webp   (optional bounded media)
+----
+
+`manifest.json` uses `tavi.assets.blueprint-package/v1`, identifies package ID/version, records `blueprintSchema: "tavix.studio.asset-blueprint/v1"`, and records exact SHA-256 plus byte count for each included file. Entry names are fixed and case-insensitively unique; no symlinks, executable entries, traversal, encryption or unlisted files. ZIP uses DEFLATE for JSON/text and STORE for WebP previews. Maximum complete archive: 16 MiB. Source blueprint: 2 MiB; previews: 4 MiB each.
+
+The *payload* `blueprint.json` keeps its proposed `tavix.studio.asset-blueprint/v1` schema marker. This pass preserves JSON as opaque Studio-owned design data: it does **not** claim to validate Studio-specific required groups, resource metadata or rendering guidance. That needs an explicit versioned contract review with the Studio owner; do not represent these packages as already importable by current Studio builds.
+
+== Public index and approval stages
+
+`catalog.source.json` uses `tavi.assets.repository-source/v1`; the canonical generated `catalog.json` uses `tavi.assets.repository-index/v1`. Each source entry supplies `id`, `version`, exact canonical `artifact`, `visibility` (`public` or `restricted`) and `status` (`draft` or `approved`). To list an approved public artifact also supply `sha256` and `approvalReference`, such as an operator's reviewed ticket ID. The generator independently validates archive contents, exact identity and digest before including it. Drafts are skipped; approved restricted content is an error, not a published catalog row.
+
+The `approvalReference` value is untrusted textual source metadata: writing one does not grant publication authority. The public repository's actual push/merge/release is separately guarded by Git permissions, CI, explicit admin approval, and human review. Never use a public Git repository or raw GitHub Pages URL for paid/restricted archive binaries. LoopRD must authorize and serve those from a separate protected download host.
+
+Catalog paths are relative and immutable by version. A production download adapter must pin a reviewed commit/tag or immutable content URL, verify catalog provenance, read exact expected size and SHA-256, and recheck LoopRD ownership for paid assets. Repo source generation does **not** implement or authorize that production adapter.
+
+== Local author-side operations (safe by default)
+
+Create a blueprint archive using Studio-exported JSON after confirming its payload schema marker:
+
+[source,shell]
+----
+python tools/asset_repository.py build-blueprint author/blueprint.json schematics/tarot-standard-78/1.0.0/blueprint.tavib --id tarot-standard-78 --version 1.0.0
+python tools/asset_repository.py inspect-blueprint schematics/tarot-standard-78/1.0.0/blueprint.tavib
+----
+
+Pack creation uses the existing validator/CLI:
+
+[source,shell]
+----
+python tools/tavia.py build examples/cards-v1 /tmp/example-package.tavia
+python tools/tavia.py inspect /tmp/example-package.tavia
+----
+
+After separately approved public content is copied into its canonical version path and reviewed, compute its exact SHA-256, edit its `catalog.source.json` source record with the pinned digest and recorded approval reference, then:
+
+[source,shell]
+----
+python tools/asset_repository.py catalog-preview
+python tools/asset_repository.py catalog-write
+python tools/asset_repository.py catalog-check
+python tools/check.py
+----
+
+`catalog-preview` and `catalog-check` are read-only. `catalog-write` only regenerates the local `catalog.json` atomically; it does NOT commit, push, upload, stage in LoopRD, publish or grant access. Existing source without approved artifacts yields empty `packs` and `schematics` arrays. Index format, static hosting and immutable release URLs need Studio owner review before consumers rely upon them.
+
+== Integration work order and acceptance
+
+. Tavi Assets contract review: Studio owner verifies exact `tavix.studio.asset-blueprint/v1` payload semantics and agrees to the TAVIB envelope and public index schema.
+. Studio owner (separate project): implements read-only catalog browse/blueprint import and a single package submission interface; no changes in this Tavi Assets pass.
+. Trusted TaviX/Tavi host owner: implements native file selection, per-app grant checks and an explicit operator confirmation broker. Persistent admin credentials are forbidden.
+. LoopRD owner: implements authenticated private staging and **distinct** publish/revoke commands, scoped service tokens, verified `ecosystemAdmin`, approval audit, and entitlements. Never auto-publish when staging succeeds.
+. Distribution owner: approved public packs may be served from immutable public distribution URLs; paid or private assets require authenticated binary delivery. Tavi clients verify the digest and deduplicate in a shared local cache.
+. Operator: independently verifies Windows ZipRunner and mobile interoperability, exact release checks, rollback and UI experience before accepting this pass or publishing a real catalog.
+
+No real artifact entries were published as part of 0.1.18. There is no automatic Git action, TaviX Studio execution, Wallet charge, LoopRD publication or public release in this source package.

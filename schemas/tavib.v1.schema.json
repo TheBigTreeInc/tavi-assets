@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TheBigTreeInc/tavi-assets/blob/main/schemas/tavib.v1.schema.json",
+  "title": "Tavi Assets portable blueprint ZIP manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "version", "blueprintSchema", "files"],
+  "properties": {
+    "schema": {"const": "tavi.assets.blueprint-package/v1"},
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,126}$"},
+    "version": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"},
+    "blueprintSchema": {"const": "tavix.studio.asset-blueprint/v1"},
+    "files": {
+      "type": "object", "minProperties": 1, "maxProperties": 11,
+      "required": ["blueprint.json"],
+      "propertyNames": {"pattern": "^(blueprint\\.json|README\\.md|previews/[A-Za-z0-9][A-Za-z0-9._-]{0,90}\\.webp)$"},
+      "additionalProperties": {"type": "object", "additionalProperties": false,
+        "required": ["sha256", "bytes"],
+        "properties": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "bytes": {"type": "integer", "minimum": 1, "maximum": 4194304}}
+      }
+    }
+  }
+}

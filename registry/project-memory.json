@@ -4,9 +4,9 @@
   "canonical_project_id": "d0fe2552-0ae9-4162-b8e1-68c174d14a3a",
   "id_status": "historical_handoff_unverified_against_live_repository",
   "repository": "https://github.com/TheBigTreeInc/tavi-assets",
-  "repository_status": "user_supplied_not_live_verified",
-  "source_version": "0.1.15",
-  "reconciliation_candidate": "0.1.16",
+  "repository_status": "verified_GitHub_repository_main_at_start_of_0.1.18_pass",
+  "source_version": "0.1.16",
+  "reconciliation_candidate": "0.1.18",
   "last_operator_confirmed": "LoopRD component loads on 0.1.15",
   "last_operator_confirmed_date": "2026-11-09",
   "release_status": "not_verified_published",
@@ -28,5 +28,6 @@
     }
   ],
   "review_status": "proposed",
-  "review_after": "2026-11-20"
+  "review_after": "2026-11-20",
+  "target_content_home": "public packs and blueprints under the same tavi-assets repository; authoring remains TaviX Studio owned"
 }

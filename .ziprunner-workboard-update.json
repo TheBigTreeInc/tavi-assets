@@ -1,8 +1,8 @@
 {
   "schema": "ziprunner.workboard-update.v1",
   "project": "tavi-assets",
-  "version": "0.1.16",
-  "summary": "0.1.16 fixes LoopRD resource field placement: top-level resource definitions cannot include fields, whereas management.resources entries require read-only fields maps; initial migration version 2 retained. Exact authoritative LoopRD validation and operator deployment remain pending.",
+  "version": "0.1.18",
+  "summary": "0.1.18 source candidate: Tavi Assets repository home for approved public .tavia archives and portable .tavib blueprints, deterministic digest-verified public catalog, no Studio application modifications or live publication.",
   "implemented": [
     {
       "id": "TA-018",
@@ -96,6 +96,40 @@
         "Confirm migrations and protected user data are unchanged and admin/account delegation remains gated.",
         "Run exact source ZIP in Windows ZipRunner, confirm Python/Node tests and review independently before acceptance."
       ]
+    },
+    {
+      "id": "TA-029",
+      "title": "Studio-led staging request contract (candidate)",
+      "summary": "Added content-bound request_stage envelope and strict validation; Studio producer flow documented, host and server authorization required; no publishing or upload implementation.",
+      "evidence": [
+        {
+          "ref": "src/tavi_assets/studio_handoff.py"
+        },
+        {
+          "ref": "contracts/tavi-assets-studio-submission-v1.schema.json"
+        },
+        {
+          "ref": "tests/test_studio_handoff.py"
+        },
+        {
+          "ref": "docs/studio-led-distribution.adoc"
+        }
+      ],
+      "operator_checks": [
+        "Review staging-only scope and confirm no automatic publish or credential forwarding.",
+        "Request host/LoopRD integration owner approval before enabling live Studio submission."
+      ]
+    },
+    {
+      "id": "TA-030",
+      "title": "Public asset repository and portable blueprint discovery foundation",
+      "summary": "Implemented .tavib ZIP builder/inspector, proposed manifest/schema, public-only deterministic catalog generation with exact digest/source pin and approval reference checks, negative unit tests, source documentation and owned C4 model. No deployment, server authorization or TaviX Studio change.",
+      "operator_checks": [
+        "Inspect schemas/tavib.v1.schema.json and docs/asset-repository-home.adoc; confirm the Studio blueprint body is proposed and no existing Studio contract is rewritten.",
+        "On Windows import exact 0.1.18 ZipRunner ZIP and run python tools/check.py, plus python tools/asset_repository.py catalog-check; capture exact build receipt.",
+        "Confirm catalog is empty until independently approved public artifacts are added; restricted packs, drafts and unapproved binaries never appear.",
+        "Verify no Git push, upload, live publication or change to Studio/TaviX happened; review integration ownership separately."
+      ]
     }
   ],
   "remaining": [
@@ -187,6 +221,18 @@
       "title": "Bind Tavi ecosystem admin account to LoopRD registry approval",
       "summary": "Implement production verified-session and server-side ecosystemAdmin entitlement verification, short-lived scoped delegation for ZipRunner, management actions, and account audit trail. Never persist admin credentials or auto-publish.",
       "priority": "high"
+    },
+    {
+      "id": "TA-029-live",
+      "title": "Studio native picker, authorized staging broker and published cache integration",
+      "status": "planned",
+      "summary": "Requires separate TaviX, Social and LoopRD implementation and operator approval."
+    },
+    {
+      "id": "TA-030-integrate",
+      "title": "Approved Studio-to-assets repository submission and public immutable delivery",
+      "priority": "high",
+      "summary": "Owner review of blueprint payload schema and Studio host API; admin-verified authenticated stage/publish; signed provenance, public artifact delivery and separate private/paid distribution."
     }
   ]
 }

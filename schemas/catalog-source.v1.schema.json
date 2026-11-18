@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/TheBigTreeInc/tavi-assets/blob/main/schemas/catalog-source.v1.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "schematics", "packs"],
+  "properties": {
+    "schema": {"const": "tavi.assets.repository-source/v1"},
+    "schematics": {"type": "array", "maxItems": 2000, "items": {"$ref": "#/$defs/entry"}},
+    "packs": {"type": "array", "maxItems": 2000, "items": {"$ref": "#/$defs/entry"}}
+  },
+  "$defs": {
+    "entry": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version", "artifact", "visibility", "status"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,126}$"},
+        "version": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"},
+        "artifact": {"type": "string", "minLength": 1, "maxLength": 360},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "visibility": {"enum": ["public", "restricted"]},
+        "status": {"enum": ["draft", "approved"]},
+        "approvalReference": {"type": "string", "minLength": 5, "maxLength": 200},
+        "blueprintId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,126}$"}
+      },
+      "allOf": [{"if": {"properties": {"status": {"const": "approved"}}}, "then": {"required": ["sha256", "approvalReference"]}}]
+    }
+  }
+}

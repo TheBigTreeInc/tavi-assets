@@ -3,14 +3,14 @@
   "spec_version": "1.0.0",
   "project": {
     "key": "tavi-assets",
-    "version": "0.1.16",
-    "base_version": "0.1.13"
+    "version": "0.1.18",
+    "base_version": "0.1.17"
   },
   "update": {
-    "id": "TAVI-ASSETS-20261109-014-LOOPRD-MIGRATION-REPAIR",
+    "id": "TAVI-ASSETS-20261117-018-REPOSITORY-HOME",
     "kind": "source_update",
-    "created_at": "2026-11-09T00:00:00+01:00",
-    "summary": "Mitigate reported LoopRD load MemoryError by replacing oversized initial migration version with component-local sequential version 2; preserve resource fields, auth and release gates."
+    "created_at": "2026-11-17T20:32:00+01:00",
+    "summary": "Build repository home for public .tavia packs, portable .tavib blueprints and approved-only source-controlled catalog; no live publishing or Studio changes."
   },
   "planned_work": [
     {
@@ -98,6 +98,12 @@
       "title": "Repair LoopRD asset registry descriptor validation",
       "priority": "high",
       "acceptance_criteria": "Both management resources declare fields and target LoopRD accepts migration version after operator collision review."
+    },
+    {
+      "id": "TA-030",
+      "title": "Asset repository public catalog and blueprint transport",
+      "priority": "high",
+      "acceptance_criteria": "Local deterministic TAVIB build/inspect, public digest-pinned catalog source/generation, malicious input regressions, documented cross-project boundary and manual Windows/operator release gate."
     }
   ],
   "done_work": [
@@ -332,6 +338,32 @@
           "description": "Target validation and migration collision review gates"
         }
       ]
+    },
+    {
+      "id": "TA-030",
+      "summary": "Source-only implementation of repository index and blueprint archive tooling; no operator acceptance claimed.",
+      "evidence": [
+        {
+          "kind": "source",
+          "ref": "src/tavi_assets/repository_index.py",
+          "description": "Approved-only local index generation and digest pins"
+        },
+        {
+          "kind": "source",
+          "ref": "src/tavi_assets/blueprint_package.py",
+          "description": "Portable blueprint package builder and validator"
+        },
+        {
+          "kind": "tests",
+          "ref": "tests/test_repository_index.py",
+          "description": "Focused positive/negative regressions"
+        },
+        {
+          "kind": "documentation",
+          "ref": "docs/asset-repository-home.adoc",
+          "description": "Producer contract, ownership, integration boundaries"
+        }
+      ]
     }
   ],
   "todo_work": [
@@ -429,7 +461,7 @@
     ]
   },
   "handover": {
-    "next_pass": "Run exact 0.1.13 ZIP via Windows ZipRunner; LoopRD owner imports isolated component into disposable instance and verifies DAPI/schema; Social owner implements verified admin broker (TA-025); operator approves stage/publish separately.",
+    "next_pass": "Obtain Studio owner review of exact tavix.studio.asset-blueprint/v1 payload; Windows/CI/QA verify 0.1.18; separately implement authenticated ingestion/public delivery with operator approval.",
     "risks": [
       "Portable Node reference stores a bounded whole-pack JSON snapshot and is NOT production binary storage",
       "Tavi 0.3.139 real host integration not performed",
@@ -439,7 +471,8 @@
       "Offer display schema and customization-bundle schema are only proposals; per-variant ownership is NOT yet enforced by live host. No real Gold purchases.",
       "New JS cross-pack methods have no Python test-host equivalent; parity and actual host availability require future integration.",
       "TaviX 0.1.13 does not implement this dependency field; do not insert into current production .tavix manifest without host/toolchain approval.",
-      "TaviX grants are explicit pack/capability only, max 32 per pack; full 90-resource three-deck example requires a separately reviewed grouping contract. No wildcard grant behavior is provided."
+      "TaviX grants are explicit pack/capability only, max 32 per pack; full 90-resource three-deck example requires a separately reviewed grouping contract. No wildcard grant behavior is provided.",
+      "Public repository catalog is not an entitlement authority, and approvalReference is audit metadata not an authorization token; Git publication remains manual/gated."
     ],
     "blockers": [
       "Tavi runtime native storage and authentication adapters unimplemented",

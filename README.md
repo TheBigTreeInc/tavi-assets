@@ -6,6 +6,10 @@ The system separates **content** (artwork, media, typed objects and collections)
 
 > **Integration status:** LoopRD registry and `.tavia` are candidate source workflows, not deployed; Tavi admin-account bridging still requires authorization and operator acceptance.  This repository contains locally testable Python and JavaScript reference implementations and proposed host contracts. It does **not** yet provide production `assets.*` methods in Tavi, a published TaviX asset distribution contract, or real Gold purchasing. The SDK can be used today with the included explicit local fixture host; production access requires approved host integration.
 
+Studio-led content submission is documented in [`docs/studio-led-distribution.adoc`](docs/studio-led-distribution.adoc). Studio initiates staging requests; LoopRD retains publication authority and Tavi caches published content per device. This integration remains proposed, not deployed.\n\n## Shared content repository (0.1.18 candidate)
+
+The source tree includes `packs/` for immutable public `.tavia` archives, `schematics/` for portable `.tavib` blueprints, `schemas/`, `catalog.source.json` and a generated public `catalog.json`. The published catalog format is **`tavi.assets.repository-index/v1`**, distinct from the existing `examples/catalog.json` local preview schema. The repo currently contains no approved publishable artifacts; no TaviX Studio or Tavi client code is changed. Read [repository home](docs/asset-repository-home.adoc) for exact CLI and publication gates.
+
 ## What the project provides
 
 - **Asset packs:** versioned, data-only files with validated manifests, content hashes, bounded media, semantic resource capabilities, optional objects and collections.

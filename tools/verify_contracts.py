@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 PROJECT = "tavi-assets"
-VERSION = "0.1.16"
+VERSION = "0.1.18"
 ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$", re.ASCII)
 ALLOWED_PRIORITIES = {"critical", "high", "medium", "low"}
 
@@ -121,14 +121,14 @@ def check_contracts(root):
             "unexpected recipe version/build")
     require(recipe.get("delete_missing") is False and not recipe.get("post_build_mechanisms"),
             "unsafe source overlay/release recipe")
-    require('version = "0.1.16"' in (root / "pyproject.toml").read_text(encoding="utf-8"),
+    require('version = "0.1.18"' in (root / "pyproject.toml").read_text(encoding="utf-8"),
             "Python package version mismatch")
     manifest = read_json(root / "ziprunner-manifest.json")
     require(manifest.get("schema") == "ziprunner.update-manifest/v1", "wrong supplemental schema")
     require(manifest.get("project", {}).get("key") == PROJECT and
             manifest.get("project", {}).get("version") == VERSION and
-            manifest.get("project", {}).get("base_version") == "0.1.13", "supplemental identity mismatch")
-    require(manifest.get("update", {}).get("id") == "TAVI-ASSETS-20261109-014-LOOPRD-MIGRATION-REPAIR", "update identity mismatch")
+            manifest.get("project", {}).get("base_version") == "0.1.17", "supplemental identity mismatch")
+    require(manifest.get("update", {}).get("id") == "TAVI-ASSETS-20261117-018-REPOSITORY-HOME", "update identity mismatch")
     planned = [item["id"] for item in manifest["planned_work"]]
     done = [item["id"] for item in manifest["done_work"]]
     todo = [item["id"] for item in manifest["todo_work"]]
@@ -215,6 +215,12 @@ def check_contracts(root):
         require((root / source).is_file() and not protected_source_path(source, patterns),
                 f"TaviX scoped grants source unavailable: {source}")
     assert "TA-022" in {t["id"] for t in tasks}, "missing TaviX grant acceptance plan"
+    for source in ("catalog.source.json", "catalog.json", "schemas/tavib.v1.schema.json",
+                   "schemas/catalog.v1.schema.json", "schemas/catalog-source.v1.schema.json"):
+        require(isinstance(read_json(root / source), dict), "invalid repository schema/source")
+    from tavi_assets.repository_index import verify_index
+    verify_index(root)
+    require("TA-030" in {t["id"] for t in tasks}, "missing public repository acceptance plan")
     return f"ZipRunner source contracts verified: {len(work_ids)} Workboard IDs, {len(checks)} planned checks"
 
 

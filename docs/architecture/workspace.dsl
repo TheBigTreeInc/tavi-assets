@@ -20,6 +20,11 @@ workspace "Tavi Assets" "Source-backed data-only asset management and proposed c
                 entitlements = component "Entitlement Test Boundary" "DenyPaidEntitlements.can_access(): allows free catalog packs; denies paid in preview." "Python"
                 wallet = component "Purchase Denial Boundary" "NoPurchases.purchase(): always rejects real purchasing." "Python"
             }
+            repositoryHome = container "Source-Controlled Public Repository" "Offline TAVIB packaging, reviewed public TAVIA and TAVIB index; not a deployed hosting or entitlement service." "Python: src/tavi_assets/repository_index.py, src/tavi_assets/blueprint_package.py" {
+                blueprintPackage = component "Portable Blueprint Package Validator" "create_tavib()/inspect_tavib(): deterministic archive creation, Studio schema marker, bounded entries, path/size/SHA-256 verification." "Python"
+                repositoryIndexer = component "Approved Public Index Generator" "build_index()/verify_index()/write_index(): public-only approved source records, exact canonical archive path and hash, local catalog generation; no publication." "Python"
+                authorTool = component "Local Developer Tool" "tools/asset_repository.py: offline build, inspect, preview and regeneration commands; no network requests or authentication." "Python CLI"
+            }
             storefront = container "Offline Storefront Preview" "Browser UI served exclusively on local loopback; no Tavi host deployment." "Python/HTML/CSS/JavaScript" {
                 http = component "Preview HTTP Handler" "create_preview_server(): local HTTP read/write endpoints, host/origin and request-token checks." "Python: src/tavi_assets/preview.py"
                 browser = component "Storefront UI" "Browser catalog, search, install, select and remove interactions." "JavaScript: src/tavi_assets/web/main.js"
@@ -45,6 +50,10 @@ workspace "Tavi Assets" "Source-backed data-only asset management and proposed c
             device = container "Managed Device Files" "Registry JSON, versioned checked pack directories and preferences; local developer data." "Filesystem"
         }
 
+        authorTool -> blueprintPackage "Builds and inspects TAVIB blueprint packages" "Python calls"
+        authorTool -> repositoryIndexer "Checks and locally generates public catalog" "Python calls"
+        repositoryIndexer -> blueprintPackage "Validates approved TAVIB archives" "Python calls"
+        repositoryIndexer -> validator "Checks unpacked public TAVIA packages" "Python calls via tavia.unpack_tavia()"
         user -> browser "Uses locally" "Loopback browser"
         browser -> http "Browse, install, customize and remove" "HTTP 127.0.0.1"
         http -> store "Dispatches management operations" "Python method calls"
@@ -96,6 +105,10 @@ workspace "Tavi Assets" "Source-backed data-only asset management and proposed c
             autoLayout lr
         }
         component catalog "CatalogL3" {
+            include *
+            autoLayout lr
+        }
+        component repositoryHome "RepositoryHomeL3" {
             include *
             autoLayout lr
         }

@@ -1,0 +1,23 @@
+= Studio-led asset distribution (0.1.17 proposal)
+
+== Ownership and direction
+Asset Studio is the producer-facing entry point for authoring, preview, validation and requesting staging of `.tavia` packs. It does not itself become an authoritative publisher or a public distribution server. Tavi Assets owns pack validation, ingestion format, integrity and device-local cache contracts. LoopRD owns durable staged/published content, server-side publication authorization and account entitlements. Tavi/Social owns the user-facing store, authenticated host mediation and downloads into a shared Tavi-managed cache. TaviX owns capability declarations.
+
+== Dedicated storage areas
+* Studio local drafts: device-local, not published or shared.
+* LoopRD staging: authenticated, private and content-addressed; not visible to consumers.
+* LoopRD published blobs: immutable, server-authorized, retrievable through a catalog/download service; transport endpoint and blob store are deployment-specific and NOT assumed to exist.
+* Tavi device cache: one verified copy per content digest per device, shared across games; no arbitrary game filesystem access.
+* Account preferences and entitlements: LoopRD authoritative; cache remains usable offline with previously granted assets subject to explicit offline policy.
+
+== Proposed submission envelope
+`contracts/tavi-assets-studio-submission-v1.schema.json` and `tavi_assets.studio_handoff` define an unprivileged `request_stage` envelope. The SHA-256 binds the archive bytes; pack ID and version are claims to revalidate from the archive. The host MUST independently read the file through approved native import, verify the digest and metadata, and acquire fresh operator approval. The server MUST authenticate the operator and authorize ingestion; no envelope field grants authority. Studio cannot request publish through this contract. Publishing and revocation remain separate audited admin operations, gated by server-side `ecosystemAdmin` policy and scoped service authorization.
+
+== Integration owner requests (not implemented)
+* TaviX/Tavi host: approved `.tavia` picker/read in detached and embedded views; `assets.registry.admin/v1` broker for operator requests; never expose persistent credentials.
+* LoopRD: authenticated staged-blob upload, publisher approval and published-content delivery service; entitlement and pricing checks server-side.
+* Tavi store: resolve published catalog, download verified blobs, deduplicate in shared cache, synchronize preferences, preserve offline behavior.
+* Asset Studio: consume the broker to submit content, display upload status, stage audit, and request a distinct publish confirmation. Never publish automatically.
+
+== Acceptance
+Demonstrate stage request without publishing; deny forged approval; reject mismatched archive digest, pack metadata and untrusted actor; confirm private staging is not downloadable; separately approve publish; verify Windows/Android cache deduplication and offline use. This document is a design contract and does not assert the live host or server integration exists.

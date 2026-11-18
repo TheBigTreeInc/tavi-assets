@@ -1,3 +1,14 @@
+## 0.1.18 — Public content repository foundation (candidate)
+- Added `.tavib` package construction and strict offline inspection, proposed Studio blueprint payload preservation.
+- Added public-only `catalog.source.json` / generated `catalog.json` with digest pins and local approval references; no automatic publication.
+- Added `.tavia` manifest validation before index generation, security tests and C4 documentation.
+- TaviX, TaviX Studio, Tavi/Social and live LoopRD are untouched.
+
+## 0.1.17 — Studio-led staging contract (candidate)
+- Add strict content-bound `request_stage` envelope, validator, JSON schema and tests.
+- Document Studio as producer-facing entry point, dedicated staging/published stores, LoopRD authority and shared Tavi device cache.
+- No live upload, automatic publication, entitlement changes or remote deployment.
+
 ## 0.1.16 — 2026-11-13 (reconciliation candidate)
 
 - Added owner-scoped agent instructions, project memory, reconciliation and cleanup manifest. No runtime/contract behavior changed.

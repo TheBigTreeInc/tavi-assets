@@ -59,3 +59,7 @@ TA-022 is source-reported only: the portable host reference now validates TaviX 
 * Follow-up to live `specification_invalid` on 0.1.14: move read-only metadata field descriptors from forbidden `resources.*.fields` to required `management.resources.*.fields`. Retain source model declarations and resource projections.
 * Registry schema, component-local migration 2, permissions, admin delegation gate and publication controls are unchanged.
 * Actual LoopRD specification validation, Windows ZipRunner, migration ledger review and operator acceptance remain open. See `docs/QA_0.1.15.adoc`.
+
+== 0.1.18 public repository home (TA-030)
+
+TA-030 [source implemented; operator acceptance pending]: `packs/`, `schematics/`, `schemas/`, public-only `catalog.source.json`, deterministic `catalog.json`, TAVIB ZIP packaging with opaque Studio blueprint payload, canonical TAVIA archive validation, negative regressions, CLI and C4 Level 3. See `docs/asset-repository-home.adoc`, `docs/QA_0.1.18.adoc`. New Studio import and trusted publishing remain a separately owned follow-up, not a Studio code change. Existing TA-010 Windows recovery, TA-012 operator acceptance, TA-007/008/009/011 integrations and original Workboard decisions remain open.
