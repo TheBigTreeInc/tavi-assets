@@ -16,3 +16,6 @@ Read `README.md`, `docs/workboard.adoc`, `docs/looprd-asset-registry.adoc`, `doc
 
 ## 0.1.18 content repository direction
 Maintain `packs/`, `schematics/`, `schemas/` and the public source-controlled index; TaviX Studio remains the only authoring UI. Do not alter Studio/TaviX code or treat a catalog approvalReference as server authorization. No private/purchased binaries in public Git.
+
+## 0.1.19 source CI direction
+The 0.1.18 pushed SHA has no GitHub Actions or check runs. The 0.1.19 source-only CI workflow is a candidate for future approved pushes, not retrospective proof or a release. Native Windows test and operator acceptance remain separate. Do not run or modify TaviX/Studio.

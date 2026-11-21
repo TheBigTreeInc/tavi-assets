@@ -1,0 +1,35 @@
+= Tavi Assets 0.1.19 — missing exact-commit CI evidence repair
+
+== Source and existing candidate facts
+
+* The 0.1.18 candidate ZIP SHA-256 is `40f97cd72da14681d6e516325c9092612e1b1ab14a9278364461f2f986ac40d4` (checked in this producer environment).
+* GitHub commit `88319ae79ef92643bcc44714091a3ca8e59c4aa1` exists for `TheBigTreeInc/tavi-assets` and main reports version 0.1.18.
+* On 2026-11-21, the exact commit had zero GitHub Actions runs and zero check runs, and the source branch did not contain `.github/workflows/`.
+* No test pass can be attributed to GitHub CI for 0.1.18; do not retroactively mark its Workboard items Done.
+* Source SHA identity between the Git tree and the 0.1.18 ZipRunner archive is not fully proven solely by version and ZIP hash.
+
+== Implemented scope (TA-031)
+
+Add `.github/workflows/source-ci.yml`: read-only source verification on separately approved push to `main`, pull requests or manual workflow dispatch. Matrix executes `python tools/check.py` on Linux and Windows with Python 3.13 and Node 22. It reports and checks the exact checkout SHA. It does not publish, tag, deploy, grant entitlements or upload content.
+
+`tests/test_ci_workflow.py` checks read-only permissions, exact SHA, both runners and safety. Source contract verification fails closed if the workflow is missing.
+
+== Developer verification (not operator acceptance)
+
+. Run `python tools/check.py` from the source and again after fresh extraction of the ZIP.
+. Check ZIP CRC and SHA-256, record the specific exact ZIP hash and its test log.
+. Optionally parse `.github/workflows/source-ci.yml` with a YAML 1.2-aware parser (YAML 1.1 can treat `on` as a boolean).
+. No GitHub-hosted workflow execution is possible until the operator separately approves pushing the source.
+
+== Operator QA and remaining gates
+
+. Inspect `project.zr` and Workboard updates; preserve all local config and review decisions; run the exact 0.1.19 candidate in native Windows ZipRunner.
+. Record the Windows `python tools/check.py` log for the exact ZIP. Explicitly verify `tests/test_recovery.py` subprocess lock-contention and crash-recovery scenarios; do not infer Windows pass from Linux tests.
+. Run `python tools/asset.py --root <disposable-path> doctor` after a deliberately interrupted sample stage in the *disposable* cache. Confirm no unregistered version was promoted.
+. Confirm the installed card selection remains across restart and update. Review C4 Stage Recovery component and record operator approval separately.
+. If source push is separately authorized, identify the new exact commit SHA and review GitHub Actions source-tests jobs on Windows and Linux; status for 0.1.18 does not change retroactively.
+. Do not run TaviX or TaviX Studio tasks, do not publish content or releases, and do not mark Workboard Done without trusted QA and operator acceptance.
+
+== Architecture delta and unknowns
+
+CI configuration is repository infrastructure, not a runtime component. Project-owned `docs/architecture/workspace.dsl` contains existing Stage Recovery and other application components; no live runtime dependency edges changed in this pass. Structurizr CLI parser validation remains unverified. Source repository's GitHub Actions permissions and branch protection policy require operator review.

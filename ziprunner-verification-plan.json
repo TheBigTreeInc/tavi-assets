@@ -1,7 +1,7 @@
 {
   "schema": "ziprunner.verification-plan/v1",
   "project": "tavi-assets",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "tasks": [
     {
       "id": "TA-010",
@@ -323,6 +323,27 @@
           ]
         }
       ]
+    },
+    {
+      "id": "TA-031",
+      "criteria": [
+        {
+          "id": "TA-031-AC1",
+          "description": "Source CI declares exact SHA and Windows/Linux read-only source verification; focused test passes.",
+          "mode": "automated",
+          "checks": [
+            "TA-031-T1"
+          ]
+        },
+        {
+          "id": "TA-031-AC2",
+          "description": "After separate authorized Git push, exact-commit GitHub Actions and native Windows verification observed and operator-approved.",
+          "mode": "manual",
+          "checks": [
+            "TA-031-M1"
+          ]
+        }
+      ]
     }
   ],
   "checks": [
@@ -612,6 +633,19 @@
       "id": "TA-030-MANUAL",
       "kind": "manual",
       "instructions": "Use the exact extracted source ZIP on the native Windows ZipRunner project, review version/CI receipts and public catalog publication controls; independently approve before push/release."
+    },
+    {
+      "id": "TA-031-T1",
+      "kind": "automated",
+      "test_ref": "tests/test_ci_workflow.py",
+      "assertions": [
+        "GitHub Actions read-only permissions, Windows/Linux matrix, exact checkout SHA check and full source build"
+      ]
+    },
+    {
+      "id": "TA-031-M1",
+      "kind": "manual",
+      "instructions": "Inspect SHA-matched Windows and Linux GitHub Actions jobs after operator-authorized push, run exact candidate in native Windows ZipRunner, record TA-010 recover/doctor and card preference acceptance; no automatic Workboard Done or release."
     }
   ]
 }

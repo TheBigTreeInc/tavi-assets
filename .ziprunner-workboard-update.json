@@ -1,8 +1,8 @@
 {
   "schema": "ziprunner.workboard-update.v1",
   "project": "tavi-assets",
-  "version": "0.1.18",
-  "summary": "0.1.18 source candidate: Tavi Assets repository home for approved public .tavia archives and portable .tavib blueprints, deterministic digest-verified public catalog, no Studio application modifications or live publication.",
+  "version": "0.1.19",
+  "summary": "0.1.19 CI-evidence repair candidate: add read-only Windows/Linux GitHub Actions source verification for future pushed commits; exact 0.1.18 push 88319ae79ef92643bcc44714091a3ca8e59c4aa1 has no workflow/check runs. No retrospective CI pass or operator acceptance implied. No TaviX/Studio code changed.",
   "implemented": [
     {
       "id": "TA-018",
@@ -129,6 +129,16 @@
         "On Windows import exact 0.1.18 ZipRunner ZIP and run python tools/check.py, plus python tools/asset_repository.py catalog-check; capture exact build receipt.",
         "Confirm catalog is empty until independently approved public artifacts are added; restricted packs, drafts and unapproved binaries never appear.",
         "Verify no Git push, upload, live publication or change to Studio/TaviX happened; review integration ownership separately."
+      ]
+    },
+    {
+      "id": "TA-031",
+      "title": "Add exact-commit Windows/Linux source CI evidence pipeline",
+      "summary": "Source-only .github/workflows/source-ci.yml and 4 focused contract tests added. Workflow uses read-only contents, no credentials persistence, records checkout SHA, runs existing python tools/check.py on Linux and Windows after separately authorized push. Existing 0.1.18 SHA remains without CI proof.",
+      "operator_checks": [
+        "Review .github/workflows/source-ci.yml and confirm only read-only CI; do not push before independent approval.",
+        "After separately approved push of this exact new candidate, inspect both Windows and Linux job URLs and GitHub SHA; verify both jobs successful before claiming CI pass.",
+        "Run native Windows ZipRunner build and TA-010 stage recovery/doctor and selected card persistence tests; record operator acceptance separately."
       ]
     }
   ],

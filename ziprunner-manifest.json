@@ -3,14 +3,14 @@
   "spec_version": "1.0.0",
   "project": {
     "key": "tavi-assets",
-    "version": "0.1.18",
-    "base_version": "0.1.17"
+    "version": "0.1.19",
+    "base_version": "0.1.18"
   },
   "update": {
-    "id": "TAVI-ASSETS-20261117-018-REPOSITORY-HOME",
+    "id": "TAVI-ASSETS-20261121-019-EXACT-COMMIT-CI-EVIDENCE",
     "kind": "source_update",
-    "created_at": "2026-11-17T20:32:00+01:00",
-    "summary": "Build repository home for public .tavia packs, portable .tavib blueprints and approved-only source-controlled catalog; no live publishing or Studio changes."
+    "created_at": "2026-11-21T11:29:00+01:00",
+    "summary": "Add read-only Windows/Linux source CI workflow for future approved pushes, record exact SHA and preserve operator gates. No runtime changes or external repository modifications."
   },
   "planned_work": [
     {
@@ -104,6 +104,12 @@
       "title": "Asset repository public catalog and blueprint transport",
       "priority": "high",
       "acceptance_criteria": "Local deterministic TAVIB build/inspect, public digest-pinned catalog source/generation, malicious input regressions, documented cross-project boundary and manual Windows/operator release gate."
+    },
+    {
+      "id": "TA-031",
+      "title": "Exact-commit GitHub Actions source verification",
+      "priority": "high",
+      "acceptance_criteria": "Read-only GitHub Actions Windows and Linux source checks after approved push, complete exact commit SHA and successful run evidence, native operator review remains independent."
     }
   ],
   "done_work": [
@@ -364,6 +370,27 @@
           "description": "Producer contract, ownership, integration boundaries"
         }
       ]
+    },
+    {
+      "id": "TA-031",
+      "summary": "Source CI configuration and regression tests implemented, no GitHub Actions run yet. Operator and release approvals pending.",
+      "evidence": [
+        {
+          "kind": "source",
+          "ref": ".github/workflows/source-ci.yml",
+          "description": "Read-only Linux and Windows CI triggered after separate approved push"
+        },
+        {
+          "kind": "tests",
+          "ref": "tests/test_ci_workflow.py",
+          "description": "Four CI contract assertions"
+        },
+        {
+          "kind": "documentation",
+          "ref": "docs/QA_0.1.19.adoc",
+          "description": "QA evidence and Windows operator steps"
+        }
+      ]
     }
   ],
   "todo_work": [
@@ -457,11 +484,16 @@
         "id": "TA-022-C4",
         "status": "not_run",
         "description": "Structurizr CLI parser not executed"
+      },
+      {
+        "id": "TA-031-CI",
+        "status": "not_run",
+        "description": "CI configuration source added but no exact-commit GitHub runner execution or operator approval recorded."
       }
     ]
   },
   "handover": {
-    "next_pass": "Obtain Studio owner review of exact tavix.studio.asset-blueprint/v1 payload; Windows/CI/QA verify 0.1.18; separately implement authenticated ingestion/public delivery with operator approval.",
+    "next_pass": "Operator reviews 0.1.19 candidate; separately authorizes push, then checks exact commit GitHub Actions Windows/Linux runs. Native Windows TA-010 locking, doctor and preference preservation acceptance follows. No Studio or TaviX changes.",
     "risks": [
       "Portable Node reference stores a bounded whole-pack JSON snapshot and is NOT production binary storage",
       "Tavi 0.3.139 real host integration not performed",
@@ -481,7 +513,8 @@
       "Native Windows 0.1.6 build and operator acceptance not yet observed.",
       "The current 0.1.7 ZIP has no native Windows acceptance or authorized Git publication.",
       "Native Social 0.3.141 host dependency and asset runtime not implemented by this ZIP.",
-      "No production Tavi trusted context, entitlement revocation or session adapter acceptance; source fixture digest is NOT production trust."
+      "No production Tavi trusted context, entitlement revocation or session adapter acceptance; source fixture digest is NOT production trust.",
+      "Exact 0.1.18 commit 88319ae79ef92643bcc44714091a3ca8e59c4aa1 has no Actions/check runs as of 2026-11-21; workflows did not exist on that commit. The proposed 0.1.19 workflow cannot retrospectively establish 0.1.18 CI."
     ]
   },
   "operator_actions": [

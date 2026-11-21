@@ -1,1 +1,5 @@
-Tavi Assets 0.1.18 source candidate based on 0.1.17. This candidate adds an offline public repository home for reviewed .tavia packs and .tavib blueprints, a deterministic approved-only catalog, schemas, source-level tests and C4 updates. Existing engine, LoopRD, SDK, approval gates and protected paths are preserved. It does not modify TaviX Studio, TaviX or Tavi, nor authorize uploads/publishing, wallet transactions or Git pushes. Run python tools/check.py on the exact extracted ZIP; native Windows/operator acceptance, exact-commit CI and Studio blueprint semantics remain unverified. README.md and docs/asset-repository-home.adoc document the intended collaboration and commands.
+# Tavi Assets 0.1.19 source CI candidate
+
+Project `tavi-assets`; canonical project ID `d0fe2552-0ae9-4162-b8e1-68c174d14a3a`. Base 0.1.18.
+
+Implemented: GitHub Actions read-only Windows/Linux source checks, exact checkout SHA check, focused CI contract tests and QA documentation. No push, publish, release or operator acceptance. Do not run or modify TaviX or Studio. Native Windows and exact-commit GitHub Actions job evidence remain pending. See docs/QA_0.1.19.adoc.

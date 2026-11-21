@@ -1,0 +1,43 @@
+# CI verifies source for the checked-out commit. It never publishes or deploys.
+name: Tavi Assets source verification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-tests:
+    name: Source checks (${{ matrix.os }}, Python 3.13, Node 22)
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout exact workflow commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Record checked-out SHA
+        shell: bash
+        run: |
+          echo "Event: ${GITHUB_EVENT_NAME}"
+          echo "Expected: ${GITHUB_SHA}"
+          echo "Checkout: $(git rev-parse HEAD)"
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+      - name: Source and integration checks
+        run: python tools/check.py

@@ -6,7 +6,9 @@ The system separates **content** (artwork, media, typed objects and collections)
 
 > **Integration status:** LoopRD registry and `.tavia` are candidate source workflows, not deployed; Tavi admin-account bridging still requires authorization and operator acceptance.  This repository contains locally testable Python and JavaScript reference implementations and proposed host contracts. It does **not** yet provide production `assets.*` methods in Tavi, a published TaviX asset distribution contract, or real Gold purchasing. The SDK can be used today with the included explicit local fixture host; production access requires approved host integration.
 
-Studio-led content submission is documented in [`docs/studio-led-distribution.adoc`](docs/studio-led-distribution.adoc). Studio initiates staging requests; LoopRD retains publication authority and Tavi caches published content per device. This integration remains proposed, not deployed.\n\n## Shared content repository (0.1.18 candidate)
+Studio-led content submission is documented in [`docs/studio-led-distribution.adoc`](docs/studio-led-distribution.adoc). Studio initiates staging requests; LoopRD retains publication authority and Tavi caches published content per device. This integration remains proposed, not deployed.
+
+## Shared content repository (0.1.18 candidate)
 
 The source tree includes `packs/` for immutable public `.tavia` archives, `schematics/` for portable `.tavib` blueprints, `schemas/`, `catalog.source.json` and a generated public `catalog.json`. The published catalog format is **`tavi.assets.repository-index/v1`**, distinct from the existing `examples/catalog.json` local preview schema. The repo currently contains no approved publishable artifacts; no TaviX Studio or Tavi client code is changed. Read [repository home](docs/asset-repository-home.adoc) for exact CLI and publication gates.
 
@@ -20,6 +22,10 @@ The source tree includes `packs/` for immutable public `.tavia` archives, `schem
 - **Integration boundaries:** a host-owned service, a restricted consumer SDK, reviewed TaviX per-pack dependency request/grant shapes and a separate versioned *proposed* app-feature requirements declaration with per-feature fallback, and separate proposed storefront bundle/offer metadata contracts.
 
 `rarity` is **optional game-owned metadata**. It is neither required to discover or purchase an asset nor a source of prices, entitlements, or Gold rewards.
+
+## Source CI evidence (0.1.19 candidate)
+
+A read-only GitHub Actions workflow at `.github/workflows/source-ci.yml` runs the existing `python tools/check.py` verification on Linux and Windows after an authorized source push, pull request or manually triggered run. It verifies the checkout commit SHA and cannot publish, deploy or grant assets. The existing 0.1.18 commit had no GitHub Actions results; adding this workflow does not retroactively verify that commit. Windows ZipRunner and operator acceptance are independent gates. See [`docs/QA_0.1.19.adoc`](docs/QA_0.1.19.adoc).
 
 ## Project layout
 

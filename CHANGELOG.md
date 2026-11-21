@@ -1,3 +1,10 @@
+## 0.1.19 — exact-commit CI verification foundation (candidate)
+
+- Add read-only GitHub Actions source checks on Linux and Windows, after separately authorized push.
+- Assert checkout SHA corresponds to the GitHub Actions event; run existing complete Python + Node source verifier.
+- Add four source CI contract tests and enforce workflow presence in source verification.
+- Record missing 0.1.18 CI evidence and native Windows QA gates; no runtime, Studio or TaviX changes.
+
 ## 0.1.18 — Public content repository foundation (candidate)
 - Added `.tavib` package construction and strict offline inspection, proposed Studio blueprint payload preservation.
 - Added public-only `catalog.source.json` / generated `catalog.json` with digest pins and local approval references; no automatic publication.
